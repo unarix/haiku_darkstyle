@@ -7,7 +7,7 @@
  *		DarkWyrm, bpmagic@columbus.rr.com
  *		John Scipione, jscipione@gmail.com
  *		Clemens Zeidler, haiku@clemens-zeidler.de
- *      Nahuel Tello, nhtello@unarix.com.ar
+ *		Nahuel Tello, nhtello@unarix.com.ar
  */
 #ifndef BE_DECORATOR_H
 #define BE_DECORATOR_H

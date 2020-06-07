@@ -4,7 +4,7 @@
  *
  * Authors:
  *		François Revol, revol@free.fr
- *      Nahuel Tello, nhtello@unarix.com.ar
+ *		Nahuel Tello, nhtello@unarix.com.ar
  */
 #ifndef BE_CONTROL_LOOK_H
 #define BE_CONTROL_LOOK_H
