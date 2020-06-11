@@ -1,51 +1,54 @@
 /*
- * Copyright 2001-2020 Haiku, Inc. All rights reserved.
+ * Copyright 2001-2015 Haiku, Inc.
  * Distributed under the terms of the MIT License.
  *
  * Authors:
  *		Stephan Aßmus, superstippi@gmx.de
  *		DarkWyrm, bpmagic@columbus.rr.com
+ *		Ryan Leavengood, leavengood@gmail.com
+ *		Philippe Saint-Pierre, stpere@gmail.com
  *		John Scipione, jscipione@gmail.com
+ *		Ingo Weinhold, ingo_weinhold@gmx.de
  *		Clemens Zeidler, haiku@clemens-zeidler.de
- *		Nahuel Tello, nhtello@unarix.com.ar
+ *		Joseph Groover <looncraz@looncraz.net>
  */
-#ifndef BE_DECORATOR_H
-#define BE_DECORATOR_H
+#ifndef DEFAULT_DECORATOR_H
+#define DEFAULT_DECORATOR_H
 
 
+#include "TabDecorator.h"
 #include "DecorManager.h"
-#include "SATDecorator.h"
 
 
 class Desktop;
 class ServerBitmap;
 
-
-class BeDecorAddOn : public DecorAddOn {
+class FlatDecorAddOn : public DecorAddOn {
 public:
-								BeDecorAddOn(image_id id, const char* name);
+								FlatDecorAddOn(image_id id, const char* name);
 
 protected:
 	virtual Decorator*			_AllocateDecorator(DesktopSettings& settings,
 									BRect rect, Desktop* desktop);
 };
 
-
-class BeDecorator: public SATDecorator {
+class FlatDecorator: public TabDecorator {
 public:
-								BeDecorator(DesktopSettings& settings,
+								FlatDecorator(DesktopSettings& settings,
 									BRect frame, Desktop* desktop);
-	virtual						~BeDecorator();
+	virtual						~FlatDecorator();
 
 	virtual	void				GetComponentColors(Component component,
 									uint8 highlight, ComponentColors _colors,
 									Decorator::Tab* tab = NULL);
 
+	virtual void				UpdateColors(DesktopSettings& settings);
+
 protected:
 	virtual	void				_DrawFrame(BRect rect);
 
-	virtual	void				_DrawTab(Decorator::Tab* tab, BRect rect);
-	virtual	void				_DrawTitle(Decorator::Tab* tab, BRect rect);
+	virtual	void				_DrawTab(Decorator::Tab* tab, BRect r);
+	virtual	void				_DrawTitle(Decorator::Tab* tab, BRect r);
 	virtual	void				_DrawClose(Decorator::Tab* tab, bool direct,
 									BRect rect);
 	virtual	void				_DrawZoom(Decorator::Tab* tab, bool direct,
@@ -53,36 +56,20 @@ protected:
 	virtual	void				_DrawMinimize(Decorator::Tab* tab, bool direct,
 									BRect rect);
 
-	virtual	void				_GetButtonSizeAndOffset(const BRect& tabRect,
-									float* offset, float* size,
-									float* inset) const;
-
 private:
-			void				_DrawBevelRect(DrawingEngine* engine,
+ 			void				_DrawButtonBitmap(ServerBitmap* bitmap,
+ 									bool direct, BRect rect);
+			void				_DrawBlendedRect(DrawingEngine *engine,
 									const BRect rect, bool down,
-									rgb_color light, rgb_color shadow);
-			void				_DrawBlendedRect(DrawingEngine* engine,
-									const BRect rect, bool down,
-									rgb_color colorA, rgb_color colorB,
-									rgb_color colorC, rgb_color colorD);
-			void				_DrawButtonBitmap(ServerBitmap* bitmap,
-									bool direct, BRect rect);
+									const ComponentColors& colors);
 			ServerBitmap*		_GetBitmapForButton(Decorator::Tab* tab,
 									Component item, bool down, int32 width,
 									int32 height);
-			ServerBitmap* 		_CreateTemporaryBitmap(BRect bounds) const;
+
 			void				_GetComponentColors(Component component,
 									ComponentColors _colors,
 									Decorator::Tab* tab = NULL);
-
-private:
-			status_t			fCStatus;
-
-			ServerBitmap*		fCloseBitmap;
-			ServerBitmap*		fBigZoomBitmap;
-			ServerBitmap*		fSmallZoomBitmap;
-			ServerBitmap*		fGlintBitmap;
 };
 
 
-#endif	// BE_DECORATOR_H
+#endif	// DEFAULT_DECORATOR_H

@@ -4,7 +4,7 @@
  *
  * Authors:
  *		François Revol, revol@free.fr
- *		Nahuel Tello, nhtello@unarix.com.ar
+ *      Nahuel Tello, ntello@unarix.com.ar
  */
 #ifndef BE_CONTROL_LOOK_H
 #define BE_CONTROL_LOOK_H
@@ -86,7 +86,6 @@ public:
 									uint32 flags = 0,
 									uint32 borders = B_ALL_BORDERS,
 									orientation orientation = B_HORIZONTAL);
-
 	void						_DrawNonFlatButtonBackground(BView* view, BRect& rect,
 									const BRect& updateRect,
 									BRegion& clipping,
@@ -145,9 +144,6 @@ public:
 									const BRect& updateRect, float leftTopRadius, float rightTopRadius,
 									float leftBottomRadius, float rightBottomRadius, const rgb_color& base,
 									bool popupIndicator, uint32 flags);
-	virtual void				DrawSplitter(BView* view, BRect& rect, const BRect& updateRect,
-									const rgb_color& base, orientation orientation, uint32 flags,
-									uint32 borders);
 	virtual void				DrawRaisedBorder(BView* view, BRect& rect,
 									const BRect& updateRect, const rgb_color& base, uint32 flags,
 									uint32 borders);

@@ -57,7 +57,7 @@ RSRCS =
 #	- 	if your library does not follow the standard library naming scheme,
 #		you need to specify the path to the library and it's name.
 #		(e.g. for mylib.a, specify "mylib.a" or "path/mylib.a")
-LIBS =
+LIBS = $(STDCPPLIBS) be
 
 #	Specify additional paths to directories following the standard libXXX.so
 #	or libXXX.a naming scheme. You can specify full paths or paths relative
@@ -69,26 +69,12 @@ LIBPATHS =
 #	Additional paths to look for system headers. These use the form
 #	"#include <header>". Directories that contain the files in SRCS are
 #	NOT auto-included here.
-SYSTEM_INCLUDE_PATHS = \
-	/system/develop/sources/haiku/src/servers/app \
-	/system/develop/sources/haiku/src/servers/app/font \
-	/system/develop/sources/haiku/src/servers/app/decorator \
-	/system/develop/sources/haiku/src/servers/app/drawing/Painter \
-	/system/develop/sources/haiku/src/servers/app/drawing \
-	/system/develop/sources/haiku/src/servers/app/stackandtile \
-	/system/develop/sources/haiku/headers/private/interface \
-	/system/develop/sources/haiku/headers/private/app \
-	/system/develop/sources/haiku/headers/private/kernel \
-	/system/develop/sources/haiku/headers/private/graphics \
-	/system/develop/sources/haiku/headers/headers/os/interface \
-	/system/develop/sources/haiku/headers/headers/private/interface \
-	/system/develop/sources/haiku/headers/libs/agg \
-	/system/develop/headers/freetype2
+SYSTEM_INCLUDE_PATHS = includes
 
 #	Additional paths paths to look for local headers. These use the form
 #	#include "header". Directories that contain the files in SRCS are
 #	automatically included.
-LOCAL_INCLUDE_PATHS =
+LOCAL_INCLUDE_PATHS = includes
 
 #	Specify the level of optimization that you want. Specify either NONE (O0),
 #	SOME (O1), FULL (O3), or leave blank (for the default optimization level).
@@ -106,7 +92,7 @@ LOCALES =
 #	use. For example, setting DEFINES to "DEBUG=1" will cause the compiler
 #	option "-DDEBUG=1" to be used. Setting DEFINES to "DEBUG" would pass
 #	"-DDEBUG" on the compiler's command line.
-DEFINES = USEMAKEFILE
+DEFINES =
 
 #	Specify the warning level. Either NONE (suppress all warnings),
 #	ALL (enable all warnings), or leave blank (enable default warnings).
@@ -121,7 +107,7 @@ SYMBOLS :=
 DEBUGGER :=
 
 #	Specify any additional compiler flags to be used.
-COMPILER_FLAGS = #-E
+COMPILER_FLAGS =
 
 #	Specify any additional linker flags to be used.
 LINKER_FLAGS =
