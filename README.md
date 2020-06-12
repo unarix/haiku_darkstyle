@@ -15,4 +15,6 @@ To use the theme you need to install the package "Theme Manager" from haiku-depo
 ### Select Decorator and ControlLook from Appearance
 In the Appearance preferences dialog, select "Flat" from the combos "Decorator" and "ControlLook"
 
+![alt text](https://raw.githubusercontent.com/unarix/haiku_darkstyle/master/screenshot2.png?raw=true)
+
 ![alt text](https://raw.githubusercontent.com/unarix/haiku_darkstyle/master/screenshot1.png?raw=true)
