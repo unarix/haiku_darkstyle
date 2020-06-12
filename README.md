@@ -1,4 +1,4 @@
-# Haiku Darkstyle
+# Haiku DarkMode
 
 ## Sources:
 The binaries here, are only available for 64bits, but you can download the code and compile it using "make" command in the root of the path (decorator and controlLook). Mabe for 32bits need to make changes in the source code (no tested in 32bits!).
