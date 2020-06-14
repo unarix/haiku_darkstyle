@@ -1,4 +1,4 @@
-# Haiku Darkstyle
+# Haiku-OS DarkMode
 
 ## Sources:
 The binaries here, are only available for 64bits, but you can download the code and compile it using "make" command in the root of the path (decorator and controlLook). Mabe for 32bits need to make changes in the source code (no tested in 32bits!).
@@ -14,5 +14,7 @@ To use the theme you need to install the package "Theme Manager" from haiku-depo
 
 ### Select Decorator and ControlLook from Appearance
 In the Appearance preferences dialog, select "Flat" from the combos "Decorator" and "ControlLook"
+
+![alt text](https://raw.githubusercontent.com/unarix/haiku_darkstyle/master/screenshot2.png?raw=true)
 
 ![alt text](https://raw.githubusercontent.com/unarix/haiku_darkstyle/master/screenshot1.png?raw=true)
