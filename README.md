@@ -18,11 +18,10 @@ In the Appearance preferences dialog, select "Flat" from the combos "Decorator" 
 ### Restart
 You need to restart the computer or quit "Deskbar" and "Tracker" services from "ProcessControler" (they will restart auto).
 
+### Guide
+How to make ControlLooks & Decorators in Haiku: 
+http://www.unarix.com.ar/lab/guide/haiku/decorator/controllok/darktheme/2020/06/20/Haiku-Decorators.html
+
 ![alt text](https://raw.githubusercontent.com/unarix/haiku_darkstyle/master/screenshot2.png?raw=true)
 
 ![alt text](https://raw.githubusercontent.com/unarix/haiku_darkstyle/master/screenshot1.png?raw=true)
-
-### Guide
-
-Make ControlLooks & Decorators in Haiku: 
-http://www.unarix.com.ar/lab/guide/haiku/decorator/controllok/darktheme/2020/06/20/Haiku-Decorators.html
