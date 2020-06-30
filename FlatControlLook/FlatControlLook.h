@@ -136,6 +136,9 @@ public:
 									const BRect& updateRect, float leftTopRadius, float rightTopRadius,
 									float leftBottomRadius, float rightBottomRadius, const rgb_color& base,
 									bool popupIndicator, uint32 flags);
+	virtual	void				DrawSplitter(BView* view, BRect& rect, const BRect& updateRect,
+									const rgb_color& base, orientation orientation, uint32 flags,
+									uint32 borders);
 	void 						_DrawMenuFieldBackgroundInside(BView* view, BRect& rect,
 									const BRect& updateRect, float leftTopRadius, float rightTopRadius,
 									float leftBottomRadius, float rightBottomRadius, const rgb_color& base,
