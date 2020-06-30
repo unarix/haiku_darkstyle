@@ -104,7 +104,7 @@ BMessage('ZThm') {
 		// System Plain
 		be:f:be_plain_font = BFont(Noto Sans Display/Regular/12.00, shear=90.00, rot=0.00, height=12.82+3.50+0.00)
 		// System Bold
-		be:f:be_bold_font = BFont(Noto Sans Display/Bold/12.00, shear=90.00, rot=0.00, height=12.82+3.50+0.00)
+		be:f:be_bold_font = BFont(Noto Sans Display/Regular/12.00, shear=90.00, rot=0.00, height=12.82+3.50+0.00)
 		// System Fixed
 		be:f:be_fixed_font = BFont(Noto Mono/Regular/12.00, shear=90.00, rot=0.00, height=11.13+2.93+0.00)
 		// Show Menu Triggers

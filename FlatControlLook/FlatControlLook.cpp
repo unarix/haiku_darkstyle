@@ -679,9 +679,7 @@ HaikuControlLook::DrawScrollBarButton(BView* view, BRect rect,
 
 	bool isEnabled = (flags & B_DISABLED) == 0;
 
-	rgb_color buttonColor = isEnabled ? base
-		: base;
-	DrawButtonBackground(view, rect, updateRect, buttonColor, flags,
+	DrawButtonBackground(view, rect, updateRect, base, flags,
 		BControlLook::B_ALL_BORDERS, orientation);
 
 	rect.InsetBy(-1, -1);
@@ -694,7 +692,7 @@ HaikuControlLook::DrawScrollBarButton(BView* view, BRect rect,
 }
 
 void
-HaikuControlLook::DrawScrollBarThumb(BView* view, BRect& rect,
+FlatControlLook::DrawScrollBarThumb(BView* view, BRect& rect,
 	const BRect& updateRect, const rgb_color& base, uint32 flags,
 	orientation orientation, uint32 knobStyle)
 {
@@ -748,14 +746,16 @@ HaikuControlLook::DrawScrollBarThumb(BView* view, BRect& rect,
 		view->FillRect(rect);
 	}
 
+	knobStyle = B_KNOB_LINES;
+
 	// draw knob style
 	if (knobStyle != B_KNOB_NONE) {
 		rgb_color knobLight = isEnabled
-			? tint_color(thumbColor, B_LIGHTEN_MAX_TINT)
+			? tint_color(thumbColor, 1.0)
 			: tint_color(dark1, bgTint);
 		rgb_color knobDark = isEnabled
-			? tint_color(thumbColor, 1.22)
-			: tint_color(knobLight, B_DARKEN_1_TINT);
+			? tint_color(thumbColor, 1.2)
+			: tint_color(knobLight, 1.2);
 
 		if (knobStyle == B_KNOB_DOTS) {
 			// draw dots on the scroll bar thumb
@@ -807,7 +807,7 @@ HaikuControlLook::DrawScrollBarThumb(BView* view, BRect& rect,
 					view->FillRect(knob.OffsetByCopy(1, spacer + 1));
 				}
 			}
-		} else if (knobStyle == B_KNOB_LINES) {
+		} else if (knobStyle == B_KNOB_LINES && isEnabled) {
 			// draw lines on the scroll bar thumb
 			if (orientation == B_HORIZONTAL) {
 				float middle = rect.Width() / 2;
@@ -879,9 +879,9 @@ void
 HaikuControlLook::DrawGroupFrame(BView* view, BRect& rect, const BRect& updateRect,
 	const rgb_color& base, uint32 borders)
 {
-	rgb_color frameColor = tint_color(base, 1.0);
-	rgb_color bevelLight = tint_color(base, 0.95);
-	rgb_color bevelShadow = tint_color(base, 1.1);
+	rgb_color frameColor = tint_color(base, 1.05);
+	rgb_color bevelLight = tint_color(base, 1.0);
+	rgb_color bevelShadow = tint_color(base, 1.0);
 
 	_DrawFrame(view, rect, bevelShadow, bevelShadow, bevelLight, bevelLight,
 		borders);
@@ -1635,7 +1635,7 @@ FlatControlLook::_EdgeShadowColor(const rgb_color& base, float contrast,
 }
 
 void
-HaikuControlLook::DrawBorder(BView* view, BRect& rect, const BRect& updateRect,
+FlatControlLook::DrawBorder(BView* view, BRect& rect, const BRect& updateRect,
 	const rgb_color& base, border_style borderStyle, uint32 flags,
 	uint32 borders)
 {

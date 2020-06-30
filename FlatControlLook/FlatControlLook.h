@@ -153,6 +153,12 @@ public:
 	virtual void				_DrawOuterResessedFrame(BView* view, BRect& rect,
 									const rgb_color& base, float contrast, float brightness, uint32 flags,
 									uint32 borders);
+	virtual void				DrawScrollBarThumb(BView* view, BRect& rect,
+									const BRect& updateRect, const rgb_color& base, uint32 flags,
+									orientation orientation, uint32 knobStyle);
+	virtual void				DrawBorder(BView* view, BRect& rect, const BRect& updateRect,
+									const rgb_color& base, border_style borderStyle, uint32 flags,
+									uint32 borders);
 	rgb_color					_EdgeLightColor(const rgb_color& base, float contrast,
 									float brightness, uint32 flags);
 	rgb_color					_EdgeShadowColor(const rgb_color& base, float contrast,
