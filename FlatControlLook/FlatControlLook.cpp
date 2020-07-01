@@ -40,7 +40,7 @@
 
 static const float kEdgeBevelLightTint = 1.0;
 static const float kEdgeBevelShadowTint = 1.0;
-static const float kHoverTintFactor = 0.88;
+static const float kHoverTintFactor = 0.55;
 
 static const float kButtonPopUpIndicatorWidth = 11;
 
@@ -184,6 +184,9 @@ HaikuControlLook::_DrawButtonFrame(BView* view, BRect& rect,
 	const rgb_color& background, float contrast, float brightness,
 	uint32 flags, uint32 borders)
 {
+
+	rgb_color customColor = tint_color(background, 1.0); // custom color for borders
+
 	if (!rect.IsValid())
 		return;
 
@@ -200,10 +203,10 @@ HaikuControlLook::_DrawButtonFrame(BView* view, BRect& rect,
 		&& (flags & (B_ACTIVATED | B_PARTIALLY_ACTIVATED)) == 0
 		&& ((flags & (B_HOVER | B_FOCUSED)) == 0
 			|| (flags & B_DISABLED) != 0)) {
-		_DrawFrame(view, rect, background, background, background,
-			background, borders);
-		_DrawFrame(view, rect, background, background, background,
-			background, borders);
+		_DrawFrame(view, rect, customColor, customColor, customColor,
+			customColor, borders);
+		_DrawFrame(view, rect, customColor, customColor, customColor,
+			customColor, borders);
 		view->PopState();
 		return;
 	}
@@ -213,12 +216,12 @@ HaikuControlLook::_DrawButtonFrame(BView* view, BRect& rect,
 	rgb_color edgeShadowColor;
 
 	// default button frame color
-	rgb_color defaultIndicatorColor = background;
+	rgb_color defaultIndicatorColor = customColor;
 	rgb_color cornerBgColor;
 
 	if ((flags & B_DISABLED) != 0) {
 		defaultIndicatorColor = disable_color(defaultIndicatorColor,
-			background);
+			customColor);
 	}
 
 	drawing_mode oldMode = view->DrawingMode();
@@ -243,7 +246,7 @@ HaikuControlLook::_DrawButtonFrame(BView* view, BRect& rect,
 		view->StrokeRoundRect(rect, leftTopRadius, leftTopRadius);
 		rect.InsetBy(1, 1);
 	} else {
-		cornerBgColor = background;
+		cornerBgColor = customColor;
 		if ((flags & B_BLEND_FRAME) != 0) {
 			// set the background color to transparent for the case
 			// that we are on the desktop
@@ -251,10 +254,10 @@ HaikuControlLook::_DrawButtonFrame(BView* view, BRect& rect,
 			view->SetDrawingMode(B_OP_ALPHA);
 		}
 
-		edgeLightColor = _EdgeLightColor(background,
+		edgeLightColor = _EdgeLightColor(customColor,
 			contrast * ((flags & B_DISABLED) != 0 ? 0.0 : 0.0),
 			brightness * 0.0, flags);
-		edgeShadowColor = _EdgeShadowColor(background,
+		edgeShadowColor = _EdgeShadowColor(customColor,
 			contrast * (flags & B_DISABLED) != 0 ? 0.0 : 0.0,
 			brightness * 0.0, flags);
 	}
@@ -314,17 +317,17 @@ HaikuControlLook::_DrawButtonFrame(BView* view, BRect& rect,
 	// clip out the corners
 	view->ConstrainClippingRegion(&clipping);
 
-	// draw outer edge
+/*	// draw outer edge
 	if ((flags & B_DEFAULT_BUTTON) != 0) {
 		_DrawOuterResessedFrame(view, rect, defaultIndicatorColor,
 			contrast * ((flags & B_DISABLED) != 0 ? 0.3 : 0.8),
 			brightness * ((flags & B_DISABLED) != 0 ? 0.3 : 0.9),
 			flags, borders);
-	} else {
-		_DrawOuterResessedFrame(view, rect, background,
+	} else {*/
+		_DrawOuterResessedFrame(view, rect, customColor,
 			contrast * ((flags & B_DISABLED) != 0 ? 0.3 : 1.0),
 			brightness * 1.0, flags, borders);
-	}
+	//}
 
 	view->SetDrawingMode(oldMode);
 
@@ -432,7 +435,7 @@ FlatControlLook::_DrawNonFlatButtonBackground(BView* view, BRect& rect,
 	if ((flags & B_DISABLED) != 0)
 		buttonBgColor = tint_color(base, 1.0);
 	else
-		buttonBgColor = tint_color(base, 1.0);
+		buttonBgColor = tint_color(base, 0.8);
 
 	// surface top gradient
 	BGradientLinear fillGradient;
@@ -496,32 +499,32 @@ FlatControlLook::_DrawNonFlatButtonBackground(BView* view, BRect& rect,
 		// shadow along left/top borders
 		if (borders & B_LEFT_BORDER) {
 			view->AddLine(BPoint(rect.left, rect.top),
-				BPoint(rect.left, rect.bottom), bevelShadowColor);
+				BPoint(rect.left, rect.bottom), buttonBgColor);
 			rect.left++;
 		}
 		if (borders & B_TOP_BORDER) {
 			view->AddLine(BPoint(rect.left, rect.top),
-				BPoint(rect.right, rect.top), bevelShadowColor);
+				BPoint(rect.right, rect.top), buttonBgColor);
 			rect.top++;
 		}
 
 		// softer shadow along left/top borders
 		if (borders & B_LEFT_BORDER) {
 			view->AddLine(BPoint(rect.left, rect.top),
-				BPoint(rect.left, rect.bottom), bevelShadowColor);
+				BPoint(rect.left, rect.bottom), buttonBgColor);
 			rect.left++;
 		}
 		if (borders & B_TOP_BORDER) {
 			view->AddLine(BPoint(rect.left, rect.top),
-				BPoint(rect.right, rect.top), bevelShadowColor);
+				BPoint(rect.right, rect.top), buttonBgColor);
 			rect.top++;
 		}
 
 		view->EndLineArray();
 	} else {
 		_DrawFrame(view, rect,
-			bevelShadowColor, bevelShadowColor,
-			bevelShadowColor, bevelShadowColor,
+			buttonBgColor, buttonBgColor,
+			buttonBgColor, buttonBgColor,
 			buttonBgColor, buttonBgColor, borders);
 	}
 
@@ -604,14 +607,14 @@ void
 HaikuControlLook::_MakeButtonGradient(BGradientLinear& gradient, BRect& rect,
 	const rgb_color& base, uint32 flags, orientation orientation) const
 {
-	float topTint = 1.0;
-	float middleTint1 = 1.0;
+	float topTint = 0.99;
+	float middleTint1 = 0.99;
 	float middleTint2 = 1.0;
-	float bottomTint = 1.0;
+	float bottomTint = 1.04;
 
 	if ((flags & B_ACTIVATED) != 0) {
-		topTint = 1.0;
-		bottomTint = 1.0;
+		topTint = 1.11;
+		bottomTint = 1.08;
 	}
 
 	if ((flags & B_DISABLED) != 0) {
@@ -620,10 +623,10 @@ HaikuControlLook::_MakeButtonGradient(BGradientLinear& gradient, BRect& rect,
 		middleTint2 = (middleTint2 + B_NO_TINT) / 2;
 		bottomTint = (bottomTint + B_NO_TINT) / 2;
 	} else if ((flags & B_HOVER) != 0) {
-		topTint *= kHoverTintFactor;
-		middleTint1 *= kHoverTintFactor;
-		middleTint2 *= kHoverTintFactor;
-		bottomTint *= kHoverTintFactor;
+		topTint = 0.9;
+		middleTint1 = 0.9;
+		middleTint2 = 0.9;
+		bottomTint = 0.9;
 	}
 
 	if ((flags & B_ACTIVATED) != 0) {
@@ -640,10 +643,10 @@ HaikuControlLook::_MakeGlossyGradient(BGradientLinear& gradient, const BRect& re
 	float middle2Tint, float bottomTint,
 	orientation orientation) const
 {
-	gradient.AddColor(tint_color(base, 0.97), 0);
-	gradient.AddColor(tint_color(base, 0.98), 132);
-	gradient.AddColor(tint_color(base, 0.99), 136);
-	gradient.AddColor(tint_color(base, 1.0), 255);
+	gradient.AddColor(tint_color(base, topTint), 0);
+	//gradient.AddColor(tint_color(base, middle1Tint), 150);
+	//gradient.AddColor(tint_color(base, middle2Tint), 200);
+	gradient.AddColor(tint_color(base, bottomTint), 255);
 	gradient.SetStart(rect.LeftTop());
 	if (orientation == B_HORIZONTAL)
 		gradient.SetEnd(rect.LeftBottom());
