@@ -185,168 +185,170 @@ HaikuControlLook::_DrawButtonFrame(BView* view, BRect& rect,
 	uint32 flags, uint32 borders)
 {
 
-	rgb_color customColor = tint_color(background, 1.0); // custom color for borders
+        rgb_color customColor = tint_color(background, 1.0); // custom color for borders
 
-	if (!rect.IsValid())
-		return;
+        if (!rect.IsValid())
+                return;
 
-	// save the clipping constraints of the view
-	view->PushState();
+        // save the clipping constraints of the view
+        view->PushState();
 
-	// set clipping constraints to updateRect
-	BRegion clipping(updateRect);
-	view->ConstrainClippingRegion(&clipping);
+        // set clipping constraints to updateRect
+        BRegion clipping(updateRect);
+        view->ConstrainClippingRegion(&clipping);
 
-	// If the button is flat and neither activated nor otherwise highlighted
-	// (mouse hovering or focussed), draw it flat.
-	if ((flags & B_FLAT) != 0
-		&& (flags & (B_ACTIVATED | B_PARTIALLY_ACTIVATED)) == 0
-		&& ((flags & (B_HOVER | B_FOCUSED)) == 0
-			|| (flags & B_DISABLED) != 0)) {
-		_DrawFrame(view, rect, customColor, customColor, customColor,
-			customColor, borders);
-		_DrawFrame(view, rect, customColor, customColor, customColor,
-			customColor, borders);
-		view->PopState();
-		return;
-	}
+        // If the button is flat and neither activated nor otherwise highlighted
+        // (mouse hovering or focussed), draw it flat.
+        if ((flags & B_FLAT) != 0
+                && (flags & (B_ACTIVATED | B_PARTIALLY_ACTIVATED)) == 0
+                && ((flags & (B_HOVER | B_FOCUSED)) == 0
+                        || (flags & B_DISABLED) != 0)) {
+                _DrawFrame(view, rect, customColor, customColor, customColor,
+                        customColor, borders);
+                _DrawFrame(view, rect, customColor, customColor, customColor,
+                        customColor, borders);
+                view->PopState();
+                return;
+        }
 
-	// outer edge colors
-	rgb_color edgeLightColor;
-	rgb_color edgeShadowColor;
+        // outer edge colors
+        rgb_color edgeLightColor;
+        rgb_color edgeShadowColor;
 
-	// default button frame color
-	rgb_color defaultIndicatorColor = customColor;
-	rgb_color cornerBgColor;
+        // default button frame color
+        rgb_color defaultIndicatorColor = customColor;
+        rgb_color cornerBgColor;
 
-	if ((flags & B_DISABLED) != 0) {
-		defaultIndicatorColor = disable_color(defaultIndicatorColor,
-			customColor);
-	}
+        if ((flags & B_DISABLED) != 0) {
+                defaultIndicatorColor = disable_color(defaultIndicatorColor,
+                        customColor);
+        }
 
-	drawing_mode oldMode = view->DrawingMode();
+        drawing_mode oldMode = view->DrawingMode();
 
-	if ((flags & B_DEFAULT_BUTTON) != 0) {
-		cornerBgColor = defaultIndicatorColor;
-		edgeLightColor = _EdgeLightColor(defaultIndicatorColor,
-			contrast * ((flags & B_DISABLED) != 0 ? 0.0 : 0.0),
-			brightness * ((flags & B_DISABLED) != 0 ? 0.0 : 0.0), flags);
-		edgeShadowColor = _EdgeShadowColor(defaultIndicatorColor,
-			contrast * ((flags & B_DISABLED) != 0 ? 0.0 : 0.0),
-			brightness * ((flags & B_DISABLED) != 0 ? 0.0 : 0.0), flags);
+        if ((flags & B_DEFAULT_BUTTON) != 0) {
+                cornerBgColor = defaultIndicatorColor;
+                edgeLightColor = _EdgeLightColor(defaultIndicatorColor,
+                        contrast * ((flags & B_DISABLED) != 0 ? 0.0 : 0.0),
+                        brightness * ((flags & B_DISABLED) != 0 ? 0.0 : 0.0), flags);
+                edgeShadowColor = _EdgeShadowColor(defaultIndicatorColor,
+                        contrast * ((flags & B_DISABLED) != 0 ? 0.0 : 0.0),
+                        brightness * ((flags & B_DISABLED) != 0 ? 0.0 : 0.0), flags);
 
-		// draw default button indicator
-		// Allow a 1-pixel border of the background to come through.
-		rect.InsetBy(1, 1);
+                // draw default button indicator
+                // Allow a 1-pixel border of the background to come through.
+                rect.InsetBy(1, 1);
 
-		view->SetHighColor(defaultIndicatorColor);
-		view->StrokeRoundRect(rect, leftTopRadius, leftTopRadius);
-		rect.InsetBy(1, 1);
+                view->SetHighColor(defaultIndicatorColor);
+                view->StrokeRoundRect(rect, leftTopRadius, leftTopRadius);
+                rect.InsetBy(1, 1);
 
-		view->StrokeRoundRect(rect, leftTopRadius, leftTopRadius);
-		rect.InsetBy(1, 1);
-	} else {
-		cornerBgColor = customColor;
-		if ((flags & B_BLEND_FRAME) != 0) {
-			// set the background color to transparent for the case
-			// that we are on the desktop
-			cornerBgColor.alpha = 0;
-			view->SetDrawingMode(B_OP_ALPHA);
-		}
+                view->StrokeRoundRect(rect, leftTopRadius, leftTopRadius);
+                rect.InsetBy(1, 1);
+        } else {
+                cornerBgColor = customColor;
+                if ((flags & B_BLEND_FRAME) != 0) {
+                        // set the background color to transparent for the case
+                        // that we are on the desktop
+                        cornerBgColor.alpha = 0;
+                        view->SetDrawingMode(B_OP_ALPHA);
+                }
 
-		edgeLightColor = _EdgeLightColor(customColor,
-			contrast * ((flags & B_DISABLED) != 0 ? 0.0 : 0.0),
-			brightness * 0.0, flags);
-		edgeShadowColor = _EdgeShadowColor(customColor,
-			contrast * (flags & B_DISABLED) != 0 ? 0.0 : 0.0,
-			brightness * 0.0, flags);
-	}
+                edgeLightColor = _EdgeLightColor(customColor,
+                        contrast * ((flags & B_DISABLED) != 0 ? 0.0 : 0.0),
+                        brightness * 0.0, flags);
+                edgeShadowColor = _EdgeShadowColor(customColor,
+                        contrast * (flags & B_DISABLED) != 0 ? 0.0 : 0.0,
+                        brightness * 0.0, flags);
+        }
 
-	// frame colors
-	rgb_color frameLightColor  = _FrameLightColor(base, flags);
-	rgb_color frameShadowColor = _FrameShadowColor(base, flags);
+        // frame colors
+        rgb_color frameLightColor  = _FrameLightColor(base, flags);
+        rgb_color frameShadowColor = _FrameShadowColor(base, flags);
 
-	// rounded corners
+        // rounded corners
 
-	if ((borders & B_LEFT_BORDER) != 0 && (borders & B_TOP_BORDER) != 0
-		&& leftTopRadius > 0) {
-		// draw left top rounded corner
-		BRect leftTopCorner(floorf(rect.left), floorf(rect.top),
-			floorf(rect.left + leftTopRadius),
-			floorf(rect.top + leftTopRadius));
-		clipping.Exclude(leftTopCorner);
-		_DrawRoundCornerFrameLeftTop(view, leftTopCorner, updateRect,
-			cornerBgColor, edgeShadowColor, frameLightColor);
-	}
+        if ((borders & B_LEFT_BORDER) != 0 && (borders & B_TOP_BORDER) != 0
+                && leftTopRadius > 0) {
+                // draw left top rounded corner
+                BRect leftTopCorner(floorf(rect.left), floorf(rect.top),
+                        floorf(rect.left + leftTopRadius),
+                        floorf(rect.top + leftTopRadius));
+                clipping.Exclude(leftTopCorner);
+                _DrawRoundCornerFrameLeftTop(view, leftTopCorner, updateRect,
+                        cornerBgColor, edgeShadowColor, frameLightColor);
+        }
 
-	if ((borders & B_TOP_BORDER) != 0 && (borders & B_RIGHT_BORDER) != 0
-		&& rightTopRadius > 0) {
-		// draw right top rounded corner
-		BRect rightTopCorner(floorf(rect.right - rightTopRadius),
-			floorf(rect.top), floorf(rect.right),
-			floorf(rect.top + rightTopRadius));
-		clipping.Exclude(rightTopCorner);
-		_DrawRoundCornerFrameRightTop(view, rightTopCorner, updateRect,
-			cornerBgColor, edgeShadowColor, edgeLightColor,
-			frameLightColor, frameShadowColor);
-	}
+        if ((borders & B_TOP_BORDER) != 0 && (borders & B_RIGHT_BORDER) != 0
+                && rightTopRadius > 0) {
+                // draw right top rounded corner
+                BRect rightTopCorner(floorf(rect.right - rightTopRadius),
+                        floorf(rect.top), floorf(rect.right),
+                        floorf(rect.top + rightTopRadius));
+                clipping.Exclude(rightTopCorner);
+                _DrawRoundCornerFrameRightTop(view, rightTopCorner, updateRect,
+                        cornerBgColor, edgeShadowColor, edgeLightColor,
+                        frameLightColor, frameShadowColor);
+        }
 
-	if ((borders & B_LEFT_BORDER) != 0 && (borders & B_BOTTOM_BORDER) != 0
-		&& leftBottomRadius > 0) {
-		// draw left bottom rounded corner
-		BRect leftBottomCorner(floorf(rect.left),
-			floorf(rect.bottom - leftBottomRadius),
-			floorf(rect.left + leftBottomRadius), floorf(rect.bottom));
-		clipping.Exclude(leftBottomCorner);
-		_DrawRoundCornerFrameLeftBottom(view, leftBottomCorner, updateRect,
-			cornerBgColor, edgeShadowColor, edgeLightColor,
-			frameLightColor, frameShadowColor);
-	}
+        if ((borders & B_LEFT_BORDER) != 0 && (borders & B_BOTTOM_BORDER) != 0
+                && leftBottomRadius > 0) {
+                // draw left bottom rounded corner
+                BRect leftBottomCorner(floorf(rect.left),
+                        floorf(rect.bottom - leftBottomRadius),
+                        floorf(rect.left + leftBottomRadius), floorf(rect.bottom));
+                clipping.Exclude(leftBottomCorner);
+                _DrawRoundCornerFrameLeftBottom(view, leftBottomCorner, updateRect,
+                        cornerBgColor, edgeShadowColor, edgeLightColor,
+                        frameLightColor, frameShadowColor);
+        }
 
-	if ((borders & B_RIGHT_BORDER) != 0 && (borders & B_BOTTOM_BORDER) != 0
-		&& rightBottomRadius > 0) {
-		// draw right bottom rounded corner
-		BRect rightBottomCorner(floorf(rect.right - rightBottomRadius),
-			floorf(rect.bottom - rightBottomRadius), floorf(rect.right),
-			floorf(rect.bottom));
-		clipping.Exclude(rightBottomCorner);
-		_DrawRoundCornerFrameRightBottom(view, rightBottomCorner,
-			updateRect, cornerBgColor, edgeLightColor, frameShadowColor);
-	}
+        if ((borders & B_RIGHT_BORDER) != 0 && (borders & B_BOTTOM_BORDER) != 0
+                && rightBottomRadius > 0) {
+                // draw right bottom rounded corner
+                BRect rightBottomCorner(floorf(rect.right - rightBottomRadius),
+                        floorf(rect.bottom - rightBottomRadius), floorf(rect.right),
+                        floorf(rect.bottom));
+                clipping.Exclude(rightBottomCorner);
+                _DrawRoundCornerFrameRightBottom(view, rightBottomCorner,
+                        updateRect, cornerBgColor, edgeLightColor, frameShadowColor);
+        }
 
-	// clip out the corners
-	view->ConstrainClippingRegion(&clipping);
+        // clip out the corners
+        view->ConstrainClippingRegion(&clipping);
 
-/*	// draw outer edge
-	if ((flags & B_DEFAULT_BUTTON) != 0) {
-		_DrawOuterResessedFrame(view, rect, defaultIndicatorColor,
-			contrast * ((flags & B_DISABLED) != 0 ? 0.3 : 0.8),
-			brightness * ((flags & B_DISABLED) != 0 ? 0.3 : 0.9),
-			flags, borders);
-	} else {*/
-		_DrawOuterResessedFrame(view, rect, customColor,
-			contrast * ((flags & B_DISABLED) != 0 ? 0.3 : 1.0),
-			brightness * 1.0, flags, borders);
-	//}
+		// draw outer edge
+        if ((flags & B_DEFAULT_BUTTON) != 0) {
+                _DrawOuterResessedFrame(view, rect, defaultIndicatorColor,
+                        contrast * ((flags & B_DISABLED) != 0 ? 0.3 : 0.8),
+                        brightness * ((flags & B_DISABLED) != 0 ? 0.3 : 0.9),
+                        flags, borders);
+        } else {
+                _DrawOuterResessedFrame(view, rect, customColor,
+                        contrast * ((flags & B_DISABLED) != 0 ? 0.3 : 1.0),
+                        brightness * 1.0, flags, borders);
+        }
 
-	view->SetDrawingMode(oldMode);
+        view->SetDrawingMode(oldMode);
 
-	// draw frame
-	if ((flags & B_BLEND_FRAME) != 0) {
-		drawing_mode oldDrawingMode = view->DrawingMode();
-		view->SetDrawingMode(B_OP_ALPHA);
+		rgb_color customColor2 = tint_color(background, 1.14); // custom color for borders
 
-		_DrawFrame(view, rect, frameLightColor, frameLightColor,
-			frameLightColor, frameLightColor, borders);
+        // draw frame
+        if ((flags & B_BLEND_FRAME) != 0) {
+                drawing_mode oldDrawingMode = view->DrawingMode();
+                view->SetDrawingMode(B_OP_ALPHA);
 
-		view->SetDrawingMode(oldDrawingMode);
-	} else {
-		_DrawFrame(view, rect, frameLightColor, frameLightColor,
-			frameLightColor, frameLightColor, borders);
-	}
+                _DrawFrame(view, rect, customColor2, customColor2,
+                        customColor2, customColor2, borders);
 
-	// restore the clipping constraints of the view
-	view->PopState();
+                view->SetDrawingMode(oldDrawingMode);
+        } else {
+                _DrawFrame(view, rect, customColor2, customColor2,
+                        customColor2, customColor2, borders);
+        }
+
+        // restore the clipping constraints of the view
+        view->PopState();
 }
 
 void
@@ -435,7 +437,7 @@ FlatControlLook::_DrawNonFlatButtonBackground(BView* view, BRect& rect,
 	if ((flags & B_DISABLED) != 0)
 		buttonBgColor = tint_color(base, 1.0);
 	else
-		buttonBgColor = tint_color(base, 0.8);
+		buttonBgColor = tint_color(base, 1.0);
 
 	// surface top gradient
 	BGradientLinear fillGradient;
@@ -623,10 +625,10 @@ HaikuControlLook::_MakeButtonGradient(BGradientLinear& gradient, BRect& rect,
 		middleTint2 = (middleTint2 + B_NO_TINT) / 2;
 		bottomTint = (bottomTint + B_NO_TINT) / 2;
 	} else if ((flags & B_HOVER) != 0) {
-		topTint = 0.9;
-		middleTint1 = 0.9;
-		middleTint2 = 0.9;
-		bottomTint = 0.9;
+		topTint = 1.0;
+		middleTint1 = 1.0;
+		middleTint2 = 1.0;
+		bottomTint = 1.0;
 	}
 
 	if ((flags & B_ACTIVATED) != 0) {
@@ -699,183 +701,183 @@ FlatControlLook::DrawScrollBarThumb(BView* view, BRect& rect,
 	const BRect& updateRect, const rgb_color& base, uint32 flags,
 	orientation orientation, uint32 knobStyle)
 {
-	if (!rect.IsValid() || !rect.Intersects(updateRect))
-		return;
+        if (!rect.IsValid() || !rect.Intersects(updateRect))
+                return;
 
-	view->PushState();
+        view->PushState();
 
-	// set clipping constraints to updateRect
-	BRegion clipping(updateRect);
-	view->ConstrainClippingRegion(&clipping);
+        // set clipping constraints to updateRect
+        BRegion clipping(updateRect);
+        view->ConstrainClippingRegion(&clipping);
 
-	// flags
-	bool isEnabled = (flags & B_DISABLED) == 0;
+        // flags
+        bool isEnabled = (flags & B_DISABLED) == 0;
 
-	// colors
-	rgb_color thumbColor = ui_color(B_SCROLL_BAR_THUMB_COLOR);
-	const float bgTint = 1.06;
+        // colors
+        rgb_color thumbColor = ui_color(B_SCROLL_BAR_THUMB_COLOR);
+        const float bgTint = 1.06;
 
-	rgb_color light, dark, dark1, dark2;
-	light = tint_color(base, B_LIGHTEN_MAX_TINT);
-	dark = tint_color(base, B_DARKEN_3_TINT);
-	dark1 = tint_color(base, B_DARKEN_1_TINT);
-	dark2 = tint_color(base, B_DARKEN_2_TINT);
+        rgb_color light, dark, dark1, dark2;
+        light = tint_color(base, B_LIGHTEN_MAX_TINT);
+        dark = tint_color(base, B_DARKEN_3_TINT);
+        dark1 = tint_color(base, B_DARKEN_1_TINT);
+        dark2 = tint_color(base, B_DARKEN_2_TINT);
 
-	// draw thumb over background
-	view->SetDrawingMode(B_OP_OVER);
-	view->SetHighColor(dark1);
+        // draw thumb over background
+        view->SetDrawingMode(B_OP_OVER);
+        view->SetHighColor(dark1);
 
-	// draw scroll thumb
-	if (isEnabled) {
-		// fill the clickable surface of the thumb
-		DrawButtonBackground(view, rect, updateRect, thumbColor, 0,
-			B_ALL_BORDERS, orientation);
-	} else {
-		// thumb bevel
-		view->BeginLineArray(4);
-		view->AddLine(BPoint(rect.left, rect.bottom),
-			BPoint(rect.left, rect.top), dark1);
-		view->AddLine(BPoint(rect.left + 1, rect.top),
-			BPoint(rect.right, rect.top), dark1);
-		view->AddLine(BPoint(rect.right, rect.top + 1),
-			BPoint(rect.right, rect.bottom), dark1);
-		view->AddLine(BPoint(rect.right - 1, rect.bottom),
-			BPoint(rect.left + 1, rect.bottom), dark1);
-		view->EndLineArray();
+        // draw scroll thumb
+        if (isEnabled) {
+                // fill the clickable surface of the thumb
+                DrawButtonBackground(view, rect, updateRect, thumbColor, 0,
+                        B_ALL_BORDERS, orientation);
+        } else {
+                // thumb bevel
+                view->BeginLineArray(4);
+                view->AddLine(BPoint(rect.left, rect.bottom),
+                        BPoint(rect.left, rect.top), dark1);
+                view->AddLine(BPoint(rect.left + 1, rect.top),
+                        BPoint(rect.right, rect.top), dark1);
+                view->AddLine(BPoint(rect.right, rect.top + 1),
+                        BPoint(rect.right, rect.bottom), dark1);
+                view->AddLine(BPoint(rect.right - 1, rect.bottom),
+                        BPoint(rect.left + 1, rect.bottom), dark1);
+                view->EndLineArray();
 
-		// thumb fill
-		rect.InsetBy(1, 1);
-		view->SetHighColor(dark1);
-		view->FillRect(rect);
-	}
+                // thumb fill
+                rect.InsetBy(1, 1);
+                view->SetHighColor(dark1);
+                view->FillRect(rect);
+        }
 
-	knobStyle = B_KNOB_LINES;
+        knobStyle = B_KNOB_LINES;
 
-	// draw knob style
-	if (knobStyle != B_KNOB_NONE) {
-		rgb_color knobLight = isEnabled
-			? tint_color(thumbColor, 1.0)
-			: tint_color(dark1, bgTint);
-		rgb_color knobDark = isEnabled
-			? tint_color(thumbColor, 1.2)
-			: tint_color(knobLight, 1.2);
+        // draw knob style
+        if (knobStyle != B_KNOB_NONE) {
+                rgb_color knobLight = isEnabled
+                        ? tint_color(thumbColor, 1.0)
+                        : tint_color(dark1, bgTint);
+                rgb_color knobDark = isEnabled
+                        ? tint_color(thumbColor, 1.2)
+                        : tint_color(knobLight, 1.2);
 
-		if (knobStyle == B_KNOB_DOTS) {
-			// draw dots on the scroll bar thumb
-			float hcenter = rect.left + rect.Width() / 2;
-			float vmiddle = rect.top + rect.Height() / 2;
-			BRect knob(hcenter, vmiddle, hcenter, vmiddle);
+                if (knobStyle == B_KNOB_DOTS) {
+                        // draw dots on the scroll bar thumb
+                        float hcenter = rect.left + rect.Width() / 2;
+                        float vmiddle = rect.top + rect.Height() / 2;
+                        BRect knob(hcenter, vmiddle, hcenter, vmiddle);
 
-			if (orientation == B_HORIZONTAL) {
-				view->SetHighColor(knobDark);
-				view->FillRect(knob);
-				view->SetHighColor(knobLight);
-				view->FillRect(knob.OffsetByCopy(1, 1));
+                        if (orientation == B_HORIZONTAL) {
+                                view->SetHighColor(knobDark);
+                                view->FillRect(knob);
+                                view->SetHighColor(knobLight);
+                                view->FillRect(knob.OffsetByCopy(1, 1));
 
-				float spacer = rect.Height();
+                                float spacer = rect.Height();
 
-				if (rect.left + 3 < hcenter - spacer) {
-					view->SetHighColor(knobDark);
-					view->FillRect(knob.OffsetByCopy(-spacer, 0));
-					view->SetHighColor(knobLight);
-					view->FillRect(knob.OffsetByCopy(-spacer + 1, 1));
-				}
+                                if (rect.left + 3 < hcenter - spacer) {
+                                        view->SetHighColor(knobDark);
+                                        view->FillRect(knob.OffsetByCopy(-spacer, 0));
+                                        view->SetHighColor(knobLight);
+                                        view->FillRect(knob.OffsetByCopy(-spacer + 1, 1));
+                                }
 
-				if (rect.right - 3 > hcenter + spacer) {
-					view->SetHighColor(knobDark);
-					view->FillRect(knob.OffsetByCopy(spacer, 0));
-					view->SetHighColor(knobLight);
-					view->FillRect(knob.OffsetByCopy(spacer + 1, 1));
-				}
-			} else {
-				// B_VERTICAL
-				view->SetHighColor(knobDark);
-				view->FillRect(knob);
-				view->SetHighColor(knobLight);
-				view->FillRect(knob.OffsetByCopy(1, 1));
+                                if (rect.right - 3 > hcenter + spacer) {
+                                        view->SetHighColor(knobDark);
+                                        view->FillRect(knob.OffsetByCopy(spacer, 0));
+                                        view->SetHighColor(knobLight);
+                                        view->FillRect(knob.OffsetByCopy(spacer + 1, 1));
+                                }
+                        } else {
+                                // B_VERTICAL
+                                view->SetHighColor(knobDark);
+                                view->FillRect(knob);
+                                view->SetHighColor(knobLight);
+                                view->FillRect(knob.OffsetByCopy(1, 1));
 
-				float spacer = rect.Width();
+                                float spacer = rect.Width();
 
-				if (rect.top + 3 < vmiddle - spacer) {
-					view->SetHighColor(knobDark);
-					view->FillRect(knob.OffsetByCopy(0, -spacer));
-					view->SetHighColor(knobLight);
-					view->FillRect(knob.OffsetByCopy(1, -spacer + 1));
-				}
+                                if (rect.top + 3 < vmiddle - spacer) {
+                                        view->SetHighColor(knobDark);
+                                        view->FillRect(knob.OffsetByCopy(0, -spacer));
+                                        view->SetHighColor(knobLight);
+                                        view->FillRect(knob.OffsetByCopy(1, -spacer + 1));
+                                }
 
-				if (rect.bottom - 3 > vmiddle + spacer) {
-					view->SetHighColor(knobDark);
-					view->FillRect(knob.OffsetByCopy(0, spacer));
-					view->SetHighColor(knobLight);
-					view->FillRect(knob.OffsetByCopy(1, spacer + 1));
-				}
-			}
-		} else if (knobStyle == B_KNOB_LINES && isEnabled) {
-			// draw lines on the scroll bar thumb
-			if (orientation == B_HORIZONTAL) {
-				float middle = rect.Width() / 2;
+                                if (rect.bottom - 3 > vmiddle + spacer) {
+                                        view->SetHighColor(knobDark);
+                                        view->FillRect(knob.OffsetByCopy(0, spacer));
+                                        view->SetHighColor(knobLight);
+                                        view->FillRect(knob.OffsetByCopy(1, spacer + 1));
+                                }
+                        }
+                } else if (knobStyle == B_KNOB_LINES && isEnabled) {
+                        // draw lines on the scroll bar thumb
+                        if (orientation == B_HORIZONTAL) {
+                                float middle = rect.Width() / 2;
 
-				view->BeginLineArray(6);
-				view->AddLine(
-					BPoint(rect.left + middle - 3, rect.top + 2),
-					BPoint(rect.left + middle - 3, rect.bottom - 2),
-					knobDark);
-				view->AddLine(
-					BPoint(rect.left + middle, rect.top + 2),
-					BPoint(rect.left + middle, rect.bottom - 2),
-					knobDark);
-				view->AddLine(
-					BPoint(rect.left + middle + 3, rect.top + 2),
-					BPoint(rect.left + middle + 3, rect.bottom - 2),
-					knobDark);
-				view->AddLine(
-					BPoint(rect.left + middle - 2, rect.top + 2),
-					BPoint(rect.left + middle - 2, rect.bottom - 2),
-					knobLight);
-				view->AddLine(
-					BPoint(rect.left + middle + 1, rect.top + 2),
-					BPoint(rect.left + middle + 1, rect.bottom - 2),
-					knobLight);
-				view->AddLine(
-					BPoint(rect.left + middle + 4, rect.top + 2),
-					BPoint(rect.left + middle + 4, rect.bottom - 2),
-					knobLight);
-				view->EndLineArray();
-			} else {
-				// B_VERTICAL
-				float middle = rect.Height() / 2;
+                                view->BeginLineArray(6);
+                                view->AddLine(
+                                        BPoint(rect.left + middle - 3, rect.top + 2),
+                                        BPoint(rect.left + middle - 3, rect.bottom - 2),
+                                        knobDark);
+                                view->AddLine(
+                                        BPoint(rect.left + middle, rect.top + 2),
+                                        BPoint(rect.left + middle, rect.bottom - 2),
+                                        knobDark);
+                                view->AddLine(
+                                        BPoint(rect.left + middle + 3, rect.top + 2),
+                                        BPoint(rect.left + middle + 3, rect.bottom - 2),
+                                        knobDark);
+                                view->AddLine(
+                                        BPoint(rect.left + middle - 2, rect.top + 2),
+                                        BPoint(rect.left + middle - 2, rect.bottom - 2),
+                                        knobLight);
+                                view->AddLine(
+                                        BPoint(rect.left + middle + 1, rect.top + 2),
+                                        BPoint(rect.left + middle + 1, rect.bottom - 2),
+                                        knobLight);
+                                view->AddLine(
+                                        BPoint(rect.left + middle + 4, rect.top + 2),
+                                        BPoint(rect.left + middle + 4, rect.bottom - 2),
+                                        knobLight);
+                                view->EndLineArray();
+                        } else {
+                                // B_VERTICAL
+                                float middle = rect.Height() / 2;
 
-				view->BeginLineArray(6);
-				view->AddLine(
-					BPoint(rect.left + 2, rect.top + middle - 3),
-					BPoint(rect.right - 2, rect.top + middle - 3),
-					knobDark);
-				view->AddLine(
-					BPoint(rect.left + 2, rect.top + middle),
-					BPoint(rect.right - 2, rect.top + middle),
-					knobDark);
-				view->AddLine(
-					BPoint(rect.left + 2, rect.top + middle + 3),
-					BPoint(rect.right - 2, rect.top + middle + 3),
-					knobDark);
-				view->AddLine(
-					BPoint(rect.left + 2, rect.top + middle - 2),
-					BPoint(rect.right - 2, rect.top + middle - 2),
-					knobLight);
-				view->AddLine(
-					BPoint(rect.left + 2, rect.top + middle + 1),
-					BPoint(rect.right - 2, rect.top + middle + 1),
-					knobLight);
-				view->AddLine(
-					BPoint(rect.left + 2, rect.top + middle + 4),
-					BPoint(rect.right - 2, rect.top + middle + 4),
-					knobLight);
-				view->EndLineArray();
-			}
-		}
-	}
+                                view->BeginLineArray(6);
+                                view->AddLine(
+                                        BPoint(rect.left + 2, rect.top + middle - 3),
+                                        BPoint(rect.right - 2, rect.top + middle - 3),
+                                        knobDark);
+                                view->AddLine(
+                                        BPoint(rect.left + 2, rect.top + middle),
+                                        BPoint(rect.right - 2, rect.top + middle),
+                                        knobDark);
+                                view->AddLine(
+                                        BPoint(rect.left + 2, rect.top + middle + 3),
+                                        BPoint(rect.right - 2, rect.top + middle + 3),
+                                        knobDark);
+                                view->AddLine(
+                                        BPoint(rect.left + 2, rect.top + middle - 2),
+                                        BPoint(rect.right - 2, rect.top + middle - 2),
+                                        knobLight);
+                                view->AddLine(
+                                        BPoint(rect.left + 2, rect.top + middle + 1),
+                                        BPoint(rect.right - 2, rect.top + middle + 1),
+                                        knobLight);
+                                view->AddLine(
+                                        BPoint(rect.left + 2, rect.top + middle + 4),
+                                        BPoint(rect.right - 2, rect.top + middle + 4),
+                                        knobLight);
+                                view->EndLineArray();
+                        }
+                }
+        }
 
-	view->PopState();
+        view->PopState();
 }
 
 void
