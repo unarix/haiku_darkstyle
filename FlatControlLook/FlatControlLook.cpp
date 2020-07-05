@@ -317,21 +317,27 @@ HaikuControlLook::_DrawButtonFrame(BView* view, BRect& rect,
         // clip out the corners
         view->ConstrainClippingRegion(&clipping);
 
-		// draw outer edge
+		// draw outer edge only for default button!!! B_SUCCESS_COLOR
         if ((flags & B_DEFAULT_BUTTON) != 0) {
-                _DrawOuterResessedFrame(view, rect, defaultIndicatorColor,
+                _DrawOuterResessedFrame(view, rect, ui_color(B_WINDOW_TAB_COLOR),
                         contrast * ((flags & B_DISABLED) != 0 ? 0.3 : 0.8),
                         brightness * ((flags & B_DISABLED) != 0 ? 0.3 : 0.9),
                         flags, borders);
-        } else {
-                _DrawOuterResessedFrame(view, rect, customColor,
-                        contrast * ((flags & B_DISABLED) != 0 ? 0.3 : 1.0),
-                        brightness * 1.0, flags, borders);
         }
+//		else {
+//                _DrawOuterResessedFrame(view, rect, customColor,
+//                        contrast * ((flags & B_DISABLED) != 0 ? 0.3 : 1.0),
+//                        brightness * 1.0, flags, borders);
+//        }
 
         view->SetDrawingMode(oldMode);
 
-		rgb_color customColor2 = tint_color(background, 1.14); // custom color for borders
+		rgb_color customColor2 = tint_color(background, 1.14);
+
+		//if the color BACKGROUND used is too dark, then make it lighter using the same as B_CONTROL_TEXT_COLOR
+		if (base.red + base.green + base.blue <= 128 * 3) {
+			customColor2 = tint_color(ui_color(B_CONTROL_TEXT_COLOR), 1.57);
+		}
 
         // draw frame
         if ((flags & B_BLEND_FRAME) != 0) {
@@ -569,7 +575,7 @@ FlatControlLook::_DrawNonFlatButtonBackground(BView* view, BRect& rect,
 		if ((flags & B_ACTIVATED) != 0)
 			indicatorRect.top++;
 
-		_DrawPopUpMarker(view, indicatorRect, base, flags);
+		_DrawPopUpMarker(view, indicatorRect, ui_color(B_MENU_ITEM_TEXT_COLOR), flags);
 	}
 
 	// fill in the background
@@ -597,7 +603,7 @@ HaikuControlLook::_DrawPopUpMarker(BView* view, const BRect& rect,
 	if ((flags & B_DISABLED) != 0)
 		markColor = tint_color(base, 1.0);
 	else
-		markColor = tint_color(base, 1.70);
+		markColor = tint_color(base, 1.0);
 
 	view->SetHighColor(markColor);
 	view->FillTriangle(triangle[0], triangle[1], triangle[2]);
@@ -688,8 +694,10 @@ HaikuControlLook::DrawScrollBarButton(BView* view, BRect rect,
 		BControlLook::B_ALL_BORDERS, orientation);
 
 	rect.InsetBy(-1, -1);
-	DrawArrowShape(view, rect, updateRect, base, direction, flags, 1.9f);
-		// almost but not quite B_DARKEN_MAX_TINT
+	if(isEnabled)
+		DrawArrowShape(view, rect, updateRect, ui_color(B_CONTROL_TEXT_COLOR), direction, flags, 1.1f);
+	else
+		DrawArrowShape(view, rect, updateRect, ui_color(B_CONTROL_TEXT_COLOR), direction, flags, 2.5f);
 
 	// revert clipping constraints
 	BRegion clipping(updateRect);
@@ -751,12 +759,12 @@ FlatControlLook::DrawScrollBarThumb(BView* view, BRect& rect,
                 view->FillRect(rect);
         }
 
-        knobStyle = B_KNOB_LINES;
+        knobStyle = B_KNOB_LINES; //Hard set of the knobstyle
 
         // draw knob style
         if (knobStyle != B_KNOB_NONE) {
                 rgb_color knobLight = isEnabled
-                        ? tint_color(thumbColor, 1.0)
+                        ? tint_color(thumbColor, 0.85)
                         : tint_color(dark1, bgTint);
                 rgb_color knobDark = isEnabled
                         ? tint_color(thumbColor, 1.2)
@@ -884,7 +892,7 @@ void
 HaikuControlLook::DrawGroupFrame(BView* view, BRect& rect, const BRect& updateRect,
 	const rgb_color& base, uint32 borders)
 {
-	rgb_color frameColor = tint_color(base, 1.05);
+	rgb_color frameColor = tint_color(base, 1.06);
 	rgb_color bevelLight = tint_color(base, 1.0);
 	rgb_color bevelShadow = tint_color(base, 1.0);
 
@@ -1313,17 +1321,18 @@ FlatControlLook::_DrawMenuFieldBackgroundOutside(BView* view, BRect& rect,
 		rightRect.left = rightRect.right - 9;
 
 		_DrawMenuFieldBackgroundInside(view, leftRect, updateRect,
-			leftTopRadius, 0.0f, leftBottomRadius, 0.0f, base, flags,
+			leftTopRadius, 0.0f, leftBottomRadius, 0.0f, tint_color(base, 0.95), flags,
 			B_LEFT_BORDER | B_TOP_BORDER | B_BOTTOM_BORDER);
 
 		_DrawMenuFieldBackgroundInside(view, rightRect, updateRect,
-			0.0f, rightTopRadius, 0.0f, rightBottomRadius, base, flags,
+			0.0f, rightTopRadius, 0.0f, rightBottomRadius, tint_color(base, 1.04), flags,
 			B_TOP_BORDER | B_RIGHT_BORDER | B_BOTTOM_BORDER);
 
-		_DrawPopUpMarker(view, rightRect, base, flags);
+		_DrawPopUpMarker(view, rightRect, ui_color(B_MENU_ITEM_TEXT_COLOR), flags);
 
-		// draw a line on the left of the popup frame
-		rgb_color bevelShadowColor = _BevelShadowColor(base, flags);
+		// draw a line on the left of the popup frame, this line separate the arrow to the bottom control
+		//rgb_color bevelShadowColor = _BevelShadowColor(base, flags);
+		rgb_color bevelShadowColor = tint_color(base, 1.1);
 		view->SetHighColor(bevelShadowColor);
 		BPoint leftTopCorner(floorf(rightRect.left - 1.0),
 			floorf(rightRect.top - 1.0));
