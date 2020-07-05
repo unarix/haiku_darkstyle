@@ -516,13 +516,13 @@ FlatDecorator::_DrawTab(Decorator::Tab* tab, BRect invalid)
 	BGradientLinear gradient;
 	gradient.SetStart(tabRect.LeftTop());
 	if (tab && tab->buttonFocus) {
-		gradient.AddColor(tint_color(colors[COLOR_TAB], 0.6), 0);
-		gradient.AddColor(tint_color(colors[COLOR_TAB], 1.0), 50);
+		gradient.AddColor(tint_color(colors[COLOR_TAB], 0.4), 0);
+		gradient.AddColor(tint_color(colors[COLOR_TAB], 1.0), 100);
 	}
 	else
 	{
 		gradient.AddColor(tint_color(colors[COLOR_TAB], 0.9), 0);
-		gradient.AddColor(tint_color(colors[COLOR_TAB], 1.0), 40);
+		gradient.AddColor(tint_color(colors[COLOR_TAB], 1.0), 50);
 	}
 
 	if (tab->look != kLeftTitledWindowLook) {
@@ -694,7 +694,8 @@ FlatDecorator::_DrawBlendedRect(DrawingEngine* engine, const BRect rect,
 	bool down, const ComponentColors& colors)
 {
 
-	//rgb_color color = {255,162,0,255};
+	rgb_color color = {255,162,0,255};
+	engine->FillRect(rect, B_TRANSPARENT_COLOR);
 
 	// figure out which colors to use
 	rgb_color startColor, endColor;
@@ -702,7 +703,7 @@ FlatDecorator::_DrawBlendedRect(DrawingEngine* engine, const BRect rect,
 		startColor = tint_color(colors[COLOR_BUTTON], 1.0);
 		endColor = tint_color(colors[COLOR_BUTTON], 0.9);
 	} else {
-		startColor = tint_color(colors[COLOR_BUTTON], 1.0);
+		startColor = tint_color(colors[COLOR_BUTTON], 0.95);
 		endColor = tint_color(colors[COLOR_BUTTON], 0.6);
 	}
 
@@ -717,8 +718,12 @@ FlatDecorator::_DrawBlendedRect(DrawingEngine* engine, const BRect rect,
 
 	engine->FillRect(fillRect, gradient);
 
+	//engine->DrawEllipse(rect, false);
+	//sBitmapDrawingEngine->FillEllipse(fillRect,gradient);
+
 	// outline
 	engine->StrokeRect(rect, tint_color(colors[COLOR_BUTTON], 1.25));
+
 }
 
 
