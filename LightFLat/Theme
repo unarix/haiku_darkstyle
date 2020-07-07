@@ -11,7 +11,7 @@ BMessage('ZThm') {
 		be:bgndimginfoerasetext[1] = bool(true)
 		// Actual backdrop image file
 		be:bgndimginfopath[0] = string("/boot/home/unarix.jpg", 21 bytes)
-		be:bgndimginfopath[1] = string("/boot/home/Pictures/sky_haiku.png", 33 bytes)
+		be:bgndimginfopath[1] = string("/boot/home/Pictures/wallpaper.png", 33 bytes)
 		// Workspaces each backdrop apply to
 		be:bgndimginfoworkspaces[0] = int32(4294967294 or 0xfffffffe)
 		be:bgndimginfoworkspaces[1] = int32(1 or 0x1)
