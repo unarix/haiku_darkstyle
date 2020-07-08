@@ -100,7 +100,7 @@ BMessage('ZThm') {
 		// List Selected Item Text
 		h:c:LstSTx = rgb_color(170,170,170,255)
 		// Scrollbar Thumb
-		h:c:SbThb = rgb_color(64,64,64,255)
+		h:c:SbThb = rgb_color(76,76,76,255)
 		// System Plain
 		be:f:be_plain_font = BFont(Noto Sans Display/Regular/12.00, shear=90.00, rot=0.00, height=12.82+3.50+0.00)
 		// System Bold
