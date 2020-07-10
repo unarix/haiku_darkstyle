@@ -460,15 +460,15 @@ FlatDecorator::_DrawTab(Decorator::Tab* tab, BRect invalid)
 	if (tab && tab->buttonFocus) {
 		// outer frame
 		fDrawingEngine->StrokeLine(tabRect.LeftTop(), tabRect.LeftBottom(),
-			colors[COLOR_TAB]);
+			colors[COLOR_TAB_FRAME_DARK]);
 		fDrawingEngine->StrokeLine(tabRect.LeftTop(), tabRect.RightTop(),
-			tint_color(colors[COLOR_TAB], 0.8));
+			colors[COLOR_TAB_FRAME_DARK]);
 		if (tab->look != kLeftTitledWindowLook) {
 			fDrawingEngine->StrokeLine(tabRect.RightTop(), tabRect.RightBottom(),
-				colors[COLOR_TAB]);
+				colors[COLOR_TAB_FRAME_DARK]);
 		} else {
 			fDrawingEngine->StrokeLine(tabRect.LeftBottom(),
-				tabRect.RightBottom(), colors[COLOR_TAB]);
+				tabRect.RightBottom(), fFocusFrameColor);
 		}
 	}
 	else
@@ -483,7 +483,7 @@ FlatDecorator::_DrawTab(Decorator::Tab* tab, BRect invalid)
 				colors[COLOR_TAB_FRAME_DARK]);
 		} else {
 			fDrawingEngine->StrokeLine(tabRect.LeftBottom(),
-				tabRect.RightBottom(), colors[COLOR_TAB_FRAME_DARK]);
+				tabRect.RightBottom(), fFocusFrameColor);
 		}
 	}
 

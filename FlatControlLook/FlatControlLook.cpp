@@ -893,16 +893,14 @@ HaikuControlLook::DrawGroupFrame(BView* view, BRect& rect, const BRect& updateRe
 	const rgb_color& base, uint32 borders)
 {
 	rgb_color frameColor = tint_color(base, 1.06);
-	rgb_color bevelLight = tint_color(base, 1.0);
-	rgb_color bevelShadow = tint_color(base, 1.0);
 
-	_DrawFrame(view, rect, bevelShadow, bevelShadow, bevelLight, bevelLight,
-		borders);
+	// if the base color is too dark, then lets make it lighter
+	if (base.red + base.green + base.blue <= 128 * 3) {
+		frameColor = tint_color(base, 0.95);;
+	}
 
+	//Draws only one flat frame:
 	_DrawFrame(view, rect, frameColor, frameColor, frameColor, frameColor,
-		borders);
-
-	_DrawFrame(view, rect, bevelLight, bevelLight, bevelShadow, bevelShadow,
 		borders);
 }
 
