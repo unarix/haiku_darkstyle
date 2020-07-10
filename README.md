@@ -25,10 +25,10 @@ Are three flat themes to use with the decorators and controllok:
 ![alt text](https://raw.githubusercontent.com/unarix/haiku_darkstyle/master/DarkFlat/screenshot.png?raw=true)
 
 ### LightFlat
-![alt text](https://raw.githubusercontent.com/unarix/haiku_darkstyle/master/LightFlat/screenshot.png?raw=true)
+![alt text](https://raw.githubusercontent.com/unarix/haiku_darkstyle/master/LightFLat/screenshot.png?raw=true)
 
 ### MoonFlat
-![alt text](https://raw.githubusercontent.com/unarix/haiku_darkstyle/master/MoonFlat/screenshot.png?raw=true)
+![alt text](https://raw.githubusercontent.com/unarix/haiku_darkstyle/master/MoonFLat/screenshot.png?raw=true)
 
 # Guide
 How to make ControlLooks & Decorators in Haiku:
