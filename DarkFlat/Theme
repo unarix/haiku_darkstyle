@@ -117,7 +117,7 @@ BMessage('ZThm') {
 	// Window decorations and scrollbars
 	window_decorations = BMessage(0x00000000) {
 		// Window decor
-		window:decor = string("/boot/home/config/non-packaged/add-ons/decorators/FlatDecorator", 63 bytes)
+		window:decor = string("/boot/system/add-ons/decorators/FlatDecorator", 45 bytes)
 		// Window decor parameters
 		window:decor_globals = BMessage(0x00000000) {
 			// Window decor parameters
@@ -139,6 +139,86 @@ BMessage('ZThm') {
 			fCirclePerc = int32(30 or 0x1e)
 			fDark = bool(true)
 		}
+	}
+	// Sounds Settings
+	sounds_settings = BMessage(0x00000000) {
+		BeShare-DLFinished = BMessage('SndI') {
+		}
+		BeShare-InactivChat = BMessage('SndI') {
+		}
+		BeShare-Name Said = BMessage('SndI') {
+		}
+		BeShare-NoComplete = BMessage('SndI') {
+		}
+		BeShare-Private Msg = BMessage('SndI') {
+		}
+		BeShare-PrivateWndw = BMessage('SndI') {
+		}
+		BeShare-ULFinished = BMessage('SndI') {
+		}
+		BeShare-ULStarted = BMessage('SndI') {
+		}
+		BeShare-WatchedUser = BMessage('SndI') {
+		}
+		Beep = BMessage('SndI') {
+		}
+		Error notification = BMessage('SndI') {
+		}
+		Important notification = BMessage('SndI') {
+		}
+		Information notification = BMessage('SndI') {
+		}
+		Key down = BMessage('SndI') {
+		}
+		Key repeat = BMessage('SndI') {
+		}
+		Key up = BMessage('SndI') {
+		}
+		Keymap switch = BMessage('SndI') {
+		}
+		Mouse down = BMessage('SndI') {
+		}
+		Mouse up = BMessage('SndI') {
+		}
+		New E-mail = BMessage('SndI') {
+		}
+		Progress notification = BMessage('SndI') {
+		}
+		Startup = BMessage('SndI') {
+		}
+		Vision Nick Notification = BMessage('SndI') {
+		}
+		Window activated = BMessage('SndI') {
+		}
+		Window close = BMessage('SndI') {
+		}
+		Window minimized = BMessage('SndI') {
+		}
+		Window open = BMessage('SndI') {
+		}
+		Window restored = BMessage('SndI') {
+		}
+		Window zoomed = BMessage('SndI') {
+		}
+	}
+	// Terminal Preferences
+	terminal_prefs = BMessage(0x00000000) {
+		// Terminal column count
+		term:cols = int32(80 or 0x50)
+		// Terminal row count
+		term:rows = int32(25 or 0x19)
+		// Terminal background color
+		term:c:bg = rgb_color(255,255,255,255)
+		// Terminal foreground color
+		term:c:fg = rgb_color(0,0,0,255)
+		// Terminal cursor background color
+		term:c:curbg = rgb_color(0,0,0,255)
+		// Terminal cursor foreground color
+		term:c:curfg = rgb_color(255,255,255,255)
+		// Terminal selection background color
+		term:c:selbg = rgb_color(0,0,0,255)
+		// Terminal selection foreground color
+		term:c:selfg = rgb_color(255,255,255,255)
 	}
 	// CLAmp/SoundPlay Skin Settings
 	winamp_skin_settings = BMessage(0x00000000) {

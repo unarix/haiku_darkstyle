@@ -172,15 +172,15 @@ FlatDecorator::GetComponentColors(Component component, uint8 highlight,
 				_colors[1] = tint_color(fFocusFrameColor, B_NO_TINT);
 				_colors[2] = tint_color(fFocusFrameColor, B_NO_TINT);
 				_colors[3] = tint_color(fFocusFrameColor, B_NO_TINT);
-				_colors[4] = tint_color(fFocusFrameColor, 1.02); // borde interior
-				_colors[5] = tint_color(fFocusFrameColor, B_NO_TINT);
+				_colors[4] = tint_color(fFocusFrameColor, 1.05); // borde interior
+				_colors[5] = tint_color(fFocusFrameColor, 0.95); // borde menu inicio
 			} else {
 				_colors[0] = tint_color(fNonFocusFrameColor, 1.25); // borde exterior
 				_colors[1] = tint_color(fNonFocusFrameColor, B_NO_TINT);
 				_colors[2] = tint_color(fNonFocusFrameColor, B_NO_TINT);
 				_colors[3] = tint_color(fNonFocusFrameColor, B_NO_TINT);
-				_colors[4] = tint_color(fNonFocusFrameColor, 1.02); // borde interior
-				_colors[5] = tint_color(fNonFocusFrameColor, B_NO_TINT);
+				_colors[4] = tint_color(fNonFocusFrameColor, 1.05); // borde interior
+				_colors[5] = tint_color(fNonFocusFrameColor, 0.95); // borde menu inicio
 			}
 
 			// for the resize-border highlight dye everything bluish.
@@ -376,8 +376,8 @@ FlatDecorator::_DrawFrame(BRect rect)
 				BGradientLinear gradient;
 				gradient.SetStart(bg.LeftTop());
 				gradient.SetEnd(bg.RightBottom());
-				gradient.AddColor(colors[1], 0);
-				gradient.AddColor(colors[2], 255);
+				gradient.AddColor(tint_color(colors[1], 1.11), 0);
+				gradient.AddColor(tint_color(colors[1], 0.95), 255);
 
 				fDrawingEngine->FillRect(bg, gradient);
 
@@ -399,8 +399,8 @@ FlatDecorator::_DrawFrame(BRect rect)
 					for (int8 j = 1; j <= i; j++) {
 						BPoint pt1(x - (3 * j) + 1, y - (3 * (5 - i)) + 1);
 						BPoint pt2(x - (3 * j) + 2, y - (3 * (5 - i)) + 2);
-						fDrawingEngine->StrokePoint(pt1, tint_color(colors[0], 1.5));
-						fDrawingEngine->StrokePoint(pt2, tint_color(colors[0], 0.5));
+						fDrawingEngine->StrokePoint(pt1, tint_color(colors[1], 1.3));
+						fDrawingEngine->StrokePoint(pt2, tint_color(colors[1], 0.9));
 					}
 				}
 				break;
@@ -419,11 +419,11 @@ FlatDecorator::_DrawFrame(BRect rect)
 				fDrawingEngine->StrokeLine(
 					BPoint(fRightBorder.left, fBottomBorder.bottom - kBorderResizeLength),
 					BPoint(fRightBorder.right - 1, fBottomBorder.bottom - kBorderResizeLength),
-					colors[0]);
+					tint_color(colors[1], 1.4));
 				fDrawingEngine->StrokeLine(
 					BPoint(fRightBorder.right - kBorderResizeLength, fBottomBorder.top),
 					BPoint(fRightBorder.right - kBorderResizeLength, fBottomBorder.bottom - 1),
-					colors[0]);
+					tint_color(colors[1], 1.4));
 				break;
 			}
 

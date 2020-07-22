@@ -82,7 +82,7 @@ SYSTEM_INCLUDE_PATHS = \
 	/boot/system/develop/headers/private/notification/ \
 	/boot/system/develop/headers/private/tracker/ \
 	/boot/system/develop/headers/private/interface/
-	
+
 #	Additional paths paths to look for local headers. These use the form
 #	#include "header". Directories that contain the files in SRCS are
 #	automatically included.

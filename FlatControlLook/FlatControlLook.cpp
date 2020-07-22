@@ -66,10 +66,10 @@ FlatControlLook::DrawMenuBarBackground(BView* view, BRect& rect,
 	// the surface edges
 
 	// colors
-	float topTint;
-	float bottomTint;
+	float topTint = 1.0;
+	float bottomTint = 1.0;
 
-	if ((flags & B_ACTIVATED) != 0) {
+	/*if ((flags & B_ACTIVATED) != 0) {
 		rgb_color bevelColor1 = tint_color(base, 1.0);
 		rgb_color bevelColor2 = tint_color(base, 1.0);
 
@@ -94,13 +94,128 @@ FlatControlLook::DrawMenuBarBackground(BView* view, BRect& rect,
 			bevelColorRightBottom, bevelColorRightBottom,
 			cornerColor, cornerColor,
 			borders);
-	}
+	}*/
 
 	// draw surface top
 	//_FillGradient(view, rect, base, bottomTint, topTint);
 	_FillGradient(view, rect, base, topTint, bottomTint);
 }
 
+void
+HaikuControlLook::DrawMenuBackground(BView* view, BRect& rect,
+	const BRect& updateRect, const rgb_color& base, uint32 flags,
+	uint32 borders)
+{
+	if (!rect.IsValid() || !rect.Intersects(updateRect))
+		return;
+
+	// surface top color
+	rgb_color background = tint_color(base, 0.80);
+
+	// inner bevel colors
+	rgb_color bevelColor = tint_color(background, 1.2);
+
+	// draw inner bevel
+	_DrawFrame(view, rect,
+		bevelColor, bevelColor,
+		bevelColor, bevelColor,
+		borders);
+
+	// draw surface top
+	view->SetHighColor(background);
+	view->FillRect(rect);
+}
+
+rgb_color
+HaikuControlLook::SliderBarColor(const rgb_color& base)
+{
+	rgb_color customColor = tint_color(ui_color(B_PANEL_BACKGROUND_COLOR), 1.05);
+	//if the color BACKGROUND used is too dark, then make it lighter using the same as B_CONTROL_TEXT_COLOR
+	if (base.red + base.green + base.blue <= 128 * 3) {
+		customColor = tint_color(ui_color(B_PANEL_BACKGROUND_COLOR), 0.95);
+	}
+
+	return customColor;
+}
+
+void
+HaikuControlLook::DrawSliderThumb(BView* view, BRect& rect, const BRect& updateRect,
+	const rgb_color& base, uint32 flags, orientation orientation)
+{
+	if (!rect.IsValid() || !rect.Intersects(updateRect))
+		return;
+
+	// figure out frame color
+	rgb_color frameLightColor;
+	rgb_color frameShadowColor;
+	rgb_color shadowColor = tint_color(ui_color(B_CONTROL_TEXT_COLOR), 0.5);
+
+	//if the color BACKGROUND used is too dark, then make it lighter using the same as B_CONTROL_TEXT_COLOR
+	if (base.red + base.green + base.blue <= 128 * 3) {
+		shadowColor = tint_color(ui_color(B_CONTROL_TEXT_COLOR), 1.4);
+	}
+
+	if ((flags & B_FOCUSED) != 0) {
+		// focused
+		frameLightColor = ui_color(B_KEYBOARD_NAVIGATION_COLOR);
+		frameShadowColor = frameLightColor;
+	} else {
+		// figure out the tints to be used
+		float frameLightTint;
+		float frameShadowTint;
+
+		if ((flags & B_DISABLED) != 0) {
+			frameLightTint = 1.30;
+			frameShadowTint = 1.35;
+			shadowColor.alpha = 30;
+		} else {
+			frameLightTint = 1.6;
+			frameShadowTint = 1.65;
+		}
+
+		frameLightColor = tint_color(base, frameLightTint);
+		frameShadowColor = tint_color(base, frameShadowTint);
+	}
+
+	BRect originalRect(rect);
+	rect.right--;
+	rect.bottom--;
+
+	_DrawFrame(view, rect, shadowColor, shadowColor,
+		shadowColor, shadowColor);
+
+	flags &= ~B_ACTIVATED;
+	DrawButtonBackground(view, rect, updateRect, base, flags);
+
+
+	// thumb edge
+	if (orientation == B_HORIZONTAL) {
+		rect.InsetBy(0, floorf(rect.Height() / 4));
+		rect.left = floorf((rect.left + rect.right) / 2);
+		rect.right = rect.left;
+		shadowColor = tint_color(shadowColor, 1.1);
+		view->SetHighColor(shadowColor);
+		view->StrokeLine(rect.LeftTop(), rect.LeftBottom());
+		rgb_color lightColor = tint_color(shadowColor, 1.0);
+		lightColor.alpha = 128;
+		view->SetHighColor(lightColor);
+		view->StrokeLine(rect.RightTop(), rect.RightBottom());
+	} else {
+		rect.InsetBy(floorf(rect.Width() / 4), 0);
+		rect.top = floorf((rect.top + rect.bottom) / 2);
+		rect.bottom = rect.top + 1;
+		shadowColor = tint_color(shadowColor, 1.1);
+		shadowColor.alpha = 128;
+		view->SetHighColor(shadowColor);
+		view->StrokeLine(rect.LeftTop(), rect.RightTop());
+		rgb_color lightColor = tint_color(shadowColor, 1.0);
+		lightColor.alpha = 128;
+		view->SetHighColor(lightColor);
+		view->StrokeLine(rect.LeftBottom(), rect.RightBottom());
+	}
+
+	view->SetDrawingMode(B_OP_COPY);
+}
 
 void
 FlatControlLook::DrawMenuItemBackground(BView* view, BRect& rect,
@@ -116,14 +231,14 @@ FlatControlLook::DrawMenuItemBackground(BView* view, BRect& rect,
 	rgb_color selectedColor = base;
 
 	if ((flags & B_ACTIVATED) != 0) {
-		topTint = 1.0;
-		bottomTint = 1.10;
+		topTint = 0.95;
+		bottomTint = 1.1;
 	} else if ((flags & B_DISABLED) != 0) {
-		topTint = 1.10;
-		bottomTint = 1.20;
-	} else {
 		topTint = 1.0;
-		bottomTint = 1.10;
+		bottomTint = 1.0;
+	} else {
+		topTint = 0.95;
+		bottomTint = 1.1;
 	}
 
 	rgb_color bevelLightColor = tint_color(selectedColor, topTint);
@@ -185,7 +300,7 @@ HaikuControlLook::_DrawButtonFrame(BView* view, BRect& rect,
 	uint32 flags, uint32 borders)
 {
 
-        rgb_color customColor = tint_color(background, 1.0); // custom color for borders
+        rgb_color customColor = background; //tint_color(background, 1.0); // custom color for borders
 
         if (!rect.IsValid())
                 return;
@@ -203,8 +318,6 @@ HaikuControlLook::_DrawButtonFrame(BView* view, BRect& rect,
                 && (flags & (B_ACTIVATED | B_PARTIALLY_ACTIVATED)) == 0
                 && ((flags & (B_HOVER | B_FOCUSED)) == 0
                         || (flags & B_DISABLED) != 0)) {
-                _DrawFrame(view, rect, customColor, customColor, customColor,
-                        customColor, borders);
                 _DrawFrame(view, rect, customColor, customColor, customColor,
                         customColor, borders);
                 view->PopState();
@@ -226,7 +339,7 @@ HaikuControlLook::_DrawButtonFrame(BView* view, BRect& rect,
 
         drawing_mode oldMode = view->DrawingMode();
 
-        if ((flags & B_DEFAULT_BUTTON) != 0) {
+        /*if ((flags & B_DEFAULT_BUTTON) != 0) {
                 cornerBgColor = defaultIndicatorColor;
                 edgeLightColor = _EdgeLightColor(defaultIndicatorColor,
                         contrast * ((flags & B_DISABLED) != 0 ? 0.0 : 0.0),
@@ -260,7 +373,7 @@ HaikuControlLook::_DrawButtonFrame(BView* view, BRect& rect,
                 edgeShadowColor = _EdgeShadowColor(customColor,
                         contrast * (flags & B_DISABLED) != 0 ? 0.0 : 0.0,
                         brightness * 0.0, flags);
-        }
+        }*/
 
         // frame colors
         rgb_color frameLightColor  = _FrameLightColor(base, flags);
@@ -324,11 +437,6 @@ HaikuControlLook::_DrawButtonFrame(BView* view, BRect& rect,
                         brightness * ((flags & B_DISABLED) != 0 ? 0.3 : 0.9),
                         flags, borders);
         }
-//		else {
-//                _DrawOuterResessedFrame(view, rect, customColor,
-//                        contrast * ((flags & B_DISABLED) != 0 ? 0.3 : 1.0),
-//                        brightness * 1.0, flags, borders);
-//        }
 
         view->SetDrawingMode(oldMode);
 
@@ -552,10 +660,8 @@ FlatControlLook::_DrawNonFlatButtonBackground(BView* view, BRect& rect,
 		if ((flags & B_ACTIVATED) != 0)
 			separatorBaseColor = tint_color(base, B_DARKEN_1_TINT);
 
-		rgb_color separatorLightColor = _EdgeShadowColor(separatorBaseColor,
-			(flags & B_DISABLED) != 0 ? 1.7 : 1.7, 2.0, flags);
-		rgb_color separatorShadowColor = _EdgeShadowColor(separatorBaseColor,
-			(flags & B_DISABLED) != 0 ? 1.7 : 1.7, 2.0, flags);
+		rgb_color separatorLightColor = tint_color(base, B_DARKEN_1_TINT);
+		rgb_color separatorShadowColor = tint_color(base, B_DARKEN_1_TINT);
 
 		view->BeginLineArray(2);
 
@@ -618,7 +724,7 @@ HaikuControlLook::_MakeButtonGradient(BGradientLinear& gradient, BRect& rect,
 	float topTint = 0.99;
 	float middleTint1 = 0.99;
 	float middleTint2 = 1.0;
-	float bottomTint = 1.04;
+	float bottomTint = 1.07;
 
 	if ((flags & B_ACTIVATED) != 0) {
 		topTint = 1.11;
@@ -723,13 +829,14 @@ FlatControlLook::DrawScrollBarThumb(BView* view, BRect& rect,
 
         // colors
         rgb_color thumbColor = ui_color(B_SCROLL_BAR_THUMB_COLOR);
-        const float bgTint = 1.06;
+		rgb_color base_panel = ui_color(B_PANEL_BACKGROUND_COLOR);
+        const float bgTint = 1.00;
 
         rgb_color light, dark, dark1, dark2;
-        light = tint_color(base, B_LIGHTEN_MAX_TINT);
-        dark = tint_color(base, B_DARKEN_3_TINT);
-        dark1 = tint_color(base, B_DARKEN_1_TINT);
-        dark2 = tint_color(base, B_DARKEN_2_TINT);
+        light = tint_color(base_panel, B_DARKEN_1_TINT);
+        dark = tint_color(base_panel, B_DARKEN_1_TINT);
+        dark1 = tint_color(base_panel, B_DARKEN_1_TINT);
+        dark2 = tint_color(base_panel, B_DARKEN_1_TINT);
 
         // draw thumb over background
         view->SetDrawingMode(B_OP_OVER);
@@ -738,11 +845,15 @@ FlatControlLook::DrawScrollBarThumb(BView* view, BRect& rect,
         // draw scroll thumb
         if (isEnabled) {
                 // fill the clickable surface of the thumb
-                DrawButtonBackground(view, rect, updateRect, thumbColor, 0,
-                        B_ALL_BORDERS, orientation);
+                //DrawButtonBackground(view, rect, updateRect, thumbColor, 0, B_ALL_BORDERS, orientation);
+					// set clipping constraints to updateRect
+				BRegion clipping(updateRect);
+				view->ConstrainClippingRegion(&clipping);
+				_DrawNonFlatButtonBackground(view, rect, updateRect, clipping, 0.0f, 0.0f, 0.0f, 0.0f, thumbColor, false, flags, B_ALL_BORDERS, orientation);
         } else {
+				_DrawNonFlatButtonBackground(view, rect, updateRect, clipping, 0.0f, 0.0f, 0.0f, 0.0f, tint_color(base_panel, 1.05), false, flags, B_ALL_BORDERS, orientation);
                 // thumb bevel
-                view->BeginLineArray(4);
+/*                view->BeginLineArray(4);
                 view->AddLine(BPoint(rect.left, rect.bottom),
                         BPoint(rect.left, rect.top), dark1);
                 view->AddLine(BPoint(rect.left + 1, rect.top),
@@ -756,7 +867,7 @@ FlatControlLook::DrawScrollBarThumb(BView* view, BRect& rect,
                 // thumb fill
                 rect.InsetBy(1, 1);
                 view->SetHighColor(dark1);
-                view->FillRect(rect);
+                view->FillRect(rect);*/
         }
 
         knobStyle = B_KNOB_LINES; //Hard set of the knobstyle
@@ -765,10 +876,10 @@ FlatControlLook::DrawScrollBarThumb(BView* view, BRect& rect,
         if (knobStyle != B_KNOB_NONE) {
                 rgb_color knobLight = isEnabled
                         ? tint_color(thumbColor, 0.85)
-                        : tint_color(dark1, bgTint);
+                        : tint_color(base_panel, 1.05);
                 rgb_color knobDark = isEnabled
-                        ? tint_color(thumbColor, 1.2)
-                        : tint_color(knobLight, 1.2);
+                        ? tint_color(thumbColor, 1.35)
+                        : tint_color(base_panel, 1.05);
 
                 if (knobStyle == B_KNOB_DOTS) {
                         // draw dots on the scroll bar thumb
@@ -820,7 +931,7 @@ FlatControlLook::DrawScrollBarThumb(BView* view, BRect& rect,
                                         view->FillRect(knob.OffsetByCopy(1, spacer + 1));
                                 }
                         }
-                } else if (knobStyle == B_KNOB_LINES && isEnabled) {
+                } else if (knobStyle == B_KNOB_LINES) {
                         // draw lines on the scroll bar thumb
                         if (orientation == B_HORIZONTAL) {
                                 float middle = rect.Width() / 2;
@@ -892,7 +1003,7 @@ void
 HaikuControlLook::DrawGroupFrame(BView* view, BRect& rect, const BRect& updateRect,
 	const rgb_color& base, uint32 borders)
 {
-	rgb_color frameColor = tint_color(base, 1.06);
+	rgb_color frameColor = tint_color(base, 1.1);
 
 	// if the base color is too dark, then lets make it lighter
 	if (base.red + base.green + base.blue <= 128 * 3) {
@@ -1087,8 +1198,6 @@ FlatControlLook::DrawSplitter(BView* view, BRect& rect, const BRect& updateRect,
 	const rgb_color& base, orientation orientation, uint32 flags,
 	uint32 borders)
 {
-	return;
-
 	if (!rect.IsValid() || !rect.Intersects(updateRect))
 		return;
 
@@ -1539,6 +1648,7 @@ FlatControlLook::_DrawMenuFieldBackgroundInside(BView* view, BRect& rect,
 }
 
 
+
 void
 FlatControlLook::DrawRaisedBorder(BView* view, BRect& rect,
 	const BRect& updateRect, const rgb_color& base, uint32 flags,
@@ -1655,16 +1765,13 @@ FlatControlLook::DrawBorder(BView* view, BRect& rect, const BRect& updateRect,
 		return;
 	//rgb_color scrollbarFrameColor = tint_color(base, B_DARKEN_1_TINT);
 
-	rgb_color scrollbarFrameColor = tint_color(base, 1.025);
-	if (base.red + base.green + base.blue <= 128 * 3) {
-		scrollbarFrameColor = tint_color(base, 1.025);
-	}
+	rgb_color scrollbarFrameColor = tint_color(base, 1.1);
 
-	if ((flags & B_FOCUSED) != 0)
-		scrollbarFrameColor = tint_color(base, 1.025);
+/*	if ((flags & B_FOCUSED) != 0)
+		scrollbarFrameColor = tint_color(base, 1.05);
 
 	if (borderStyle == B_FANCY_BORDER)
-		_DrawOuterResessedFrame(view, rect, base, 1.0, 1.0, flags, borders);
+		_DrawOuterResessedFrame(view, rect, base, 1.0, 1.0, flags, borders);*/
 
 	_DrawFrame(view, rect, scrollbarFrameColor, scrollbarFrameColor,
 		scrollbarFrameColor, scrollbarFrameColor, borders);
@@ -1744,10 +1851,8 @@ HaikuControlLook::_DrawOuterResessedFrame(BView* view, BRect& rect,
 	const rgb_color& base, float contrast, float brightness, uint32 flags,
 	uint32 borders)
 {
-	rgb_color edgeLightColor = _EdgeLightColor(base, contrast,
-		brightness, flags);
-	rgb_color edgeShadowColor = _EdgeShadowColor(base, contrast,
-		brightness, flags);
+	//rgb_color edgeLightColor = tint_color(base, 1.0); //_EdgeLightColor(base, contrast, brightness, flags);
+	rgb_color edgeShadowColor = tint_color(base, 1.0); //_EdgeShadowColor(base, contrast, brightness, flags);
 
 	if ((flags & B_BLEND_FRAME) != 0) {
 		// assumes the background has already been painted
