@@ -67,7 +67,7 @@ FlatControlLook::DrawMenuBarBackground(BView* view, BRect& rect,
 
 	// colors
 	float topTint = 1.0;
-	float bottomTint = 1.0;
+	float bottomTint = 1.05;
 
 	/*if ((flags & B_ACTIVATED) != 0) {
 		rgb_color bevelColor1 = tint_color(base, 1.0);
@@ -110,10 +110,10 @@ HaikuControlLook::DrawMenuBackground(BView* view, BRect& rect,
 		return;
 
 	// surface top color
-	rgb_color background = tint_color(base, 0.80);
+	rgb_color background = tint_color(base, 0.9);
 
 	// inner bevel colors
-	rgb_color bevelColor = tint_color(background, 1.2);
+	rgb_color bevelColor = tint_color(background, 1.05);
 
 	// draw inner bevel
 	_DrawFrame(view, rect,
@@ -231,7 +231,7 @@ FlatControlLook::DrawMenuItemBackground(BView* view, BRect& rect,
 	rgb_color selectedColor = base;
 
 	if ((flags & B_ACTIVATED) != 0) {
-		topTint = 0.95;
+		topTint = 0.94;
 		bottomTint = 1.1;
 	} else if ((flags & B_DISABLED) != 0) {
 		topTint = 1.0;
