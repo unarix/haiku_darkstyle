@@ -9,9 +9,6 @@ BMessage('ZThm') {
 		// If true, use desktop color as icon text background
 		be:bgndimginfoerasetext[0] = bool(true)
 		be:bgndimginfoerasetext[1] = bool(true)
-		// Actual backdrop image file
-		be:bgndimginfopath[0] = string("/boot/home/unarix.jpg", 21 bytes)
-		be:bgndimginfopath[1] = string("/boot/home/Pictures/wallpaper.png", 33 bytes)
 		// Workspaces each backdrop apply to
 		be:bgndimginfoworkspaces[0] = int32(4294967294 or 0xfffffffe)
 		be:bgndimginfoworkspaces[1] = int32(1 or 0x1)
@@ -100,19 +97,19 @@ BMessage('ZThm') {
 		// List Selected Item Text
 		h:c:LstSTx = rgb_color(170,170,170,255)
 		// Scrollbar Thumb
-		h:c:SbThb = rgb_color(50,56,61,255)
+		h:c:SbThb = rgb_color(255,187,46,255)
 		// System Plain
-		be:f:be_plain_font = BFont(Noto Sans Display/Regular/12.00, shear=90.00, rot=0.00, height=12.82+3.50+0.00)
+		be:f:be_plain_font = BFont(Noto Sans Display/Regular/12.00, shear=90.00, rot=0.00, height=12.83+3.52+0.00)
 		// System Bold
-		be:f:be_bold_font = BFont(Noto Sans Display/Regular/12.00, shear=90.00, rot=0.00, height=12.82+3.50+0.00)
+		be:f:be_bold_font = BFont(Noto Sans Display/Regular/12.00, shear=90.00, rot=0.00, height=12.83+3.52+0.00)
 		// System Fixed
-		be:f:be_fixed_font = BFont(Noto Mono/Regular/12.00, shear=90.00, rot=0.00, height=11.13+2.93+0.00)
+		be:f:be_fixed_font = BFont(Noto Sans Mono/Regular/12.00, shear=90.00, rot=0.00, height=12.83+3.52+0.00)
 		// Show Menu Triggers
 		be:MenTrig = bool(true)
 		// Menu Separator
 		be:MenSep = int32(0 or (nil))
 		// Menu Item Text
-		be:f:MenTx = BFont(Noto Sans Display/Regular/12.00, shear=90.00, rot=0.00, height=12.82+3.50+0.00)
+		be:f:MenTx = BFont(Noto Sans Display/Regular/12.00, shear=90.00, rot=0.00, height=12.83+3.52+0.00)
 	}
 	// Window decorations and scrollbars
 	window_decorations = BMessage(0x00000000) {
@@ -204,19 +201,19 @@ BMessage('ZThm') {
 	// Terminal Preferences
 	terminal_prefs = BMessage(0x00000000) {
 		// Terminal column count
-		term:cols = int32(80 or 0x50)
+		term:cols = int32(81 or 0x51)
 		// Terminal row count
-		term:rows = int32(25 or 0x19)
+		term:rows = int32(16 or 0x10)
 		// Terminal background color
-		term:c:bg = rgb_color(255,255,255,255)
+		term:c:bg = rgb_color(8,8,8,255)
 		// Terminal foreground color
-		term:c:fg = rgb_color(0,0,0,255)
+		term:c:fg = rgb_color(255,255,255,255)
 		// Terminal cursor background color
-		term:c:curbg = rgb_color(0,0,0,255)
+		term:c:curbg = rgb_color(255,255,255,255)
 		// Terminal cursor foreground color
-		term:c:curfg = rgb_color(255,255,255,255)
+		term:c:curfg = rgb_color(50,50,50,255)
 		// Terminal selection background color
-		term:c:selbg = rgb_color(0,0,0,255)
+		term:c:selbg = rgb_color(50,50,50,255)
 		// Terminal selection foreground color
 		term:c:selfg = rgb_color(255,255,255,255)
 	}
