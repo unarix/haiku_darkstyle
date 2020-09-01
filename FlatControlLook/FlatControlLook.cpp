@@ -264,7 +264,7 @@ FlatControlLook::DrawMenuFieldFrame(BView* view, BRect& rect,
 	const BRect& updateRect, const rgb_color& base,
 	const rgb_color& background, uint32 flags, uint32 borders)
 {
-	_DrawButtonFrame(view, rect, updateRect, 0.0f, 0.0f, 0.0f, 0.0f, base,
+	_DrawButtonFrame(view, rect, updateRect, 1.5f, 1.5f, 1.5f, 1.5f, base,
 		background, 1.0, 1.0, flags, borders);
 }
 
@@ -274,7 +274,7 @@ FlatControlLook::DrawMenuFieldFrame(BView* view, BRect& rect,
 	const BRect& updateRect, float radius, const rgb_color& base,
 	const rgb_color& background, uint32 flags, uint32 borders)
 {
-	_DrawButtonFrame(view, rect, updateRect, radius, radius, 0.0f, 0.0f,
+	_DrawButtonFrame(view, rect, updateRect, radius, radius, 1.5f, 1.5f,
 		base, background, 1.0, 1.0, flags, borders);
 }
 
@@ -287,7 +287,7 @@ FlatControlLook::DrawMenuFieldFrame(BView* view, BRect& rect,
 	const rgb_color& background, uint32 flags, uint32 borders)
 {
 	_DrawButtonFrame(view, rect, updateRect, leftTopRadius, rightTopRadius,
-		0.0f, 0.0f, base, background, 1.0, 1.0,
+		1.5f, 1.5f, base, background, 1.0, 1.0,
 		flags, borders);
 }
 
@@ -309,7 +309,7 @@ HaikuControlLook::_DrawButtonFrame(BView* view, BRect& rect,
 
 		//if the color BACKGROUND used is too dark, then make it lighter using the same as B_CONTROL_TEXT_COLOR
 		if (base.red + base.green + base.blue <= 128 * 3) {
-			customColor2 = tint_color(ui_color(B_CONTROL_TEXT_COLOR), 1.5);
+			customColor2 = tint_color(ui_color(B_CONTROL_TEXT_COLOR), 1.55);
 		}
 
         if (!rect.IsValid())
@@ -473,7 +473,7 @@ FlatControlLook::DrawButtonBackground(BView* view, BRect& rect,
 	const BRect& updateRect, const rgb_color& base, uint32 flags,
 	uint32 borders, orientation orientation)
 {
-	_DrawButtonBackground(view, rect, updateRect, 3.0f, 3.0f, 3.0f, 3.0f,
+	_DrawButtonBackground(view, rect, updateRect, 1.5f, 1.5f, 1.5f, 1.5f,
 		base, false, flags, borders, orientation);
 }
 
@@ -483,7 +483,7 @@ FlatControlLook::DrawButtonBackground(BView* view, BRect& rect,
 	const BRect& updateRect, float radius, const rgb_color& base, uint32 flags,
 	uint32 borders, orientation orientation)
 {
-	_DrawButtonBackground(view, rect, updateRect, 3.0f, 3.0f, 3.0f, 3.0f,
+	_DrawButtonBackground(view, rect, updateRect, 1.5f, 1.5f, 1.5f, 1.5f,
 		base, false, flags, borders, orientation);
 }
 
@@ -494,7 +494,7 @@ FlatControlLook::DrawButtonBackground(BView* view, BRect& rect,
 	float leftBottomRadius, float rightBottomRadius, const rgb_color& base,
 	uint32 flags, uint32 borders, orientation orientation)
 {
-	_DrawButtonBackground(view, rect, updateRect, 3.0f, 3.0f, 3.0f, 3.0f, base, false, flags,
+	_DrawButtonBackground(view, rect, updateRect, 1.5f, 1.5f, 1.5f, 1.5f, base, false, flags,
 		borders, orientation);
 }
 
@@ -678,7 +678,7 @@ FlatControlLook::_DrawNonFlatButtonBackground(BView* view, BRect& rect,
 
 		// draw background and pop-up marker
 		_DrawMenuFieldBackgroundInside(view, indicatorRect, updateRect,
-			0.0f, rightTopRadius, 0.0f, rightBottomRadius, base, flags, 0);
+			1.5f, rightTopRadius, 1.5f, rightBottomRadius, base, flags, 0);
 
 		if ((flags & B_ACTIVATED) != 0)
 			indicatorRect.top++;
@@ -1314,7 +1314,7 @@ FlatControlLook::DrawButtonWithPopUpBackground(BView* view, BRect& rect,
 	const BRect& updateRect, const rgb_color& base, uint32 flags,
 	uint32 borders, orientation orientation)
 {
-	_DrawButtonBackground(view, rect, updateRect, 0.0f, 0.0f, 0.0f, 0.0f,
+	_DrawButtonBackground(view, rect, updateRect, 1.5f, 1.5f, 1.5f, 1.5f,
 		base, true, flags, borders, orientation);
 }
 
@@ -1346,7 +1346,7 @@ HaikuControlLook::DrawButtonFrame(BView* view, BRect& rect, const BRect& updateR
 	const rgb_color& base, const rgb_color& background, uint32 flags,
 	uint32 borders)
 {
-	_DrawButtonFrame(view, rect, updateRect, 3.0f, 3.0f, 3.0f, 3.0f, base,
+	_DrawButtonFrame(view, rect, updateRect, 1.5f, 1.5f, 1.5f, 1.5f, base,
 		background, 1.0, 1.0, flags, borders);
 }
 
@@ -1356,7 +1356,7 @@ HaikuControlLook::DrawButtonFrame(BView* view, BRect& rect, const BRect& updateR
 	float radius, const rgb_color& base, const rgb_color& background, uint32 flags,
 	uint32 borders)
 {
-	_DrawButtonFrame(view, rect, updateRect,  3.0f, 3.0f, 3.0f, 3.0f,
+	_DrawButtonFrame(view, rect, updateRect,  1.5f, 1.5f, 1.5f, 1.5f,
 		base, background, 1.0, 1.0, flags, borders);
 }
 
@@ -1368,7 +1368,7 @@ HaikuControlLook::DrawButtonFrame(BView* view, BRect& rect,
 	const rgb_color& background, uint32 flags,
 	uint32 borders)
 {
-	_DrawButtonFrame(view, rect, updateRect,  3.0f, 3.0f, 3.0f, 3.0f, base, background,
+	_DrawButtonFrame(view, rect, updateRect,  1.5f, 1.5f, 1.5f, 1.5f, base, background,
 		1.0, 1.0, flags, borders);
 }
 
@@ -1379,7 +1379,7 @@ FlatControlLook::DrawMenuFieldBackground(BView* view, BRect& rect,
 	uint32 flags)
 {
 	_DrawMenuFieldBackgroundOutside(view, rect, updateRect,
-		0.0f, 0.0f, 0.0f, 0.0f, base, popupIndicator, flags);
+		1.5f, 1.5f, 1.5f, 1.5f, base, popupIndicator, flags);
 }
 
 
@@ -1389,7 +1389,7 @@ FlatControlLook::DrawMenuFieldBackground(BView* view, BRect& rect,
 	uint32 borders)
 {
 	_DrawMenuFieldBackgroundInside(view, rect, updateRect,
-		0.0f, 0.0f, 0.0f, 0.0f, base, flags, borders);
+		1.5f, 1.5f, 1.5f, 1.5f, base, flags, borders);
 }
 
 
@@ -1433,11 +1433,11 @@ FlatControlLook::_DrawMenuFieldBackgroundOutside(BView* view, BRect& rect,
 		rightRect.left = rightRect.right - 9;
 
 		_DrawMenuFieldBackgroundInside(view, leftRect, updateRect,
-			leftTopRadius, 0.0f, leftBottomRadius, 0.0f, tint_color(base, 0.95), flags,
+			leftTopRadius, 1.5f, leftBottomRadius, 1.5f, tint_color(base, 0.95), flags,
 			B_LEFT_BORDER | B_TOP_BORDER | B_BOTTOM_BORDER);
 
 		_DrawMenuFieldBackgroundInside(view, rightRect, updateRect,
-			0.0f, rightTopRadius, 0.0f, rightBottomRadius, tint_color(base, 1.04), flags,
+			1.5f, rightTopRadius, 1.5f, rightBottomRadius, tint_color(base, 1.04), flags,
 			B_TOP_BORDER | B_RIGHT_BORDER | B_BOTTOM_BORDER);
 
 		_DrawPopUpMarker(view, rightRect, ui_color(B_MENU_ITEM_TEXT_COLOR), flags);
