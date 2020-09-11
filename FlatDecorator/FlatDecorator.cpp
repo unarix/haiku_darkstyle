@@ -129,9 +129,9 @@ FlatDecorator::GetComponentColors(Component component, uint8 highlight,
 		case COMPONENT_TAB:
 			if (tab && tab->buttonFocus) {
 				_colors[COLOR_TAB_FRAME_LIGHT]
-					= tint_color(fFocusFrameColor, 1.25);
+					= tint_color(fFocusTabColor, 1.25);
 				_colors[COLOR_TAB_FRAME_DARK]
-					= tint_color(fFocusFrameColor, 1.25);
+					= tint_color(fFocusTabColor, 1.15);
 				_colors[COLOR_TAB] = fFocusTabColor;
 				_colors[COLOR_TAB_LIGHT] = fFocusTabColorLight;
 				_colors[COLOR_TAB_BEVEL] = fFocusTabColorBevel;
@@ -283,7 +283,7 @@ FlatDecorator::_DrawFrame(BRect rect)
 
 				for (int8 i = 0; i < 3; i++) {
 					fDrawingEngine->StrokeLine(BPoint(r.left + i, r.top + i),
-						BPoint(r.right - i, r.top + i), colors[i * 2]);
+						BPoint(r.right - i, r.top + i), tint_color(colors[1], 0.95));
 				}
 				if (fTitleBarRect.IsValid() && fTopTab->look != kLeftTitledWindowLook) {
 					// grey along the bottom of the tab

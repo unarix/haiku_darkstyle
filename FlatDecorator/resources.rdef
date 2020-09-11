@@ -1,6 +1,6 @@
 resource("be:decor:info") message('deco') {
-	"name"				= "FlatDecorator v1.1",
-	"authors"			= "Nhtello",
+	"name"				= "FlatDecorator v1.2",
+	"authors"			= "Nhtello v1.2",
 	"short_descr"		= "FlatDecorator for Haiku",
 	"long_descr"		= "",
 	"lic_url"			= "",
