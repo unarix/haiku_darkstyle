@@ -273,7 +273,7 @@ FlatControlLook::DrawMenuFieldFrame(BView* view, BRect& rect,
 	const rgb_color& background, uint32 flags, uint32 borders)
 {
 	_DrawButtonFrame(view, rect, updateRect, radius, radius, 1.5f, 1.5f,
-		base, background, 2.0, 1.0, flags, borders);
+		base, background, 1.0, 1.0, flags, borders);
 }
 
 
