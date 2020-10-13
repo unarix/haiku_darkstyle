@@ -172,14 +172,14 @@ FlatDecorator::GetComponentColors(Component component, uint8 highlight,
 				_colors[1] = tint_color(fFocusFrameColor, B_NO_TINT);
 				_colors[2] = tint_color(fFocusFrameColor, B_NO_TINT);
 				_colors[3] = tint_color(fFocusFrameColor, B_NO_TINT);
-				_colors[4] = tint_color(fFocusFrameColor, 1.05); // borde interior
+				_colors[4] = tint_color(fFocusFrameColor, 1.15); // borde interior
 				_colors[5] = tint_color(fFocusFrameColor, 1.1); // borde menu 1
 			} else {
 				_colors[0] = tint_color(fNonFocusFrameColor, 1.25); // borde exterior
 				_colors[1] = tint_color(fNonFocusFrameColor, B_NO_TINT);
 				_colors[2] = tint_color(fNonFocusFrameColor, B_NO_TINT);
 				_colors[3] = tint_color(fNonFocusFrameColor, B_NO_TINT);
-				_colors[4] = tint_color(fNonFocusFrameColor, 1.05); // borde interior
+				_colors[4] = tint_color(fNonFocusFrameColor, 1.1); // borde interior
 				_colors[5] = tint_color(fNonFocusFrameColor, 1.1); // borde menu 1
 			}
 
