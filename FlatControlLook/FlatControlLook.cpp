@@ -1970,8 +1970,15 @@ HaikuControlLook::DrawTextControlBorder(BView* view, BRect& rect,
 
 	rgb_color dark1BorderColor;
 	rgb_color dark2BorderColor;
+	rgb_color customColor2;
 	rgb_color navigationColor = ui_color(B_KEYBOARD_NAVIGATION_COLOR);
 	rgb_color invalidColor = ui_color(B_FAILURE_COLOR);
+
+	customColor2 = tint_color(base, 1.1);
+	//if the color BACKGROUND used is too dark, then make it lighter using the same as B_CONTROL_TEXT_COLOR
+	if (base.red + base.green + base.blue <= 128 * 3) {
+		customColor2 = tint_color(ui_color(B_CONTROL_TEXT_COLOR), 1.6);
+	}
 
 	if ((flags & B_DISABLED) != 0) {
 		_DrawOuterResessedFrame(view, rect, base, 0.0, 1.0, flags, borders);
@@ -1982,8 +1989,8 @@ HaikuControlLook::DrawTextControlBorder(BView* view, BRect& rect,
 			dark1BorderColor = tint_color(base, 1.0);
 		dark2BorderColor = dark1BorderColor;
 	} else if ((flags & B_CLICKED) != 0) {
-		dark1BorderColor = tint_color(base, 1.0);
-		dark2BorderColor = tint_color(base, 1.0);
+		dark1BorderColor = tint_color(customColor2, 1.5);
+		dark2BorderColor = tint_color(customColor2, 1.5);
 
 		// BCheckBox uses this to indicate the clicked state...
 		_DrawFrame(view, rect,
@@ -1992,14 +1999,14 @@ HaikuControlLook::DrawTextControlBorder(BView* view, BRect& rect,
 
 		dark2BorderColor = dark1BorderColor;
 	} else {
-		_DrawOuterResessedFrame(view, rect, base, 0.6, 1.0, flags, borders);
+		_DrawOuterResessedFrame(view, rect, base, 1.0, 1.0, flags, borders);
 
 		if ((flags & B_BLEND_FRAME) != 0) {
-			dark1BorderColor = (rgb_color){ 0, 0, 0, 102 };
-			dark2BorderColor = (rgb_color){ 0, 0, 0, 97 };
+			dark1BorderColor = customColor2;
+			dark2BorderColor = customColor2;
 		} else {
-			dark1BorderColor = tint_color(base, 1.10);
-			dark2BorderColor = tint_color(base, 1.0);
+			dark1BorderColor = customColor2;
+			dark2BorderColor = customColor2;
 		}
 	}
 
