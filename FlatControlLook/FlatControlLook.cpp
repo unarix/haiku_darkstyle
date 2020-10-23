@@ -1974,16 +1974,16 @@ HaikuControlLook::DrawTextControlBorder(BView* view, BRect& rect,
 	rgb_color navigationColor = ui_color(B_KEYBOARD_NAVIGATION_COLOR);
 	rgb_color invalidColor = ui_color(B_FAILURE_COLOR);
 
-	customColor2 = tint_color(base, 1.1);
+	customColor2 = tint_color(base, 1.08);
 	//if the color BACKGROUND used is too dark, then make it lighter using the same as B_CONTROL_TEXT_COLOR
 	if (base.red + base.green + base.blue <= 128 * 3) {
-		customColor2 = tint_color(ui_color(B_CONTROL_TEXT_COLOR), 1.64);
+		customColor2 = base; //tint_color(ui_color(B_CONTROL_TEXT_COLOR), 1.64);
 	}
 
 	dark1BorderColor = customColor2;
 	dark2BorderColor = customColor2;
 
-	/*if ((flags & B_DISABLED) != 0) {
+	if ((flags & B_DISABLED) != 0) {
 		_DrawOuterResessedFrame(view, rect, base, 0.0, 1.0, flags, borders);
 
 		if ((flags & B_BLEND_FRAME) != 0)
@@ -1991,9 +1991,10 @@ HaikuControlLook::DrawTextControlBorder(BView* view, BRect& rect,
 		else
 			dark1BorderColor = tint_color(base, 1.0);
 		dark2BorderColor = dark1BorderColor;
-	} else if ((flags & B_CLICKED) != 0) {
-		dark1BorderColor = tint_color(customColor2, 1.5);
-		dark2BorderColor = tint_color(customColor2, 1.5);
+	}
+	else if ((flags & B_CLICKED) != 0) {
+		dark1BorderColor = tint_color(customColor2, 1.9);
+		dark2BorderColor = tint_color(customColor2, 1.9);
 
 		// BCheckBox uses this to indicate the clicked state...
 		_DrawFrame(view, rect,
@@ -2001,7 +2002,8 @@ HaikuControlLook::DrawTextControlBorder(BView* view, BRect& rect,
 			dark2BorderColor, dark2BorderColor);
 
 		dark2BorderColor = dark1BorderColor;
-	} else {
+	}
+	else {
 		_DrawOuterResessedFrame(view, rect, base, 1.0, 1.0, flags, borders);
 
 		if ((flags & B_BLEND_FRAME) != 0) {
@@ -2036,7 +2038,7 @@ HaikuControlLook::DrawTextControlBorder(BView* view, BRect& rect,
 		_DrawFrame(view, rect,
 			dark1BorderColor, dark1BorderColor,
 			dark2BorderColor, dark2BorderColor, borders);
-	}*/
+	}
 
 	drawing_mode oldMode = view->DrawingMode();
 
@@ -2044,13 +2046,13 @@ HaikuControlLook::DrawTextControlBorder(BView* view, BRect& rect,
 	view->PushState();
 
 	// set clipping constraints to updateRect
-	BRegion clipping(updateRect);
+	/*BRegion clipping(updateRect);
 	view->ConstrainClippingRegion(&clipping);
 
-	float leftTopRadius = 3.0f;
-	float rightTopRadius = 3.0f;
-	float leftBottomRadius = 3.0f;
-	float rightBottomRadius = 3.0f;
+	float leftTopRadius = 6.0f;
+	float rightTopRadius = 6.0f;
+	float leftBottomRadius = 6.0f;
+	float rightBottomRadius = 6.0f;
 
 	//if ((borders & B_LEFT_BORDER) != 0 && (borders & B_TOP_BORDER) != 0
 			//&& leftTopRadius > 0) {
@@ -2118,7 +2120,7 @@ HaikuControlLook::DrawTextControlBorder(BView* view, BRect& rect,
 	}
 
 	// restore the clipping constraints of the view
-	view->PopState();
+	view->PopState();*/
 }
 
 void
