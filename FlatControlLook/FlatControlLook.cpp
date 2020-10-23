@@ -1977,10 +1977,13 @@ HaikuControlLook::DrawTextControlBorder(BView* view, BRect& rect,
 	customColor2 = tint_color(base, 1.1);
 	//if the color BACKGROUND used is too dark, then make it lighter using the same as B_CONTROL_TEXT_COLOR
 	if (base.red + base.green + base.blue <= 128 * 3) {
-		customColor2 = tint_color(ui_color(B_CONTROL_TEXT_COLOR), 1.6);
+		customColor2 = tint_color(ui_color(B_CONTROL_TEXT_COLOR), 1.64);
 	}
 
-	if ((flags & B_DISABLED) != 0) {
+	dark1BorderColor = customColor2;
+	dark2BorderColor = customColor2;
+
+	/*if ((flags & B_DISABLED) != 0) {
 		_DrawOuterResessedFrame(view, rect, base, 0.0, 1.0, flags, borders);
 
 		if ((flags & B_BLEND_FRAME) != 0)
@@ -2033,8 +2036,8 @@ HaikuControlLook::DrawTextControlBorder(BView* view, BRect& rect,
 		_DrawFrame(view, rect,
 			dark1BorderColor, dark1BorderColor,
 			dark2BorderColor, dark2BorderColor, borders);
-	}
-/*
+	}*/
+
 	drawing_mode oldMode = view->DrawingMode();
 
 	// save the clipping constraints of the view
@@ -2044,68 +2047,59 @@ HaikuControlLook::DrawTextControlBorder(BView* view, BRect& rect,
 	BRegion clipping(updateRect);
 	view->ConstrainClippingRegion(&clipping);
 
-	float leftTopRadius = 4.0f;
-	float rightTopRadius = 4.0f;
-	float leftBottomRadius = 4.0f;
-	float rightBottomRadius = 4.0f;
-	dark1BorderColor = (rgb_color){ 0, 0, 0, 40 };
+	float leftTopRadius = 3.0f;
+	float rightTopRadius = 3.0f;
+	float leftBottomRadius = 3.0f;
+	float rightBottomRadius = 3.0f;
 
-	if ((borders & B_LEFT_BORDER) != 0 && (borders & B_TOP_BORDER) != 0
-			&& leftTopRadius > 0) {
+	//if ((borders & B_LEFT_BORDER) != 0 && (borders & B_TOP_BORDER) != 0
+			//&& leftTopRadius > 0) {
 			// draw left top rounded corner
 			BRect leftTopCorner(floorf(rect.left), floorf(rect.top),
 					floorf(rect.left + leftTopRadius),
 					floorf(rect.top + leftTopRadius));
 			clipping.Exclude(leftTopCorner);
 			_DrawRoundCornerFrameLeftTop(view, leftTopCorner, updateRect,
-					dark1BorderColor, dark1BorderColor, dark1BorderColor);
-	}
+					base, dark1BorderColor, base);
+	//}
 
-	if ((borders & B_TOP_BORDER) != 0 && (borders & B_RIGHT_BORDER) != 0
-			&& rightTopRadius > 0) {
+	//if ((borders & B_TOP_BORDER) != 0 && (borders & B_RIGHT_BORDER) != 0
+			//&& rightTopRadius > 0) {
 			// draw right top rounded corner
 			BRect rightTopCorner(floorf(rect.right - rightTopRadius),
 					floorf(rect.top), floorf(rect.right),
 					floorf(rect.top + rightTopRadius));
 			clipping.Exclude(rightTopCorner);
 			_DrawRoundCornerFrameRightTop(view, rightTopCorner, updateRect,
-					dark1BorderColor, dark1BorderColor, dark1BorderColor,
-					dark1BorderColor, dark1BorderColor);
-	}
+					base, dark1BorderColor, dark1BorderColor,
+					base, base);
+	//}
 
-	if ((borders & B_LEFT_BORDER) != 0 && (borders & B_BOTTOM_BORDER) != 0
-			&& leftBottomRadius > 0) {
+	//if ((borders & B_LEFT_BORDER) != 0 && (borders & B_BOTTOM_BORDER) != 0
+			//&& leftBottomRadius > 0) {
 			// draw left bottom rounded corner
 			BRect leftBottomCorner(floorf(rect.left),
 					floorf(rect.bottom - leftBottomRadius),
 					floorf(rect.left + leftBottomRadius), floorf(rect.bottom));
 			clipping.Exclude(leftBottomCorner);
 			_DrawRoundCornerFrameLeftBottom(view, leftBottomCorner, updateRect,
-					dark1BorderColor, dark1BorderColor, dark1BorderColor,
-					dark1BorderColor, dark1BorderColor);
-	}
+					base, dark1BorderColor, dark1BorderColor,
+					base, base);
+	//}
 
-	if ((borders & B_RIGHT_BORDER) != 0 && (borders & B_BOTTOM_BORDER) != 0
-			&& rightBottomRadius > 0) {
+	//if ((borders & B_RIGHT_BORDER) != 0 && (borders & B_BOTTOM_BORDER) != 0
+			//&& rightBottomRadius > 0) {
 			// draw right bottom rounded corner
 			BRect rightBottomCorner(floorf(rect.right - rightBottomRadius),
 					floorf(rect.bottom - rightBottomRadius), floorf(rect.right),
 					floorf(rect.bottom));
 			clipping.Exclude(rightBottomCorner);
 			_DrawRoundCornerFrameRightBottom(view, rightBottomCorner,
-					updateRect, dark1BorderColor, dark1BorderColor, dark1BorderColor);
-	}
+					updateRect, base, dark1BorderColor, base);
+	//}
 
-	// clip out the corners
+	//clip out the corners
 	view->ConstrainClippingRegion(&clipping);
-
-	//draw outer edge only for default button!!! B_SUCCESS_COLOR
-//        if ((flags & B_DEFAULT_BUTTON) != 0) {
-//                _DrawOuterResessedFrame(view, rect, ui_color(B_WINDOW_TAB_COLOR),
-//                        contrast * ((flags & B_DISABLED) != 0 ? 0.3 : 0.8),
-//                        brightness * ((flags & B_DISABLED) != 0 ? 0.3 : 0.9),
-//                        flags, borders);
-//        }
 
 	view->SetDrawingMode(oldMode);
 
@@ -2124,7 +2118,7 @@ HaikuControlLook::DrawTextControlBorder(BView* view, BRect& rect,
 	}
 
 	// restore the clipping constraints of the view
-	view->PopState();*/
+	view->PopState();
 }
 
 void
