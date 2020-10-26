@@ -172,7 +172,7 @@ FlatDecorator::GetComponentColors(Component component, uint8 highlight,
 				_colors[1] = tint_color(fFocusFrameColor, B_NO_TINT);
 				_colors[2] = tint_color(fFocusFrameColor, B_NO_TINT);
 				_colors[3] = tint_color(fFocusFrameColor, B_NO_TINT);
-				_colors[4] = tint_color(fFocusFrameColor, 1.15); // borde interior
+				_colors[4] = tint_color(fFocusFrameColor, 1.0); // borde interior
 				_colors[5] = tint_color(fFocusFrameColor, 1.1); // borde menu 1
 			} else {
 				_colors[0] = tint_color(fNonFocusFrameColor, 1.25); // borde exterior
@@ -516,13 +516,13 @@ FlatDecorator::_DrawTab(Decorator::Tab* tab, BRect invalid)
 	BGradientLinear gradient;
 	gradient.SetStart(tabRect.LeftTop());
 	if (tab && tab->buttonFocus) {
-		gradient.AddColor(tint_color(colors[COLOR_TAB], 0.4), 0);
-		gradient.AddColor(tint_color(colors[COLOR_TAB], 1.0), 100);
+		gradient.AddColor(tint_color(colors[COLOR_TAB], 0.6), 0);
+		gradient.AddColor(tint_color(colors[COLOR_TAB], 1.0), 200);
 	}
 	else
 	{
 		gradient.AddColor(tint_color(colors[COLOR_TAB], 0.9), 0);
-		gradient.AddColor(tint_color(colors[COLOR_TAB], 1.0), 50);
+		gradient.AddColor(tint_color(colors[COLOR_TAB], 1.0), 150);
 	}
 
 	if (tab->look != kLeftTitledWindowLook) {
@@ -704,7 +704,7 @@ FlatDecorator::_DrawBlendedRect(DrawingEngine* engine, const BRect rect,
 		endColor = tint_color(colors[COLOR_BUTTON], 0.9);
 	} else {
 		startColor = tint_color(colors[COLOR_BUTTON], 0.95);
-		endColor = tint_color(colors[COLOR_BUTTON], 0.6);
+		endColor = tint_color(colors[COLOR_BUTTON], 0.5);
 	}
 
 	// fill
@@ -717,12 +717,14 @@ FlatDecorator::_DrawBlendedRect(DrawingEngine* engine, const BRect rect,
 	gradient.AddColor(endColor, 250);
 
 	engine->FillRect(fillRect, gradient);
+	//engine->FillRoundRect(fillRect, 3.0, 3.0, gradient);
 
 	//engine->DrawEllipse(rect, false);
 	//sBitmapDrawingEngine->FillEllipse(fillRect,gradient);
 
 	// outline
 	engine->StrokeRect(rect, tint_color(colors[COLOR_BUTTON], 1.25));
+	//sBitmapDrawingEngine->StrokeRect(rect, tint_color(colors[COLOR_BUTTON], 1.25));
 
 }
 

@@ -67,24 +67,38 @@ FlatControlLook::DrawMenuBarBackground(BView* view, BRect& rect,
 
 	// colors
 	float topTint = 1.0;
-	float bottomTint = 1.06;
+	float bottomTint = 1.16;
 
-	/*if ((flags & B_ACTIVATED) != 0) {
-		rgb_color bevelColor1 = tint_color(base, 1.0);
-		rgb_color bevelColor2 = tint_color(base, 1.0);
+	rgb_color customColor = tint_color(ui_color(B_WINDOW_TAB_COLOR), 1.0);
+
+	if (
+//		view->IsFocus()
+//		((flags & B_ACTIVATED) != 0)
+		((flags & B_FOCUSED) != 0)
+//		|| ((flags & B_FOCUSED) != 0)
+//		|| ((flags & B_PARTIALLY_ACTIVATED)) != 0
+//		|| ((flags & (B_HOVER | B_FOCUSED))) != 0
+//		|| ((flags & B_CLICKED) == 0)
+//		|| ((flags & B_BLEND_FRAME) != 0)
+//		|| ((flags & B_DISABLED) != 0)
+	)	{
+		customColor = tint_color(ui_color(B_WINDOW_TAB_COLOR), 1.0);
+		rgb_color bevelColor1 = tint_color(customColor, 1.0);
+		rgb_color bevelColor2 = tint_color(customColor, 1.0);
 
 		topTint = 1.0;
-		bottomTint = 1.05;
+		bottomTint = 1.0;
 
 		_DrawFrame(view, rect,
 			bevelColor1, bevelColor1,
 			bevelColor2, bevelColor2,
 			borders & B_TOP_BORDER);
 	} else {
-		rgb_color cornerColor = tint_color(base, 1.0);
-		rgb_color bevelColorTop = tint_color(base, 1.0);
-		rgb_color bevelColorLeft = tint_color(base, 1.0);
-		rgb_color bevelColorRightBottom = tint_color(base, 1.0);
+		customColor = base;
+		rgb_color cornerColor = tint_color(customColor, 1.0);
+		rgb_color bevelColorTop = tint_color(customColor, 1.0);
+		rgb_color bevelColorLeft = tint_color(customColor, 1.0);
+		rgb_color bevelColorRightBottom = tint_color(customColor, 1.0);
 
 		topTint = 1.0;
 		bottomTint = 1.0;
@@ -94,11 +108,11 @@ FlatControlLook::DrawMenuBarBackground(BView* view, BRect& rect,
 			bevelColorRightBottom, bevelColorRightBottom,
 			cornerColor, cornerColor,
 			borders);
-	}*/
+	}
 
 	// draw surface top
 	//_FillGradient(view, rect, base, bottomTint, topTint);
-	_FillGradient(view, rect, base, topTint, bottomTint);
+	_FillGradient(view, rect, customColor, topTint, bottomTint);
 }
 
 void
@@ -110,7 +124,7 @@ HaikuControlLook::DrawMenuBackground(BView* view, BRect& rect,
 		return;
 
 	// surface top color
-	rgb_color background = tint_color(base, 0.9);
+	rgb_color background = tint_color(base, 0.8);
 
 	// inner bevel colors
 	rgb_color bevelColor = tint_color(background, 1.03);
