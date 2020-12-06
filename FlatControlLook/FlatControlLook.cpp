@@ -63,25 +63,18 @@ FlatControlLook::DrawMenuBarBackground(BView* view, BRect& rect,
 	if (!rect.IsValid() || !rect.Intersects(updateRect))
 		return;
 
+	view->PushState();
+
 	// the surface edges
 
 	// colors
 	float topTint = 1.0;
 	float bottomTint = 1.16;
 
-	rgb_color customColor = tint_color(ui_color(B_WINDOW_TAB_COLOR), 1.0);
+	rgb_color customColor = base;
+	bool isEnabled = (flags & B_DISABLED) == 0;
 
-	if (
-//		view->IsFocus()
-//		((flags & B_ACTIVATED) != 0)
-		((flags & B_FOCUSED) != 0)
-//		|| ((flags & B_FOCUSED) != 0)
-//		|| ((flags & B_PARTIALLY_ACTIVATED)) != 0
-//		|| ((flags & (B_HOVER | B_FOCUSED))) != 0
-//		|| ((flags & B_CLICKED) == 0)
-//		|| ((flags & B_BLEND_FRAME) != 0)
-//		|| ((flags & B_DISABLED) != 0)
-	)	{
+	if(!isEnabled){
 		customColor = tint_color(ui_color(B_WINDOW_TAB_COLOR), 1.0);
 		rgb_color bevelColor1 = tint_color(customColor, 1.0);
 		rgb_color bevelColor2 = tint_color(customColor, 1.0);
@@ -94,7 +87,6 @@ FlatControlLook::DrawMenuBarBackground(BView* view, BRect& rect,
 			bevelColor2, bevelColor2,
 			borders & B_TOP_BORDER);
 	} else {
-		customColor = base;
 		rgb_color cornerColor = tint_color(customColor, 1.0);
 		rgb_color bevelColorTop = tint_color(customColor, 1.0);
 		rgb_color bevelColorLeft = tint_color(customColor, 1.0);
