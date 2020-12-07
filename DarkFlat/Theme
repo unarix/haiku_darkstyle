@@ -7,19 +7,15 @@ BMessage('ZThm') {
 	// Desktop backgrounds and color; please respect count and ordering of all fields!
 	be:bgndimginfo = BMessage(0x00000000) {
 		// If true, use desktop color as icon text background
-		be:bgndimginfoerasetext[0] = bool(true)
-		be:bgndimginfoerasetext[1] = bool(true)
+		be:bgndimginfoerasetext = bool(true)
+		// Actual backdrop image file
 		// Workspaces each backdrop apply to
-		be:bgndimginfoworkspaces[0] = int32(4294967294 or 0xfffffffe)
-		be:bgndimginfoworkspaces[1] = int32(1 or 0x1)
+		be:bgndimginfoworkspaces = int32(1 or 0x1)
 		// Origin point for mode 0
-		be:bgndimginfooffset[0] = BPoint(0.0, 0.0)
-		be:bgndimginfooffset[1] = BPoint(-497.0, -300.0)
+		be:bgndimginfooffset = BPoint(0.0, 0.0)
 		// image mode: 0=use_origin, 1=centered, 2=scaled, 3=tiled
-		be:bgndimginfomode[0] = int32(0 or (nil))
-		be:bgndimginfomode[1] = int32(2 or 0x2)
-		be:bgndimginfoset[0] = int32(0 or (nil))
-		be:bgndimginfoset[1] = int32(0 or (nil))
+		be:bgndimginfomode = int32(2 or 0x2)
+		be:bgndimginfoset = int32(0 or (nil))
 		// one per workspace, up to the last changing one
 		be:desktop_color = rgb_color(14,14,14,255)
 	}
@@ -28,22 +24,22 @@ BMessage('ZThm') {
 		// Deskbar on-screen position
 		db:location = int32(3 or 0x3)
 		// Deskbar is expanded
-		db:expanded = bool(false)
+		db:expanded = bool(true)
 	}
 	// UI Settings
 	ui_settings = BMessage(0x00000000) {
 		// Panel Background
 		be:c:PanBg = rgb_color(53,53,53,255)
 		// Panel Text
-		be:c:PanTx = rgb_color(170,170,170,255)
+		be:c:PanTx = rgb_color(210,210,210,255)
 		// Document Background
 		be:c:DocBg = rgb_color(64,64,64,255)
 		// Document Text
-		be:c:DocTx = rgb_color(170,170,170,255)
+		be:c:DocTx = rgb_color(210,210,210,255)
 		// Control Background
 		be:c:CtlBg = rgb_color(77,77,77,255)
 		// Control Text
-		be:c:CtlTx = rgb_color(170,170,170,255)
+		be:c:CtlTx = rgb_color(210,210,210,255)
 		// Control Border
 		be:c:CtlBr = rgb_color(53,53,53,255)
 		// Control Highlight
@@ -61,15 +57,15 @@ BMessage('ZThm') {
 		// ToolTip Background
 		be:c:TipBg = rgb_color(53,53,53,255)
 		// ToolTip Text
-		be:c:TipTx = rgb_color(170,170,170,255)
+		be:c:TipTx = rgb_color(210,210,210,255)
 		// Menu Background
 		be:c:MenBg = rgb_color(53,53,53,255)
 		// Menu Selected Background
 		be:c:MenSBg = rgb_color(53,53,53,255)
 		// Menu Item Text
-		be:c:MenTx = rgb_color(170,170,170,255)
+		be:c:MenTx = rgb_color(210,210,210,255)
 		// Menu Selected Item Text
-		be:c:MenSTx = rgb_color(170,170,170,255)
+		be:c:MenSTx = rgb_color(210,210,210,255)
 		// Menu Selected Border
 		be:c:MenSBr = rgb_color(53,53,53,255)
 		// Success
@@ -83,9 +79,9 @@ BMessage('ZThm') {
 		// Inactive Window Tab Background
 		h:c:InWinTabBg = rgb_color(53,53,53,255)
 		// Inactive Window Tab Text
-		h:c:InWinTabTx = rgb_color(150,150,150,255)
+		h:c:InWinTabTx = rgb_color(210,210,210,255)
 		// Window Border
-		h:c:WinBr = rgb_color(53,53,53,255)
+		h:c:WinBr = rgb_color(69,69,69,255)
 		// Inactive Window Border
 		h:c:InWinBr = rgb_color(53,53,53,255)
 		// List Background
@@ -93,15 +89,15 @@ BMessage('ZThm') {
 		// List Selected Background
 		h:c:LstSBg = rgb_color(20,20,20,255)
 		// List Item Text
-		h:c:LstTx = rgb_color(170,170,170,255)
+		h:c:LstTx = rgb_color(210,210,210,255)
 		// List Selected Item Text
-		h:c:LstSTx = rgb_color(170,170,170,255)
+		h:c:LstSTx = rgb_color(210,210,210,255)
 		// Scrollbar Thumb
-		h:c:SbThb = rgb_color(76,76,76,255)
+		h:c:SbThb = rgb_color(206,171,52,255)
 		// System Plain
 		be:f:be_plain_font = BFont(Noto Sans Display/Regular/12.00, shear=90.00, rot=0.00, height=12.83+3.52+0.00)
 		// System Bold
-		be:f:be_bold_font = BFont(Noto Sans Display/Regular/12.00, shear=90.00, rot=0.00, height=12.83+3.52+0.00)
+		be:f:be_bold_font = BFont(Noto Sans Display/Medium/12.00, shear=90.00, rot=0.00, height=12.83+3.52+0.00)
 		// System Fixed
 		be:f:be_fixed_font = BFont(Noto Sans Mono/Regular/12.00, shear=90.00, rot=0.00, height=12.83+3.52+0.00)
 		// Show Menu Triggers
@@ -114,13 +110,13 @@ BMessage('ZThm') {
 	// Window decorations and scrollbars
 	window_decorations = BMessage(0x00000000) {
 		// Window decor
-		window:decor = string("/boot/system/add-ons/decorators/FlatDecorator", 45 bytes)
+		window:decor = string("/boot/home/config/non-packaged/add-ons/decorators/FlatDecorator", 63 bytes)
 		// Window decor parameters
 		window:decor_globals = BMessage(0x00000000) {
 			// Window decor parameters
 			window:decor_globals = BMessage(0x00000000) {
-				f:Inactive Title = rgb_color(150,150,150,255)
-				f:Active Title = rgb_color(150,150,150,255)
+				f:Inactive Title = rgb_color(210,210,210,255)
+				f:Active Title = rgb_color(210,210,210,255)
 			}
 		}
 	}
@@ -205,17 +201,17 @@ BMessage('ZThm') {
 		// Terminal row count
 		term:rows = int32(18 or 0x12)
 		// Terminal background color
-		term:c:bg = rgb_color(8,8,8,255)
+		term:c:bg = rgb_color(0,0,0,255)
 		// Terminal foreground color
 		term:c:fg = rgb_color(255,255,255,255)
 		// Terminal cursor background color
 		term:c:curbg = rgb_color(255,255,255,255)
 		// Terminal cursor foreground color
-		term:c:curfg = rgb_color(50,50,50,255)
+		term:c:curfg = rgb_color(0,0,0,255)
 		// Terminal selection background color
-		term:c:selbg = rgb_color(50,50,50,255)
+		term:c:selbg = rgb_color(255,255,255,255)
 		// Terminal selection foreground color
-		term:c:selfg = rgb_color(255,255,255,255)
+		term:c:selfg = rgb_color(0,0,0,255)
 	}
 	// CLAmp/SoundPlay Skin Settings
 	winamp_skin_settings = BMessage(0x00000000) {

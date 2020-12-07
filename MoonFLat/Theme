@@ -7,19 +7,15 @@ BMessage('ZThm') {
 	// Desktop backgrounds and color; please respect count and ordering of all fields!
 	be:bgndimginfo = BMessage(0x00000000) {
 		// If true, use desktop color as icon text background
-		be:bgndimginfoerasetext[0] = bool(true)
-		be:bgndimginfoerasetext[1] = bool(true)
+		be:bgndimginfoerasetext = bool(true)
+		// Actual backdrop image file
 		// Workspaces each backdrop apply to
-		be:bgndimginfoworkspaces[0] = int32(4294967294 or 0xfffffffe)
-		be:bgndimginfoworkspaces[1] = int32(1 or 0x1)
+		be:bgndimginfoworkspaces = int32(4294967295 or 0xffffffff)
 		// Origin point for mode 0
-		be:bgndimginfooffset[0] = BPoint(0.0, 0.0)
-		be:bgndimginfooffset[1] = BPoint(-497.0, -300.0)
+		be:bgndimginfooffset = BPoint(0.0, 0.0)
 		// image mode: 0=use_origin, 1=centered, 2=scaled, 3=tiled
-		be:bgndimginfomode[0] = int32(0 or (nil))
-		be:bgndimginfomode[1] = int32(2 or 0x2)
-		be:bgndimginfoset[0] = int32(0 or (nil))
-		be:bgndimginfoset[1] = int32(0 or (nil))
+		be:bgndimginfomode = int32(2 or 0x2)
+		be:bgndimginfoset = int32(0 or (nil))
 		// one per workspace, up to the last changing one
 		be:desktop_color = rgb_color(14,14,14,255)
 	}
@@ -28,7 +24,7 @@ BMessage('ZThm') {
 		// Deskbar on-screen position
 		db:location = int32(3 or 0x3)
 		// Deskbar is expanded
-		db:expanded = bool(false)
+		db:expanded = bool(true)
 	}
 	// UI Settings
 	ui_settings = BMessage(0x00000000) {
@@ -101,7 +97,7 @@ BMessage('ZThm') {
 		// System Plain
 		be:f:be_plain_font = BFont(Noto Sans Display/Regular/12.00, shear=90.00, rot=0.00, height=12.83+3.52+0.00)
 		// System Bold
-		be:f:be_bold_font = BFont(Noto Sans Display/Regular/12.00, shear=90.00, rot=0.00, height=12.83+3.52+0.00)
+		be:f:be_bold_font = BFont(Noto Sans Display/Medium/12.00, shear=90.00, rot=0.00, height=12.83+3.52+0.00)
 		// System Fixed
 		be:f:be_fixed_font = BFont(Noto Sans Mono/Regular/12.00, shear=90.00, rot=0.00, height=12.83+3.52+0.00)
 		// Show Menu Triggers
@@ -114,7 +110,7 @@ BMessage('ZThm') {
 	// Window decorations and scrollbars
 	window_decorations = BMessage(0x00000000) {
 		// Window decor
-		window:decor = string("/boot/system/add-ons/decorators/FlatDecorator", 45 bytes)
+		window:decor = string("/boot/home/config/non-packaged/add-ons/decorators/FlatDecorator", 63 bytes)
 		// Window decor parameters
 		window:decor_globals = BMessage(0x00000000) {
 			// Window decor parameters
@@ -201,21 +197,21 @@ BMessage('ZThm') {
 	// Terminal Preferences
 	terminal_prefs = BMessage(0x00000000) {
 		// Terminal column count
-		term:cols = int32(81 or 0x51)
+		term:cols = int32(83 or 0x53)
 		// Terminal row count
-		term:rows = int32(16 or 0x10)
+		term:rows = int32(18 or 0x12)
 		// Terminal background color
-		term:c:bg = rgb_color(8,8,8,255)
+		term:c:bg = rgb_color(0,0,0,255)
 		// Terminal foreground color
 		term:c:fg = rgb_color(255,255,255,255)
 		// Terminal cursor background color
 		term:c:curbg = rgb_color(255,255,255,255)
 		// Terminal cursor foreground color
-		term:c:curfg = rgb_color(50,50,50,255)
+		term:c:curfg = rgb_color(0,0,0,255)
 		// Terminal selection background color
-		term:c:selbg = rgb_color(50,50,50,255)
+		term:c:selbg = rgb_color(255,255,255,255)
 		// Terminal selection foreground color
-		term:c:selfg = rgb_color(255,255,255,255)
+		term:c:selfg = rgb_color(0,0,0,255)
 	}
 	// CLAmp/SoundPlay Skin Settings
 	winamp_skin_settings = BMessage(0x00000000) {
