@@ -81,7 +81,7 @@ BMessage('ZThm') {
 		// Inactive Window Tab Text
 		h:c:InWinTabTx = rgb_color(100,100,100,255)
 		// Window Border
-		h:c:WinBr = rgb_color(237,199,70,255)
+		h:c:WinBr = rgb_color(224,215,218,255)
 		// Inactive Window Border
 		h:c:InWinBr = rgb_color(224,215,218,255)
 		// List Background
