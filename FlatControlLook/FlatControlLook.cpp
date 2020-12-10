@@ -72,9 +72,9 @@ FlatControlLook::DrawMenuBarBackground(BView* view, BRect& rect,
 	float bottomTint = 1.16;
 
 	rgb_color customColor = base;
-	bool isEnabled = (flags & B_DISABLED) == 0;
+	bool isEnabled = (flags & B_FOCUSED) != 0;
 
-	if(!isEnabled){
+	if(isEnabled){
 		customColor = tint_color(ui_color(B_WINDOW_TAB_COLOR), 1.0);
 		rgb_color bevelColor1 = tint_color(customColor, 1.0);
 		rgb_color bevelColor2 = tint_color(customColor, 1.0);
