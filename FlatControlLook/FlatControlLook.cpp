@@ -145,6 +145,214 @@ HaikuControlLook::SliderBarColor(const rgb_color& base)
 }
 
 void
+HaikuControlLook::DrawSliderBar(BView* view, BRect rect, const BRect& updateRect,
+	const rgb_color& base, rgb_color leftFillColor, rgb_color rightFillColor,
+	float sliderScale, uint32 flags, orientation orientation)
+{
+	if (!rect.IsValid() || !rect.Intersects(updateRect))
+		return;
+
+	// save the clipping constraints of the view
+	view->PushState();
+
+	// separate the bar in two sides
+	float sliderPosition;
+	BRect leftBarSide = rect;
+	BRect rightBarSide = rect;
+
+	if (orientation == B_HORIZONTAL) {
+		sliderPosition = floorf(rect.left + 2 + (rect.Width() - 2)
+			* sliderScale);
+		leftBarSide.right = sliderPosition - 1;
+		rightBarSide.left = sliderPosition;
+	} else {
+		// NOTE: position is reverse of coords
+		sliderPosition = floorf(rect.top + 2 + (rect.Height() - 2)
+			* (1.0 - sliderScale));
+		leftBarSide.top = sliderPosition;
+		rightBarSide.bottom = sliderPosition - 1;
+	}
+
+	// fill the background for the corners, exclude the middle bar for now
+	BRegion region(rect);
+	region.Exclude(rightBarSide);
+	view->ConstrainClippingRegion(&region);
+
+	view->PushState();
+
+	DrawSliderBar(view, rect, updateRect, base, leftFillColor, flags,
+		orientation);
+
+	view->PopState();
+
+	region.Set(rect);
+	region.Exclude(leftBarSide);
+	view->ConstrainClippingRegion(&region);
+
+	view->PushState();
+
+	DrawSliderBar(view, rect, updateRect, base, rightFillColor, flags,
+		orientation);
+
+	view->PopState();
+
+	// restore the clipping constraints of the view
+	view->PopState();
+}
+
+void
+HaikuControlLook::DrawSliderBar(BView* view, BRect rect, const BRect& updateRect,
+	const rgb_color& base, rgb_color fillColor, uint32 flags,
+	orientation orientation)
+{
+	if (!rect.IsValid() || !rect.Intersects(updateRect))
+		return;
+
+	// separate the rect into corners
+	BRect leftCorner(rect);
+	BRect rightCorner(rect);
+	BRect barRect(rect);
+
+	if (orientation == B_HORIZONTAL) {
+		leftCorner.right = leftCorner.left + leftCorner.Height();
+		rightCorner.left = rightCorner.right - rightCorner.Height();
+		barRect.left += ceilf(barRect.Height() / 2);
+		barRect.right -= ceilf(barRect.Height() / 2);
+	} else {
+		leftCorner.bottom = leftCorner.top + leftCorner.Width();
+		rightCorner.top = rightCorner.bottom - rightCorner.Width();
+		barRect.top += ceilf(barRect.Width() / 2);
+		barRect.bottom -= ceilf(barRect.Width() / 2);
+	}
+
+	// fill the background for the corners, exclude the middle bar for now
+	BRegion region(rect);
+	region.Exclude(barRect);
+	view->ConstrainClippingRegion(&region);
+
+	if ((flags & B_BLEND_FRAME) == 0) {
+		view->SetHighColor(base);
+		view->FillRect(rect);
+	}
+
+	// figure out the tints to be used
+	float edgeLightTint;
+	float edgeShadowTint;
+	float frameLightTint;
+	float frameShadowTint;
+	float fillLightTint;
+	float fillShadowTint;
+	uint8 edgeLightAlpha;
+	uint8 edgeShadowAlpha;
+	uint8 frameLightAlpha;
+	uint8 frameShadowAlpha;
+
+	if ((flags & B_DISABLED) != 0) {
+		edgeLightTint = 1.0;
+		edgeShadowTint = 1.0;
+		frameLightTint = 1.05;
+		frameShadowTint = 1.05;
+		fillLightTint = 0.8;
+		fillShadowTint = 0.8;
+		edgeLightAlpha = 12;
+		edgeShadowAlpha = 12;
+		frameLightAlpha = 40;
+		frameShadowAlpha = 45;
+
+		fillColor.red = uint8(fillColor.red * 0.4 + base.red * 0.6);
+		fillColor.green = uint8(fillColor.green * 0.4 + base.green * 0.6);
+		fillColor.blue = uint8(fillColor.blue * 0.4 + base.blue * 0.6);
+	} else {
+		edgeLightTint = 1.0;
+		edgeShadowTint = 1.0;
+		frameLightTint = 1.20;
+		frameShadowTint = 1.20;
+		fillLightTint = 0.9;
+		fillShadowTint = 0.9;
+		edgeLightAlpha = 15;
+		edgeShadowAlpha = 15;
+		frameLightAlpha = 102;
+		frameShadowAlpha = 117;
+	}
+
+	rgb_color edgeLightColor;
+	rgb_color edgeShadowColor;
+	rgb_color frameLightColor;
+	rgb_color frameShadowColor;
+	rgb_color fillLightColor = tint_color(fillColor, fillLightTint);
+	rgb_color fillShadowColor = tint_color(fillColor, fillShadowTint);
+
+	drawing_mode oldMode = view->DrawingMode();
+
+	if ((flags & B_BLEND_FRAME) != 0) {
+		edgeLightColor = (rgb_color){ 255, 255, 255, edgeLightAlpha };
+		edgeShadowColor = (rgb_color){ 0, 0, 0, edgeShadowAlpha };
+		frameLightColor = (rgb_color){ 0, 0, 0, frameLightAlpha };
+		frameShadowColor = (rgb_color){ 0, 0, 0, frameShadowAlpha };
+
+		view->SetDrawingMode(B_OP_ALPHA);
+	} else {
+		edgeLightColor = tint_color(base, edgeLightTint);
+		edgeShadowColor = tint_color(base, edgeShadowTint);
+		frameLightColor = tint_color(fillColor, frameLightTint);
+		frameShadowColor = tint_color(fillColor, frameShadowTint);
+	}
+
+	if (orientation == B_HORIZONTAL) {
+		_DrawRoundBarCorner(view, leftCorner, updateRect, edgeLightColor,
+			edgeShadowColor, frameLightColor, frameShadowColor, fillLightColor,
+			fillShadowColor, 1.0, 1.0, 0.0, -1.0, orientation);
+
+		_DrawRoundBarCorner(view, rightCorner, updateRect, edgeLightColor,
+			edgeShadowColor, frameLightColor, frameShadowColor, fillLightColor,
+			fillShadowColor, 0.0, 1.0, -1.0, -1.0, orientation);
+	} else {
+		_DrawRoundBarCorner(view, leftCorner, updateRect, edgeLightColor,
+			edgeShadowColor, frameLightColor, frameShadowColor, fillLightColor,
+			fillShadowColor, 1.0, 1.0, -1.0, 0.0, orientation);
+
+		_DrawRoundBarCorner(view, rightCorner, updateRect, edgeLightColor,
+			edgeShadowColor, frameLightColor, frameShadowColor, fillLightColor,
+			fillShadowColor, 1.0, 0.0, -1.0, -1.0, orientation);
+	}
+
+	view->ConstrainClippingRegion(NULL);
+
+	view->BeginLineArray(4);
+	if (orientation == B_HORIZONTAL) {
+		view->AddLine(barRect.LeftTop(), barRect.RightTop(),
+			edgeShadowColor);
+		view->AddLine(barRect.LeftBottom(), barRect.RightBottom(),
+			edgeLightColor);
+		barRect.InsetBy(0, 1);
+		view->AddLine(barRect.LeftTop(), barRect.RightTop(),
+			frameShadowColor);
+		view->AddLine(barRect.LeftBottom(), barRect.RightBottom(),
+			frameLightColor);
+		barRect.InsetBy(0, 1);
+	} else {
+		view->AddLine(barRect.LeftTop(), barRect.LeftBottom(),
+			edgeShadowColor);
+		view->AddLine(barRect.RightTop(), barRect.RightBottom(),
+			edgeLightColor);
+		barRect.InsetBy(1, 0);
+		view->AddLine(barRect.LeftTop(), barRect.LeftBottom(),
+			frameShadowColor);
+		view->AddLine(barRect.RightTop(), barRect.RightBottom(),
+			frameLightColor);
+		barRect.InsetBy(1, 0);
+	}
+	view->EndLineArray();
+
+	view->SetDrawingMode(oldMode);
+
+	_FillGradient(view, barRect, fillColor, fillShadowTint, fillLightTint,
+		orientation);
+}
+
+
+
+void
 HaikuControlLook::DrawSliderThumb(BView* view, BRect& rect, const BRect& updateRect,
 	const rgb_color& base, uint32 flags, orientation orientation)
 {
