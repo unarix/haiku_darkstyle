@@ -9,7 +9,6 @@
 #define EVENT_DISPATCHER_H
 
 
-#include <AutoDeleter.h>
 #include <Locker.h>
 #include <Message.h>
 #include <MessageFilter.h>
@@ -138,10 +137,8 @@ class EventDispatcher : public BLocker {
 		EventTarget*	fFocus;
 		bool			fSuspendFocus;
 
-		ObjectDeleter <EventFilter>
-						fMouseFilter;
-		ObjectDeleter<EventFilter>
-						fKeyboardFilter;
+		EventFilter*	fMouseFilter;
+		EventFilter*	fKeyboardFilter;
 
 		BObjectList<EventTarget> fTargets;
 
@@ -153,6 +150,13 @@ class EventDispatcher : public BLocker {
 		BMessage		fDragMessage;
 		bool			fDraggingMessage;
 		BPoint			fDragOffset;
+		ServerBitmap*	fDragBitmap;
+			// NOTE: unfortunately, the EventDispatcher
+			// has to know what a ServerBitmap is...
+			// otherwise, linking the libs in the
+			// testenvironment is problematic, because
+			// the alternative is that HWInterface knows
+			// about BitmapManager
 
 		BLocker			fCursorLock;
 		HWInterface*	fHWInterface;

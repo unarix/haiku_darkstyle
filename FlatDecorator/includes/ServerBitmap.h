@@ -10,7 +10,6 @@
 #define SERVER_BITMAP_H
 
 
-#include <AutoDeleter.h>
 #include <GraphicsDefs.h>
 #include <Rect.h>
 #include <OS.h>
@@ -97,8 +96,7 @@ protected:
 protected:
 			ClientMemory	fClientMemory;
 			AreaMemory*		fMemory;
-			ObjectDeleter< ::Overlay>
-							fOverlay;
+			::Overlay*		fOverlay;
 			uint8*			fBuffer;
 
 			int32			fWidth;

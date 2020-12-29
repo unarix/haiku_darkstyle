@@ -14,7 +14,6 @@
 #define _DRAW_STATE_H_
 
 
-#include <AutoDeleter.h>
 #include <AffineTransform.h>
 #include <GraphicsDefs.h>
 #include <InterfaceDefs.h>
@@ -45,8 +44,7 @@ public:
 
 		DrawState*			PushState();
 		DrawState*			PopState();
-		DrawState*			PreviousState() const
-								{ return fPreviousState.Get(); }
+		DrawState*			PreviousState() const { return fPreviousState; }
 
 		uint16				ReadFontFromLink(BPrivate::LinkReceiver& link);
 								// NOTE: ReadFromLink() does not read Font state!!
@@ -178,8 +176,7 @@ protected:
 		BAffineTransform	fTransform;
 		BAffineTransform	fCombinedTransform;
 
-		ObjectDeleter<BRegion>
-							fClippingRegion;
+		BRegion*			fClippingRegion;
 
 		BReference<AlphaMask> fAlphaMask;
 
@@ -223,8 +220,7 @@ protected:
 		// of the font (again) when the scale changes
 		float				fUnscaledFontSize;
 
-		ObjectDeleter<DrawState>
-							fPreviousState;
+		DrawState*			fPreviousState;
 };
 
 #endif	// _DRAW_STATE_H_

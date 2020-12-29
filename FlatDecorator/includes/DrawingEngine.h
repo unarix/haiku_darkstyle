@@ -12,7 +12,6 @@
 #define DRAWING_ENGINE_H_
 
 
-#include <AutoDeleter.h>
 #include <Accelerant.h>
 #include <Font.h>
 #include <Locker.h>
@@ -87,8 +86,7 @@ public:
 								alpha_function alphaFunc);
 	virtual	void			SetFont(const ServerFont& font);
 	virtual	void			SetFont(const DrawState* state);
-	virtual	void			SetTransform(const BAffineTransform& transform,
-								int32 xOffset, int32 yOffset);
+	virtual	void			SetTransform(const BAffineTransform& transform);
 
 			void			SuspendAutoSync();
 			void			Sync();
@@ -207,8 +205,7 @@ private:
 
 	inline	void			_CopyToFront(const BRect& frame);
 
-			ObjectDeleter<Painter>
-							fPainter;
+			Painter*		fPainter;
 			HWInterface*	fGraphicsCard;
 			uint32			fAvailableHWAccleration;
 			int32			fSuspendSyncLevel;

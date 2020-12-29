@@ -9,7 +9,6 @@
 #define SCREEN_MANAGER_H
 
 
-#include <AutoDeleter.h>
 #include <Looper.h>
 #include <ObjectList.h>
 
@@ -55,10 +54,9 @@ class ScreenManager : public BLooper {
 
 	private:
 		struct screen_item {
-			ObjectDeleter<Screen>	screen;
+			Screen*					screen;
 			ScreenOwner*			owner;
-			ObjectDeleter<HWInterfaceListener>
-									listener;
+			HWInterfaceListener*	listener;
 		};
 
 		void			_ScanDrivers();

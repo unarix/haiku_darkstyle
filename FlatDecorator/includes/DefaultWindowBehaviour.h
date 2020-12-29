@@ -21,8 +21,6 @@
 #include "MagneticBorder.h"
 #include "ServerCursor.h"
 
-#include <AutoDeleter.h>
-
 
 class Desktop;
 class Window;
@@ -109,8 +107,7 @@ private:
 protected:
 			Window*				fWindow;
 			Desktop*			fDesktop;
-			ObjectDeleter<State>
-								fState;
+			State*				fState;
 			int32				fLastModifiers;
 
 			MagneticBorder		fMagneticBorder;
