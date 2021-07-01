@@ -20,8 +20,9 @@ class BControl;
 class BGradientLinear;
 class BView;
 
-using BPrivate::HaikuControlLook;
+namespace BPrivate {
 
+using BPrivate::HaikuControlLook;
 
 class FlatControlLook : public HaikuControlLook {
 public:
@@ -165,5 +166,6 @@ public:
 									float brightness, uint32 flags);
 };
 
+}// bprivate
 
 #endif	// BE_CONTROL_LOOK_H

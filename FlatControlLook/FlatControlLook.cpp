@@ -29,7 +29,9 @@
 #include <Rect.h>
 #include <Region.h>
 #include <View.h>
+#include <WindowPrivate.h>
 
+namespace BPrivate{
 
 //#define DEBUG_CONTROL_LOOK
 #ifdef DEBUG_CONTROL_LOOK
@@ -53,7 +55,6 @@ FlatControlLook::FlatControlLook(image_id id)
 FlatControlLook::~FlatControlLook()
 {
 }
-
 
 void
 FlatControlLook::DrawMenuBarBackground(BView* view, BRect& rect,
@@ -350,8 +351,6 @@ HaikuControlLook::DrawSliderBar(BView* view, BRect rect, const BRect& updateRect
 		orientation);
 }
 
-
-
 void
 HaikuControlLook::DrawSliderThumb(BView* view, BRect& rect, const BRect& updateRect,
 	const rgb_color& base, uint32 flags, orientation orientation)
@@ -502,11 +501,6 @@ FlatControlLook::DrawMenuFieldFrame(BView* view, BRect& rect,
 		1.5f, 1.5f, base, background, 1.0, 1.0,
 		flags, borders);
 }
-
-
-
-
-
 
 void
 HaikuControlLook::_DrawButtonFrame(BView* view, BRect& rect,
@@ -747,8 +741,6 @@ FlatControlLook::_DrawButtonBackground(BView* view, BRect& rect,
 	view->PopState();
 }
 
-
-
 void
 FlatControlLook::_DrawNonFlatButtonBackground(BView* view, BRect& rect,
 	const BRect& updateRect, BRegion& clipping, float leftTopRadius,
@@ -902,9 +894,6 @@ FlatControlLook::_DrawNonFlatButtonBackground(BView* view, BRect& rect,
 	view->FillRect(rect, fillGradient);
 }
 
-
-
-
 void
 HaikuControlLook::_DrawPopUpMarker(BView* view, const BRect& rect,
 	const rgb_color& base, uint32 flags)
@@ -930,6 +919,7 @@ HaikuControlLook::_DrawPopUpMarker(BView* view, const BRect& rect,
 
 	view->SetFlags(viewFlags);
 }
+
 
 void
 HaikuControlLook::_MakeButtonGradient(BGradientLinear& gradient, BRect& rect,
@@ -981,6 +971,7 @@ HaikuControlLook::_MakeGlossyGradient(BGradientLinear& gradient, const BRect& re
 	else
 		gradient.SetEnd(rect.RightTop());
 }
+
 
 void
 HaikuControlLook::_MakeGradient(BGradientLinear& gradient, const BRect& rect,
@@ -2044,8 +2035,6 @@ FlatControlLook::_DrawMenuFieldBackgroundInside(BView* view, BRect& rect,
 	view->PopState();
 }
 
-
-
 void
 FlatControlLook::DrawRaisedBorder(BView* view, BRect& rect,
 	const BRect& updateRect, const rgb_color& base, uint32 flags,
@@ -2457,7 +2446,9 @@ HaikuControlLook::_BevelShadowColor(const rgb_color& base, uint32 flags)
 	return bevelShadowColor;
 }
 
+} // bprivate
+
 extern "C" BControlLook* (instantiate_control_look)(image_id id)
 {
-	return new (std::nothrow)FlatControlLook(id);
+	return new (std::nothrow)BPrivate::FlatControlLook(id);
 }
