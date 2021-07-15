@@ -11,13 +11,14 @@
  *		Ingo Weinhold, ingo_weinhold@gmx.de
  *		Clemens Zeidler, haiku@clemens-zeidler.de
  *		Joseph Groover <looncraz@looncraz.net>
+ *		Nahuel Tello <nhtello@unarix.com.ar>
  */
-#ifndef DEFAULT_DECORATOR_H
-#define DEFAULT_DECORATOR_H
+#ifndef FLAT_DECORATOR_H
+#define FLAT_DECORATOR_H
 
 
-#include "TabDecorator.h"
 #include "DecorManager.h"
+#include "SATDecorator.h"
 
 
 class Desktop;
@@ -32,7 +33,8 @@ protected:
 									BRect rect, Desktop* desktop);
 };
 
-class FlatDecorator: public TabDecorator {
+
+class FlatDecorator: public SATDecorator {
 public:
 								FlatDecorator(DesktopSettings& settings,
 									BRect frame, Desktop* desktop);
@@ -56,6 +58,10 @@ protected:
 	virtual	void				_DrawMinimize(Decorator::Tab* tab, bool direct,
 									BRect rect);
 
+	virtual	void				_GetButtonSizeAndOffset(const BRect& tabRect,
+									float* offset, float* size,
+									float* inset) const;
+
 private:
  			void				_DrawButtonBitmap(ServerBitmap* bitmap,
  									bool direct, BRect rect);
@@ -72,4 +78,4 @@ private:
 };
 
 
-#endif	// DEFAULT_DECORATOR_H
+#endif	// FLAT_DECORATOR_H
