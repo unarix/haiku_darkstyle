@@ -25,8 +25,6 @@
 #include <new>
 #include <stdio.h>
 
-#include <WindowPrivate.h>
-
 #include <Autolock.h>
 #include <Debug.h>
 #include <GradientLinear.h>
@@ -34,14 +32,14 @@
 #include <Region.h>
 #include <View.h>
 
+#include <WindowPrivate.h>
+
 #include "BitmapDrawingEngine.h"
-#include "Desktop.h"
 #include "DesktopSettings.h"
 #include "DrawingEngine.h"
 #include "DrawState.h"
 #include "FontManager.h"
 #include "PatternHandler.h"
-#include "RGBColor.h"
 #include "ServerBitmap.h"
 
 
@@ -54,82 +52,6 @@
 
 
 static const float kBorderResizeLength = 22.0;
-// static const float kResizeKnobSize = 18.0;
-
-
-// static const unsigned char f = 0xff; // way to write 0xff shorter
-
-// static const unsigned char kInnerShadowBits[] = {
-// 	f, f, f, f, f, f, f, f, f, 0,
-// 	f, f, f, f, f, f, 0, f, 0, f,
-// 	f, f, f, f, f, 0, f, 0, f, 0,
-// 	f, f, f, f, 0, f, 0, 0, 0, 0,
-// 	f, f, f, 0, f, 0, 0, 0, 0, 0,
-// 	f, f, 0, f, 0, 0, 0, 0, 0, 0,
-// 	f, 0, f, 0, 0, 0, 0, 0, 0, 0,
-// 	f, f, 0, 0, 0, 0, 0, 0, 0, 0,
-// 	f, 0, f, 0, 0, 0, 0, 0, 0, 0,
-// 	0, f, 0, 0, 0, 0, 0, 0, 0, 0
-// };
-
-// static const unsigned char kOuterShadowBits[] = {
-// 	f, f, f, f, f, f, f, f, f, f,
-// 	f, f, f, f, f, f, f, f, f, f,
-// 	f, f, f, f, f, f, f, f, f, f,
-// 	f, f, f, f, f, f, f, f, f, f,
-// 	f, f, f, f, f, f, f, f, f, 0,
-// 	f, f, f, f, f, f, f, 0, 0, 0,
-// 	f, f, f, f, f, f, 0, f, 0, 0,
-// 	f, f, f, f, f, 0, f, 0, 0, 0,
-// 	f, f, f, f, f, 0, 0, 0, 0, 0,
-// 	f, f, f, f, 0, 0, 0, 0, 0, 0
-// };
-
-// static const unsigned char kBigInnerShadowBits[] = {
-// 	f, f, f, f, f, f, f,
-// 	f, f, f, f, f, f, 0,
-// 	f, f, f, f, f, 0, 0,
-// 	f, f, f, f, 0, f, 0,
-// 	f, f, f, 0, f, 0, 0,
-// 	f, f, 0, f, 0, 0, 0,
-// 	f, 0, 0, 0, 0, 0, 0
-// };
-
-// static const unsigned char kBigOuterShadowBits[] = {
-// 	f, f, f, f, f, f, f,
-// 	f, f, f, f, f, f, 0,
-// 	f, f, f, f, f, f, 0,
-// 	f, f, f, f, f, f, 0,
-// 	f, f, f, f, f, f, 0,
-// 	f, f, f, f, f, f, 0,
-// 	f, 0, 0, 0, 0, 0, 0
-// };
-
-// static const unsigned char kSmallInnerShadowBits[] = {
-// 	f, f, f, 0, 0,
-// 	f, f, 0, f, 0,
-// 	f, 0, f, 0, 0,
-// 	0, f, 0, 0, 0,
-// 	0, 0, 0, 0, 0
-// };
-
-// static const unsigned char kSmallOuterShadowBits[] = {
-// 	f, f, f, f, f,
-// 	f, f, f, f, f,
-// 	f, f, f, f, f,
-// 	f, f, f, f, 0,
-// 	f, f, 0, 0, 0
-// };
-
-// static const unsigned char kGlintBits[] = {
-// 	0, f, 0,
-// 	f, 0, f,
-// 	0, f, f
-// };
-
-
-//     #pragma mark - BeDecorAddOn
-
 
 FlatDecorAddOn::FlatDecorAddOn(image_id id, const char* name)
 	:
@@ -146,6 +68,21 @@ FlatDecorAddOn::_AllocateDecorator(DesktopSettings& settings, BRect rect,
 }
 
 
+
+static inline uint8
+blend_color_value(uint8 a, uint8 b, float position)
+{
+	int16 delta = (int16)b - a;
+	int32 value = a + (int32)(position * delta);
+	if (value > 255)
+		return 255;
+	if (value < 0)
+		return 0;
+
+	return (uint8)value;
+}
+
+
 //	#pragma mark -
 
 
@@ -154,8 +91,11 @@ FlatDecorAddOn::_AllocateDecorator(DesktopSettings& settings, BRect rect,
 FlatDecorator::FlatDecorator(DesktopSettings& settings, BRect rect,
 	Desktop* desktop)
 	:
-	SATDecorator(settings, rect, desktop)
+	TabDecorator(settings, rect, desktop)
 {
+	// TODO: If the decorator was created with a frame too small, it should
+	// resize itself!
+
 	STRACE(("FlatDecorator:\n"));
 	STRACE(("\tFrame (%.1f,%.1f,%.1f,%.1f)\n",
 		rect.left, rect.top, rect.right, rect.bottom));
@@ -272,6 +212,12 @@ FlatDecorator::GetComponentColors(Component component, uint8 highlight,
 	}
 }
 
+
+void
+FlatDecorator::UpdateColors(DesktopSettings& settings)
+{
+	TabDecorator::UpdateColors(settings);
+}
 
 
 // #pragma mark - Protected methods
@@ -742,21 +688,8 @@ FlatDecorator::_DrawMinimize(Decorator::Tab* tab, bool direct, BRect rect)
 }
 
 
-void
-FlatDecorator::_GetButtonSizeAndOffset(const BRect& tabRect, float* _offset,
-	float* _size, float* _inset) const
-{
-	float tabSize = fTopTab->look == kLeftTitledWindowLook ?
-		tabRect.Width() : tabRect.Height();
-
-	*_offset = 5.0f;
-	*_inset = 0.0f;
-
-	*_size = std::max(0.0f, tabSize - 7.0f);
-}
-
-
 // #pragma mark - Private methods
+
 
 void
 FlatDecorator::_DrawButtonBitmap(ServerBitmap* bitmap, bool direct,
@@ -775,8 +708,7 @@ FlatDecorator::_DrawButtonBitmap(ServerBitmap* bitmap, bool direct,
 }
 
 
-/*!	
-	\brief Draws a framed rectangle with a gradient.
+/*!	\brief Draws a framed rectangle with a gradient.
 	\param engine The drawing engine to use.
 	\param rect The rectangular area to draw in.
 	\param down The rectangle should be drawn recessed or not.
@@ -972,7 +904,6 @@ FlatDecorator::_GetComponentColors(Component component,
 
 	return GetComponentColors(component, RegionHighlight(region), _colors, tab);
 }
-
 
 extern "C" DecorAddOn* (instantiate_decor_addon)(image_id id, const char* name)
 {

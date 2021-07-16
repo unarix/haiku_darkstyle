@@ -1,5 +1,5 @@
 /*
- * Copyright 2001-2015 Haiku, Inc.
+ * Copyright 2001-2020 Haiku, Inc.
  * Distributed under the terms of the MIT License.
  *
  * Authors:
@@ -10,33 +10,26 @@
  *		John Scipione, jscipione@gmail.com
  *		Ingo Weinhold, ingo_weinhold@gmx.de
  *		Clemens Zeidler, haiku@clemens-zeidler.de
- *		Joseph Groover <looncraz@looncraz.net>
+ *		Joseph Groover, looncraz@looncraz.net
+ *		Tri-Edge AI
+ *		Jacob Secunda, secundja@gmail.com
  */
 #ifndef DEFAULT_DECORATOR_H
 #define DEFAULT_DECORATOR_H
 
 
 #include "TabDecorator.h"
-#include "DecorManager.h"
 
 
 class Desktop;
 class ServerBitmap;
 
-class FlatDecorAddOn : public DecorAddOn {
-public:
-								FlatDecorAddOn(image_id id, const char* name);
 
-protected:
-	virtual Decorator*			_AllocateDecorator(DesktopSettings& settings,
-									BRect rect, Desktop* desktop);
-};
-
-class FlatDecorator: public TabDecorator {
+class DefaultDecorator: public TabDecorator {
 public:
-								FlatDecorator(DesktopSettings& settings,
+								DefaultDecorator(DesktopSettings& settings,
 									BRect frame, Desktop* desktop);
-	virtual						~FlatDecorator();
+	virtual						~DefaultDecorator();
 
 	virtual	void				GetComponentColors(Component component,
 									uint8 highlight, ComponentColors _colors,
@@ -55,6 +48,8 @@ protected:
 									BRect rect);
 	virtual	void				_DrawMinimize(Decorator::Tab* tab, bool direct,
 									BRect rect);
+	virtual	void				_DrawResizeKnob(BRect r, bool full,
+									const ComponentColors& color);
 
 private:
  			void				_DrawButtonBitmap(ServerBitmap* bitmap,
