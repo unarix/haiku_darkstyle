@@ -46,8 +46,7 @@ static const float kHoverTintFactor = 0.55;
 
 static const float kButtonPopUpIndicatorWidth = 11;
 
-FlatControlLook::FlatControlLook(image_id id)
-	: HaikuControlLook()
+FlatControlLook::FlatControlLook(): HaikuControlLook()
 {
 }
 
@@ -2450,5 +2449,5 @@ HaikuControlLook::_BevelShadowColor(const rgb_color& base, uint32 flags)
 
 extern "C" BControlLook* (instantiate_control_look)(image_id id)
 {
-	return new (std::nothrow)BPrivate::FlatControlLook(id);
+	return new (std::nothrow)BPrivate::FlatControlLook();
 }
