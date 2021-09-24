@@ -127,11 +127,22 @@ FlatDecorator::GetComponentColors(Component component, uint8 highlight,
 	Decorator::Tab* tab = static_cast<Decorator::Tab*>(_tab);
 	switch (component) {
 		case COMPONENT_TAB:
-			if (tab && tab->buttonFocus) {
+			if (highlight != 0) {
 				_colors[COLOR_TAB_FRAME_LIGHT]
 					= tint_color(fFocusTabColor, 1.0);
 				_colors[COLOR_TAB_FRAME_DARK]
-					= tint_color(fFocusTabColor, 1.2);//tint_color(fFocusTabColor, 1.15);
+					= tint_color(fFocusTabColor, 1.2);
+				_colors[COLOR_TAB] = tint_color(fFocusTabColor, 0.95);
+				_colors[COLOR_TAB_LIGHT] = fFocusTabColorLight; 
+				_colors[COLOR_TAB_BEVEL] = fFocusTabColorBevel;
+				_colors[COLOR_TAB_SHADOW] = fFocusTabColorShadow;
+				_colors[COLOR_TAB_TEXT] = tint_color(fFocusTextColor, 0.5);
+			} 
+			else if (tab && tab->buttonFocus) {
+				_colors[COLOR_TAB_FRAME_LIGHT]
+					= tint_color(fFocusTabColor, 1.0);
+				_colors[COLOR_TAB_FRAME_DARK]
+					= tint_color(fFocusTabColor, 1.2);
 				_colors[COLOR_TAB] = fFocusTabColor;
 				_colors[COLOR_TAB_LIGHT] = fFocusTabColorLight;
 				_colors[COLOR_TAB_BEVEL] = fFocusTabColorBevel;
