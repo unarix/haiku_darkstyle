@@ -487,8 +487,8 @@ FlatControlLook::DrawScrollBarThumb(BView* view, BRect& rect,
 	bool isEnabled = (flags & B_DISABLED) == 0;
 
 	// colors
-	rgb_color thumbColor = ui_color(B_SCROLL_BAR_THUMB_COLOR);
-		rgb_color base_panel = ui_color(B_PANEL_BACKGROUND_COLOR);
+	rgb_color thumbColor = tint_color(ui_color(B_SCROLL_BAR_THUMB_COLOR),1.09);
+	rgb_color base_panel = ui_color(B_PANEL_BACKGROUND_COLOR);
 
 	rgb_color light, dark, dark1, dark2;
 	light = tint_color(base_panel, B_DARKEN_1_TINT);
@@ -507,12 +507,11 @@ FlatControlLook::DrawScrollBarThumb(BView* view, BRect& rect,
 		BRegion clipping(updateRect);
 		view->ConstrainClippingRegion(&clipping);
 		DrawScrollBarBackground(view, rect, updateRect, base_panel, flags, orientation);
-		rect.InsetBy(3, 3);
+		rect.InsetBy(2, 2);
 		view->SetHighColor(base_panel);
 		view->FillRect(rect);
 
-		_DrawNonFlatButtonBackground(view, rect, updateRect, clipping, 3.0f, 3.0f, 3.0f, 3.0f, thumbColor, false, flags, B_ALL_BORDERS, orientation);
-
+		_DrawNonFlatButtonBackground(view, rect, updateRect, clipping, 4.0f, 4.0f, 4.0f, 4.0f, thumbColor, false, flags, B_ALL_BORDERS, orientation);
 	} else {
 		DrawScrollBarBackground(view, rect, updateRect, base_panel, flags, orientation);
 	}
