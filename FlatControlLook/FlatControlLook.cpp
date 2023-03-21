@@ -445,10 +445,10 @@ HaikuControlLook::DrawScrollBarBackground(BView* view, BRect& rect,
 
 	if (isEnabled) {
 		gradient1Tint = 1.08;
-		gradient2Tint = 0.90;
+		gradient2Tint = 0.95;
 	} else {
 		gradient1Tint = 1.08;
-		gradient2Tint = 0.90;
+		gradient2Tint = 0.95;
 	}
 
 	if (orientation == B_HORIZONTAL) {
@@ -516,7 +516,7 @@ FlatControlLook::DrawScrollBarThumb(BView* view, BRect& rect,
 		view->SetHighColor(base_panel);
 		view->FillRect(rect);
 
-		_DrawNonFlatButtonBackground(view, rect, updateRect, clipping, kRadius, kRadius, kRadius, kRadius, thumbColor, false, flags, B_ALL_BORDERS, orientation);
+		_DrawNonFlatButtonBackground(view, rect, updateRect, clipping, kRadius+1, kRadius+1, kRadius+1, kRadius+1, thumbColor, false, flags, B_ALL_BORDERS, orientation);
 	} else {
 		DrawScrollBarBackground(view, rect, updateRect, base_panel, flags, orientation);
 	}
@@ -1351,18 +1351,7 @@ FlatControlLook::DrawRaisedBorder(BView* view, BRect& rect,
 	const BRect& updateRect, const rgb_color& base, uint32 flags,
 	uint32 borders)
 {
-	rgb_color lightColor;
-	rgb_color shadowColor;
-
-	if ((flags & B_DISABLED) != 0) {
-		lightColor = base;
-		shadowColor = base;
-	} else {
-		lightColor = tint_color(base, 1.0);
-		shadowColor = tint_color(base, 1.0);
-	}
-
-	_DrawFrame(view, rect, shadowColor, shadowColor, shadowColor, shadowColor,
+	_DrawFrame(view, rect, base, base, base, base,
 		borders);
 }
 
@@ -1382,54 +1371,26 @@ HaikuControlLook::DrawTextControlBorder(BView* view, BRect& rect,
 	rgb_color customColor2 = tint_color(documentBackground, 1.0);
 	dark1BorderColor = tint_color(customColor2, 0.5);;
 
-	/*if ((flags & B_DISABLED) != 0) {
-		_DrawOuterResessedFrame(view, rect, documentBackground, 1.0, 1.0, flags, borders);
-
-		if ((flags & B_BLEND_FRAME) != 0)
-			dark1BorderColor = (rgb_color){ 0, 0, 0, 40 };
-		else
-			dark1BorderColor = tint_color(base, 1.0);
-	}
-	else if ((flags & B_CLICKED) != 0) {    //(BCheckBox)
-		// BCheckBox uses this to indicate the clicked state...
-		_DrawFrame(view, rect,
-			dark1BorderColor, dark1BorderColor,
-			dark1BorderColor, dark1BorderColor);
-	}
-	else {
-		if (base.red + base.green + base.blue <= 128 * 3)
-			_DrawOuterResessedFrame(view, rect, tint_color(base, 0.8), 1.0, 1.0, flags, borders); // outside border
-		else
-			_DrawOuterResessedFrame(view, rect, tint_color(base, 1.2), 1.0, 1.0, flags, borders); // outside border
-	}
-
 	if ((flags & B_DISABLED) == 0 && (flags & B_FOCUSED) != 0) {
 		if (base.red + base.green + base.blue <= 128 * 3)
-			dark1BorderColor = tint_color(documentBackground, 0.5);
+			documentBackground = tint_color(documentBackground, 0.9);
 		else
-			dark1BorderColor = tint_color(documentBackground, 1.5);
+			documentBackground = tint_color(documentBackground, 1.5);
 	}
 
 	if ((flags & B_DISABLED) == 0 && (flags & B_INVALID) != 0) {
-		dark1BorderColor = documentBackground;
-	}*/
+		documentBackground = tint_color(invalidColor, 0.5);;
+	}
 
 	if ((flags & B_BLEND_FRAME) != 0) {
 		drawing_mode oldMode = view->DrawingMode();
 		view->SetDrawingMode(B_OP_ALPHA);
-
-/*		_DrawFrame(view, rect,
-			dark1BorderColor, dark1BorderColor,
-			dark1BorderColor, dark1BorderColor, borders);*/
 
 		_DrawButtonFrame(view, rect, updateRect,  kRadius, kRadius, kRadius, kRadius, documentBackground, base,
 		false, false, flags, borders);
 
 		view->SetDrawingMode(oldMode);
 	} else {
-/*		_DrawFrame(view, rect,
-			dark1BorderColor, dark1BorderColor,
-			dark1BorderColor, dark1BorderColor, borders);*/
 
 		_DrawButtonFrame(view, rect, updateRect,  kRadius, kRadius, kRadius, kRadius, documentBackground, base,
 		false, false, flags, borders);
@@ -1643,15 +1604,13 @@ HaikuControlLook::_DrawButtonFrame(BView* view, BRect& rect,
 
 	// draw frame
 	if ((flags & B_BLEND_FRAME) != 0) {
-/*		drawing_mode oldDrawingMode = view->DrawingMode();
+		drawing_mode oldDrawingMode = view->DrawingMode();
 		view->SetDrawingMode(B_OP_ALPHA);
 
 		_DrawFrame(view, rect, frameLightColor, frameLightColor,
 			frameShadowColor, frameShadowColor, borders);
 
-		view->SetDrawingMode(oldDrawingMode);*/
-		_DrawFrame(view, rect, frameLightColor, frameLightColor,
-			frameShadowColor, frameShadowColor, borders);
+		view->SetDrawingMode(oldDrawingMode);
 	} else {
 		_DrawFrame(view, rect, frameLightColor, frameLightColor,
 			frameShadowColor, frameShadowColor, borders);
@@ -1737,7 +1696,7 @@ FlatControlLook::_DrawButtonBackground(BView* view, BRect& rect,
 	if ((flags & B_DEFAULT_BUTTON) != 0)
 	{
 		rgb_color textcolor = ui_color(B_CONTROL_TEXT_COLOR);
-		//if the text color is too light, then make it  using the same as B_CONTROL_TEXT_COLOR
+		//if the text color is too light, then make it using B_WINDOW_TAB_COLOR
 		if (textcolor.red + textcolor.green + textcolor.blue >= 128 * 3)
 			customColor = tint_color(ui_color(B_WINDOW_TAB_COLOR), 1.4);
 		else
@@ -2262,7 +2221,7 @@ HaikuControlLook::_MakeButtonGradient(BGradientLinear& gradient, BRect& rect,
 	float topTint = 0.99;
 	float middleTint1 = 0.99;
 	float middleTint2 = 1.0;
-	float bottomTint = 1.07;
+	float bottomTint = 1.05;
 
 	if ((flags & B_ACTIVATED) != 0) {
 		topTint = 1.11;
