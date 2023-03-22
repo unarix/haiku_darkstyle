@@ -1497,7 +1497,7 @@ HaikuControlLook::_DrawButtonFrame(BView* view, BRect& rect,
 
 	// default button frame color
 	rgb_color defaultIndicatorColor = ui_color(B_WINDOW_TAB_COLOR);
-	rgb_color cornerBgColor;
+	rgb_color cornerBgColor = background;;
 
 	if ((flags & B_DISABLED) != 0) {
 		defaultIndicatorColor = disable_color(defaultIndicatorColor,
@@ -1531,7 +1531,6 @@ HaikuControlLook::_DrawButtonFrame(BView* view, BRect& rect,
 		}
 	}
 
-	//cornerBgColor = background;
 	// frame colors
 	rgb_color frameLightColor  = customColor2; //_FrameLightColor(base, flags);
 	rgb_color frameShadowColor = customColor2; //_FrameShadowColor(base, flags);
@@ -1591,13 +1590,12 @@ HaikuControlLook::_DrawButtonFrame(BView* view, BRect& rect,
 
 	// draw outer edge
 	if ((flags & B_DEFAULT_BUTTON) != 0) {
-		_DrawOuterResessedFrame(view, rect, background,
-			contrast * ((flags & B_DISABLED) != 0 ? 1.0 : 1.0),
-			brightness * 1.0, flags, borders);
+		_DrawOuterResessedFrame(view, rect, background, 0, 0, flags, borders);
 	} else {
-		_DrawOuterResessedFrame(view, rect, background,
-			contrast * ((flags & B_DISABLED) != 0 ? 1.0 : 1.0),
-			brightness * 1.0, flags, borders);
+		if ((flags & B_FOCUSED) != 0)
+			_DrawOuterResessedFrame(view, rect, tint_color(background, 1.15), 0, 0);
+		else
+			_DrawOuterResessedFrame(view, rect, background, 0, 0, flags, borders);
 	}
 
 	view->SetDrawingMode(oldMode);
