@@ -12,8 +12,8 @@
  *		Clemens Zeidler, haiku@clemens-zeidler.de
  *		Joseph Groover <looncraz@looncraz.net>
  */
-#ifndef DEFAULT_DECORATOR_H
-#define DEFAULT_DECORATOR_H
+#ifndef FLAT_DECORATOR_H
+#define FLAT_DECORATOR_H
 
 
 #include "TabDecorator.h"
@@ -55,6 +55,8 @@ protected:
 									BRect rect);
 	virtual	void				_DrawMinimize(Decorator::Tab* tab, bool direct,
 									BRect rect);
+	virtual	void				_DrawResizeKnob(BRect r, bool full,
+									const ComponentColors& color);
 
 private:
  			void				_DrawButtonBitmap(ServerBitmap* bitmap,
@@ -72,4 +74,4 @@ private:
 };
 
 
-#endif	// DEFAULT_DECORATOR_H
+#endif	// FLAT_DECORATOR_H
