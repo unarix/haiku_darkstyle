@@ -63,6 +63,14 @@ public:
 									BRect& rect, const BRect& updateRect,
 									const rgb_color& base, uint32 flags = 0,
 									uint32 borders = B_ALL_BORDERS);
+	virtual	void				DrawCheckBox(BView* view, BRect& rect,
+									const BRect& updateRect,
+									const rgb_color& base,
+									uint32 flags = 0);
+	virtual	void				DrawRadioButton(BView* view, BRect& rect,
+									const BRect& updateRect,
+									const rgb_color& base,
+									uint32 flags = 0);
 	virtual	void				DrawMenuFieldFrame(BView* view, BRect& rect,
 									const BRect& updateRect, const rgb_color& base,
 									const rgb_color& background, uint32 flags, uint32 borders);
