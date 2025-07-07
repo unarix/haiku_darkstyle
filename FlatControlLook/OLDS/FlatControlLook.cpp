@@ -1,9 +1,9 @@
 /*
- * Copyright 2021-2024 Haiku, Inc. All rights reserved.
+ * Copyright 2021 Haiku, Inc. All rights reserved.
  * Distributed under the terms of the MIT License.
  *
  * Authors:
- *		Stephan Aßmus, superstippi@gmx.de
+ *		Stephan Abmus, superstippi@gmx.de
  *		John Scipione, jscipione@gmail.com
  *		Nahuel Tello, ntello@unarix.com.ar
  */
@@ -36,8 +36,7 @@ static const float kRadius = 3.0f;
 static const float kButtonPopUpIndicatorWidth = 11;
 
 
-FlatControlLook::FlatControlLook()
-	: HaikuControlLook()
+FlatControlLook::FlatControlLook(): HaikuControlLook()
 {
 }
 
@@ -51,33 +50,33 @@ FlatControlLook::~FlatControlLook()
 
 
 void
-FlatControlLook::DrawButtonFrame(BView* view, BRect& rect, const BRect& updateRect,
+HaikuControlLook::DrawButtonFrame(BView* view, BRect& rect, const BRect& updateRect,
 	const rgb_color& base, const rgb_color& background, uint32 flags,
 	uint32 borders)
 {
-	_DrawButtonFrame(view, rect, updateRect, kRadius, kRadius, kRadius, kRadius, base, background, 
-		1.0, 1.0, flags, borders);
+	_DrawButtonFrame(view, rect, updateRect, kRadius, kRadius, kRadius, kRadius, base,
+		background, 1.0, 1.0, flags, borders);
 }
 
 
 void
-FlatControlLook::DrawButtonFrame(BView* view, BRect& rect, const BRect& updateRect,
+HaikuControlLook::DrawButtonFrame(BView* view, BRect& rect, const BRect& updateRect,
 	float radius, const rgb_color& base, const rgb_color& background, uint32 flags,
 	uint32 borders)
 {
-	_DrawButtonFrame(view, rect, updateRect, kRadius, kRadius, kRadius, kRadius, base, background, 
-		1.0, 1.0, flags, borders);
+	_DrawButtonFrame(view, rect, updateRect,  kRadius, kRadius, kRadius, kRadius,
+		base, background, 1.0, 1.0, flags, borders);
 }
 
 
 void
-FlatControlLook::DrawButtonFrame(BView* view, BRect& rect,
+HaikuControlLook::DrawButtonFrame(BView* view, BRect& rect,
 	const BRect& updateRect, float leftTopRadius, float rightTopRadius,
 	float leftBottomRadius, float rightBottomRadius, const rgb_color& base,
 	const rgb_color& background, uint32 flags,
 	uint32 borders)
 {
-	_DrawButtonFrame(view, rect, updateRect, kRadius, kRadius, kRadius, kRadius, base, background, 
+	_DrawButtonFrame(view, rect, updateRect,  kRadius, kRadius, kRadius, kRadius, base, background,
 		1.0, 1.0, flags, borders);
 }
 
@@ -87,8 +86,8 @@ FlatControlLook::DrawButtonBackground(BView* view, BRect& rect,
 	const BRect& updateRect, const rgb_color& base, uint32 flags,
 	uint32 borders, orientation orientation)
 {
-	_DrawButtonBackground(view, rect, updateRect, kRadius, kRadius, kRadius, kRadius, base, false, 
-		flags, borders, orientation);
+	_DrawButtonBackground(view, rect, updateRect, kRadius, kRadius, kRadius, kRadius,
+		base, false, flags, borders, orientation);
 }
 
 
@@ -108,21 +107,23 @@ FlatControlLook::DrawButtonBackground(BView* view, BRect& rect,
 	float leftBottomRadius, float rightBottomRadius, const rgb_color& base,
 	uint32 flags, uint32 borders, orientation orientation)
 {
-	_DrawButtonBackground(view, rect, updateRect, kRadius, kRadius, kRadius, kRadius, base, false, 
-		flags, borders, orientation);
+	_DrawButtonBackground(view, rect, updateRect, kRadius,
+		kRadius, kRadius, kRadius, base, false, flags,
+		borders, orientation);
 }
 
 
 void
-FlatControlLook::DrawMenuBarBackground(BView* view, BRect& rect, const BRect& updateRect, 
-	const rgb_color& base, uint32 flags, uint32 borders)
+FlatControlLook::DrawMenuBarBackground(BView* view, BRect& rect,
+	const BRect& updateRect, const rgb_color& base, uint32 flags,
+	uint32 borders)
 {
-	if (!ShouldDraw(view, rect, updateRect))
+	if (!rect.IsValid() || !rect.Intersects(updateRect))
 		return;
 
 	// the surface edges
 
-	// colors and tint
+	// colors
 	float topTint = 1.0;
 	float bottomTint = 1.0;
 
@@ -130,7 +131,8 @@ FlatControlLook::DrawMenuBarBackground(BView* view, BRect& rect, const BRect& up
 	bool isEnabled = (flags & B_DISABLED) != 0;
 	bool isFocused = (flags & B_FOCUSED) != 0;
 
-	if (isEnabled || isFocused) {
+	if (isEnabled || isFocused)
+	{
 		customColor = tint_color(ui_color(B_WINDOW_TAB_COLOR), 1.0);
 		rgb_color bevelColor1 = tint_color(customColor, 1.0);
 		rgb_color bevelColor2 = tint_color(customColor, 1.0);
@@ -168,8 +170,8 @@ FlatControlLook::DrawMenuFieldFrame(BView* view, BRect& rect,
 	const BRect& updateRect, const rgb_color& base,
 	const rgb_color& background, uint32 flags, uint32 borders)
 {
-	_DrawButtonFrame(view, rect, updateRect, kRadius, kRadius, kRadius, kRadius, base, background, 
-		1.0, 1.0, flags, borders);
+	_DrawButtonFrame(view, rect, updateRect, kRadius, kRadius, kRadius, kRadius, base,
+		background, 1.0, 1.0, flags, borders);
 }
 
 
@@ -178,8 +180,8 @@ FlatControlLook::DrawMenuFieldFrame(BView* view, BRect& rect,
 	const BRect& updateRect, float radius, const rgb_color& base,
 	const rgb_color& background, uint32 flags, uint32 borders)
 {
-	_DrawButtonFrame(view, rect, updateRect, radius, radius, radius, radius, base, background, 1.0, 
-		1.0, flags, borders);
+	_DrawButtonFrame(view, rect, updateRect, radius, radius, radius, radius,
+		base, background, 1.0, 1.0, flags, borders);
 }
 
 
@@ -190,8 +192,9 @@ FlatControlLook::DrawMenuFieldFrame(BView* view, BRect& rect,
 	float rightBottomRadius, const rgb_color& base,
 	const rgb_color& background, uint32 flags, uint32 borders)
 {
-	_DrawButtonFrame(view, rect, updateRect, leftTopRadius, rightTopRadius, leftBottomRadius, 
-		rightBottomRadius, base, background, 1.0, 1.0, flags, borders);
+	_DrawButtonFrame(view, rect, updateRect, leftTopRadius, rightTopRadius,
+		leftBottomRadius, rightBottomRadius, base, background, 1.0, 1.0,
+		flags, borders);
 }
 
 
@@ -200,8 +203,8 @@ FlatControlLook::DrawMenuFieldBackground(BView* view, BRect& rect,
 	const BRect& updateRect, const rgb_color& base, bool popupIndicator,
 	uint32 flags)
 {
-	_DrawMenuFieldBackgroundOutside(view, rect, updateRect, kRadius, kRadius, kRadius, kRadius, 
-		base, popupIndicator, flags);
+	_DrawMenuFieldBackgroundOutside(view, rect, updateRect,
+		kRadius, kRadius, kRadius, kRadius, base, popupIndicator, flags);
 }
 
 
@@ -238,11 +241,11 @@ FlatControlLook::DrawMenuFieldBackground(BView* view, BRect& rect,
 
 
 void
-FlatControlLook::DrawMenuBackground(BView* view, BRect& rect,
+HaikuControlLook::DrawMenuBackground(BView* view, BRect& rect,
 	const BRect& updateRect, const rgb_color& base, uint32 flags,
 	uint32 borders)
 {
-	if (!ShouldDraw(view, rect, updateRect))
+	if (!rect.IsValid() || !rect.Intersects(updateRect))
 		return;
 
 	// surface top color
@@ -251,7 +254,12 @@ FlatControlLook::DrawMenuBackground(BView* view, BRect& rect,
 	// inner bevel colors
 	rgb_color bevelColor;
 
-	bevelColor = tint_color(background, 1.0);
+
+	if ((flags & B_DISABLED) != 0) {
+		bevelColor = tint_color(background, 1.0);
+	} else {
+		bevelColor = tint_color(background, 1.0);
+	}
 
 	// draw inner bevel
 	_DrawFrame(view, rect,
@@ -270,7 +278,7 @@ FlatControlLook::DrawMenuItemBackground(BView* view, BRect& rect,
 	const BRect& updateRect, const rgb_color& base, uint32 flags,
 	uint32 borders)
 {
-	if (!ShouldDraw(view, rect, updateRect))
+	if (!rect.IsValid() || !rect.Intersects(updateRect))
 		return;
 
 	// surface edges
@@ -289,6 +297,7 @@ FlatControlLook::DrawMenuItemBackground(BView* view, BRect& rect,
 		bottomTint = 1.1;
 	}
 
+	//rgb_color bevelLightColor = tint_color(selectedColor, topTint);
 	rgb_color bevelShadowColor = tint_color(selectedColor, bottomTint);
 
 	// draw surface edges
@@ -302,173 +311,20 @@ FlatControlLook::DrawMenuItemBackground(BView* view, BRect& rect,
 	_FillGradient(view, rect, selectedColor, topTint, bottomTint);
 }
 
-void
-FlatControlLook::DrawCheckBox(BView* view, BRect& rect, const BRect& updateRect,
-	const rgb_color& base, uint32 flags)
-{
-	if (!ShouldDraw(view, rect, updateRect))
-		return;
-
-	rgb_color customBaseColor = ui_color(B_DOCUMENT_BACKGROUND_COLOR);
-	rgb_color customMarkColor = ui_color(B_WINDOW_TAB_COLOR);
-	rgb_color customFrameColor = base;
-		
-	if (base.Brightness() < 127)
-		customFrameColor = tint_color(base, 0.7);
-
-	rgb_color dark1BorderColor;
-	rgb_color dark2BorderColor;
-	rgb_color navigationColor = ui_color(B_KEYBOARD_NAVIGATION_COLOR);
-
-	if ((flags & B_DISABLED) != 0) {
-		_DrawOuterResessedFrame(view, rect, customFrameColor, 0.0, 1.0, flags);
-
-		dark1BorderColor = tint_color(customFrameColor, 1.05);
-		dark2BorderColor = tint_color(customFrameColor, 1.05);
-	} else if ((flags & B_CLICKED) != 0) {
-		dark1BorderColor = tint_color(customFrameColor, 1.3);
-		dark2BorderColor = tint_color(customFrameColor, 1.3);
-
-		_DrawFrame(view, rect,
-			dark1BorderColor, dark1BorderColor,
-			dark2BorderColor, dark2BorderColor);
-
-		dark2BorderColor = dark1BorderColor;
-	} else {
-		_DrawOuterResessedFrame(view, rect, customFrameColor, 0.6, 1.0, flags);
-
-		dark1BorderColor = tint_color(customFrameColor, 1.2);
-		dark2BorderColor = tint_color(customFrameColor, 1.2);
-	}
-
-	if ((flags & B_FOCUSED) != 0) {
-		dark1BorderColor = navigationColor;
-		dark2BorderColor = navigationColor;
-	}
-
-	_DrawFrame(view, rect,
-		dark1BorderColor, dark1BorderColor,
-		dark2BorderColor, dark2BorderColor);
-
-	if ((flags & B_DISABLED) != 0)
-		_FillGradient(view, rect, customBaseColor, 1.0, 1.0);
-	else
-		_FillGradient(view, rect, customBaseColor, 1.0, 1.0);
-
-	rgb_color markColor;
-	if (_RadioButtonAndCheckBoxMarkColor(customBaseColor, markColor, flags)) {
-		view->SetHighColor(customMarkColor);
-
-		BFont font;
-		view->GetFont(&font);
-		float inset = std::max(2.0f, roundf(font.Size() / 6));
-		rect.InsetBy(inset, inset);
-
-		float penSize = std::max(1.0f, ceilf(rect.Width() / 3.5f));
-		if (penSize > 1.0f && fmodf(penSize, 2.0f) == 0.0f) {
-			// Tweak ends to "include" the pixel at the index,
-			// we need to do this in order to produce results like R5,
-			// where coordinates were inclusive
-			rect.right++;
-			rect.bottom++;
-		}
-
-		view->SetPenSize(penSize);
-		view->SetDrawingMode(B_OP_OVER);
-		view->StrokeLine(rect.LeftTop(), rect.RightBottom());
-		view->StrokeLine(rect.LeftBottom(), rect.RightTop());
-	}
-}
 
 void
-FlatControlLook::DrawRadioButton(BView* view, BRect& rect, const BRect& updateRect,
-	const rgb_color& base, uint32 flags)
-{
-	if (!ShouldDraw(view, rect, updateRect))
-		return;
-
-	rgb_color customBaseColor = ui_color(B_DOCUMENT_BACKGROUND_COLOR);
-	rgb_color customMarkColor = ui_color(B_WINDOW_TAB_COLOR);
-	rgb_color customFrameColor = base;
-		
-	if (base.Brightness() < 127)
-		customFrameColor = tint_color(base, 0.6);
-
-	rgb_color borderColor;
-	rgb_color bevelLight;
-	rgb_color bevelShadow;
-	rgb_color navigationColor = ui_color(B_KEYBOARD_NAVIGATION_COLOR);
-
-	if ((flags & B_DISABLED) != 0) {
-		borderColor = tint_color(customFrameColor, 1.15);
-		bevelLight = customFrameColor;
-		bevelShadow = customFrameColor;
-	} else if ((flags & B_CLICKED) != 0) {
-		borderColor = tint_color(customFrameColor, 1.50);
-		bevelLight = borderColor;
-		bevelShadow = borderColor;
-	} else {
-		borderColor = tint_color(customFrameColor, 1.21);
-		bevelLight = tint_color(customFrameColor, 0.55);
-		bevelShadow = tint_color(customFrameColor, 1.21);
-	}
-
-	if ((flags & B_FOCUSED) != 0) {
-		borderColor = navigationColor;
-	}
-
-	BGradientLinear bevelGradient;
-	bevelGradient.AddColor(bevelShadow, 0);
-	bevelGradient.AddColor(bevelLight, 255);
-	bevelGradient.SetStart(rect.LeftTop());
-	bevelGradient.SetEnd(rect.RightBottom());
-
-	view->FillEllipse(rect, bevelGradient);
-	rect.InsetBy(1, 1);
-
-	bevelGradient.MakeEmpty();
-	bevelGradient.AddColor(borderColor, 0);
-	bevelGradient.AddColor(tint_color(borderColor, 0.8), 255);
-	view->FillEllipse(rect, bevelGradient);
-	rect.InsetBy(1, 1);
-
-	float topTint;
-	float bottomTint;
-	if ((flags & B_DISABLED) != 0) {
-		topTint = 0.4;
-		bottomTint = 0.2;
-	} else {
-		topTint = 0.15;
-		bottomTint = 0.0;
-	}
-
-	BGradientLinear gradient;
-	_MakeGradient(gradient, rect, customBaseColor, topTint, bottomTint);
-	view->FillEllipse(rect, gradient);
-
-	rgb_color markColor;
-	if (_RadioButtonAndCheckBoxMarkColor(customBaseColor, markColor, flags)) {
-		view->SetHighColor(customMarkColor);
-		BFont font;
-		view->GetFont(&font);
-		float inset = roundf(font.Size() / 4);
-		rect.InsetBy(inset, inset);
-		view->FillEllipse(rect);
-	}
-}
-
-void
-FlatControlLook::DrawScrollBarBorder(BView* view, BRect rect,
+HaikuControlLook::DrawScrollBarBorder(BView* view, BRect rect,
 	const BRect& updateRect, const rgb_color& base, uint32 flags,
 	orientation orientation)
 {
-	if (!ShouldDraw(view, rect, updateRect))
+	if (!rect.IsValid() || !rect.Intersects(updateRect))
 		return;
 
 	view->PushState();
 
-	// set clipping constraints to rect
-	view->ClipToRect(rect);
+	// set clipping constraints to updateRect
+	BRegion clipping(updateRect);
+	view->ConstrainClippingRegion(&clipping);
 
 	bool isEnabled = (flags & B_DISABLED) == 0;
 	bool isFocused = (flags & B_FOCUSED) != 0;
@@ -513,14 +369,14 @@ FlatControlLook::DrawScrollBarBorder(BView* view, BRect rect,
 
 
 void
-FlatControlLook::DrawScrollBarButton(BView* view, BRect rect,
+HaikuControlLook::DrawScrollBarButton(BView* view, BRect rect,
 	const BRect& updateRect, const rgb_color& base, uint32 flags,
 	int32 direction, orientation orientation, bool down)
 {
-	if (!ShouldDraw(view, rect, updateRect))
+	if (!rect.IsValid() || !rect.Intersects(updateRect))
 		return;
 
-	bool dark = (base.Brightness() < 127);
+	bool dark = (base.red + base.green + base.blue <= 128 * 3);
 	rgb_color arrowColor;
 
 	bool isEnabled = (flags & B_DISABLED) == 0;
@@ -540,8 +396,8 @@ FlatControlLook::DrawScrollBarButton(BView* view, BRect rect,
 	}
 
 	// clip to button
-	view->PushState();
-	view->ClipToRect(rect);
+	BRegion buttonRegion(rect);
+	view->ConstrainClippingRegion(&buttonRegion);
 
 	flags &= ~B_FLAT;
 
@@ -550,12 +406,13 @@ FlatControlLook::DrawScrollBarButton(BView* view, BRect rect,
 	DrawArrowShape(view, rect, updateRect, arrowColor, direction, flags, 1.0f);
 
 	// revert clipping constraints
-	view->PopState();
+	BRegion clipping(updateRect);
+	view->ConstrainClippingRegion(&clipping);
 }
 
 
 void
-FlatControlLook::DrawScrollBarBackground(BView* view, BRect& rect1,
+HaikuControlLook::DrawScrollBarBackground(BView* view, BRect& rect1,
 	BRect& rect2, const BRect& updateRect, const rgb_color& base, uint32 flags,
 	orientation orientation)
 {
@@ -565,25 +422,34 @@ FlatControlLook::DrawScrollBarBackground(BView* view, BRect& rect1,
 
 
 void
-FlatControlLook::DrawScrollBarBackground(BView* view, BRect& rect,
+HaikuControlLook::DrawScrollBarBackground(BView* view, BRect& rect,
 	const BRect& updateRect, const rgb_color& base, uint32 flags,
 	orientation orientation)
 {
-	if (!ShouldDraw(view, rect, updateRect))
+	if (!rect.IsValid() || !rect.Intersects(updateRect))
 		return;
 
 	view->PushState();
 
-	// set clipping constraints to rect
-	view->ClipToRect(rect);
+	// set clipping constraints to updateRect
+	BRegion clipping(updateRect);
+	view->ConstrainClippingRegion(&clipping);
 
 	bool isEnabled = (flags & B_DISABLED) == 0;
 
 	// fill background, we'll draw arrows and thumb on top
 	view->SetDrawingMode(B_OP_COPY);
 
-	float gradient1Tint = 1.08;
-	float gradient2Tint = 0.95;
+	float gradient1Tint;
+	float gradient2Tint;
+
+	if (isEnabled) {
+		gradient1Tint = 1.08;
+		gradient2Tint = 0.95;
+	} else {
+		gradient1Tint = 1.08;
+		gradient2Tint = 0.95;
+	}
 
 	if (orientation == B_HORIZONTAL) {
 		// dark vertical line on left edge
@@ -610,19 +476,20 @@ FlatControlLook::DrawScrollBarThumb(BView* view, BRect& rect,
 	const BRect& updateRect, const rgb_color& base, uint32 flags,
 	orientation orientation, uint32 knobStyle)
 {
-	if (!ShouldDraw(view, rect, updateRect))
+	if (!rect.IsValid() || !rect.Intersects(updateRect))
 		return;
 
 	view->PushState();
 
-	// set clipping constraints to rect
-	view->ClipToRect(rect);
+	// set clipping constraints to updateRect
+	BRegion clipping(updateRect);
+	view->ConstrainClippingRegion(&clipping);
 
 	// flags
 	bool isEnabled = (flags & B_DISABLED) == 0;
 
 	// colors
-	rgb_color thumbColor = tint_color(ui_color(B_SCROLL_BAR_THUMB_COLOR), 1.09);
+	rgb_color thumbColor = tint_color(ui_color(B_SCROLL_BAR_THUMB_COLOR),1.09);
 	rgb_color base_panel = ui_color(B_PANEL_BACKGROUND_COLOR);
 
 	rgb_color light, dark, dark1, dark2;
@@ -640,6 +507,7 @@ FlatControlLook::DrawScrollBarThumb(BView* view, BRect& rect,
 		// fill the clickable surface of the thumb
 		// set clipping constraints to updateRect
 		BRegion clipping(updateRect);
+		view->ConstrainClippingRegion(&clipping);
 		DrawScrollBarBackground(view, rect, updateRect, base_panel, flags, orientation);
 		if (orientation == B_HORIZONTAL)
 			rect.InsetBy(0, 2);
@@ -648,13 +516,12 @@ FlatControlLook::DrawScrollBarThumb(BView* view, BRect& rect,
 		view->SetHighColor(base_panel);
 		view->FillRect(rect);
 
-		_DrawNonFlatButtonBackground(view, rect, updateRect, clipping, kRadius + 1, kRadius + 1,
-			kRadius + 1, kRadius + 1, thumbColor, false, flags, B_ALL_BORDERS, orientation);
+		_DrawNonFlatButtonBackground(view, rect, updateRect, clipping, kRadius+1, kRadius+1, kRadius+1, kRadius+1, thumbColor, false, flags, B_ALL_BORDERS, orientation);
 	} else {
 		DrawScrollBarBackground(view, rect, updateRect, base_panel, flags, orientation);
 	}
 
-	knobStyle = B_KNOB_LINES; // Hard set of the knobstyle
+	knobStyle = B_KNOB_LINES; //Hard set of the knobstyle
 
 	// draw knob style
 	if (knobStyle != B_KNOB_NONE && isEnabled) {
@@ -785,7 +652,7 @@ FlatControlLook::DrawScrollBarThumb(BView* view, BRect& rect,
 
 
 void
-FlatControlLook::DrawScrollViewFrame(BView* view, BRect& rect,
+HaikuControlLook::DrawScrollViewFrame(BView* view, BRect& rect,
 	const BRect& updateRect, BRect verticalScrollBarFrame,
 	BRect horizontalScrollBarFrame, const rgb_color& base,
 	border_style borderStyle, uint32 flags, uint32 _borders)
@@ -870,25 +737,29 @@ FlatControlLook::DrawScrollViewFrame(BView* view, BRect& rect,
 
 
 rgb_color
-FlatControlLook::SliderBarColor(const rgb_color& base)
+HaikuControlLook::SliderBarColor(const rgb_color& base)
 {
 	rgb_color customColor = tint_color(ui_color(B_PANEL_BACKGROUND_COLOR), 1.05);
 	// if the color BACKGROUND used is too dark, then make it lighter using the
 	// same as B_CONTROL_TEXT_COLOR
-	if (base.Brightness() < 127)
+	if (base.red + base.green + base.blue <= 128 * 3) {
 		customColor = tint_color(ui_color(B_PANEL_BACKGROUND_COLOR), 0.95);
+	}
 
 	return customColor;
 }
 
 
 void
-FlatControlLook::DrawSliderBar(BView* view, BRect rect, const BRect& updateRect,
+HaikuControlLook::DrawSliderBar(BView* view, BRect rect, const BRect& updateRect,
 	const rgb_color& base, rgb_color leftFillColor, rgb_color rightFillColor,
 	float sliderScale, uint32 flags, orientation orientation)
 {
-	if (!ShouldDraw(view, rect, updateRect))
+	if (!rect.IsValid() || !rect.Intersects(updateRect))
 		return;
+
+	// save the clipping constraints of the view
+	view->PushState();
 
 	// separate the bar in two sides
 	float sliderPosition;
@@ -909,18 +780,27 @@ FlatControlLook::DrawSliderBar(BView* view, BRect rect, const BRect& updateRect,
 	}
 
 	// fill the background for the corners, exclude the middle bar for now
-	view->PushState();
-	view->ClipToRect(leftBarSide);
+	BRegion region(rect);
+	region.Exclude(rightBarSide);
+	view->ConstrainClippingRegion(&region);
 
-	DrawSliderBar(view, rect, updateRect, base, leftFillColor, flags, orientation);
+	view->PushState();
+
+	DrawSliderBar(view, rect, updateRect, base, leftFillColor, flags,
+		orientation);
 
 	view->PopState();
 
+	region.Set(rect);
+	region.Exclude(leftBarSide);
+	view->ConstrainClippingRegion(&region);
+
 	view->PushState();
-	view->ClipToRect(rightBarSide);
 
 	DrawSliderBar(view, rect, updateRect, base, rightFillColor, flags,
 		orientation);
+
+	view->PopState();
 
 	// restore the clipping constraints of the view
 	view->PopState();
@@ -928,11 +808,11 @@ FlatControlLook::DrawSliderBar(BView* view, BRect rect, const BRect& updateRect,
 
 
 void
-FlatControlLook::DrawSliderBar(BView* view, BRect rect, const BRect& updateRect,
+HaikuControlLook::DrawSliderBar(BView* view, BRect rect, const BRect& updateRect,
 	const rgb_color& base, rgb_color fillColor, uint32 flags,
 	orientation orientation)
 {
-	if (!ShouldDraw(view, rect, updateRect))
+	if (!rect.IsValid() || !rect.Intersects(updateRect))
 		return;
 
 	// separate the rect into corners
@@ -953,9 +833,9 @@ FlatControlLook::DrawSliderBar(BView* view, BRect rect, const BRect& updateRect,
 	}
 
 	// fill the background for the corners, exclude the middle bar for now
-	view->PushState();
-	view->ClipToRect(rect);
-	view->ClipToInverseRect(barRect);
+	BRegion region(rect);
+	region.Exclude(barRect);
+	view->ConstrainClippingRegion(&region);
 
 	if ((flags & B_BLEND_FRAME) == 0) {
 		view->SetHighColor(base);
@@ -1043,7 +923,7 @@ FlatControlLook::DrawSliderBar(BView* view, BRect rect, const BRect& updateRect,
 			fillShadowColor, 1.0, 0.0, -1.0, -1.0, orientation);
 	}
 
-	view->PopState();
+	view->ConstrainClippingRegion(NULL);
 
 	view->BeginLineArray(4);
 	if (orientation == B_HORIZONTAL) {
@@ -1079,10 +959,10 @@ FlatControlLook::DrawSliderBar(BView* view, BRect rect, const BRect& updateRect,
 
 
 void
-FlatControlLook::DrawSliderThumb(BView* view, BRect& rect, const BRect& updateRect,
+HaikuControlLook::DrawSliderThumb(BView* view, BRect& rect, const BRect& updateRect,
 	const rgb_color& base, uint32 flags, orientation orientation)
 {
-	if (!ShouldDraw(view, rect, updateRect))
+	if (!rect.IsValid() || !rect.Intersects(updateRect))
 		return;
 
 	rgb_color thumbColor = tint_color(ui_color(B_SCROLL_BAR_THUMB_COLOR), 1.0);
@@ -1092,10 +972,10 @@ FlatControlLook::DrawSliderThumb(BView* view, BRect& rect, const BRect& updateRe
 	rgb_color frameShadowColor;
 	rgb_color shadowColor = tint_color(ui_color(B_CONTROL_TEXT_COLOR), 0.5);
 
-	// If the color BACKGROUND used is too dark, then make it lighter using the same as
-	// B_CONTROL_TEXT_COLOR
-	if (base.Brightness() < 127)
+	//if the color BACKGROUND used is too dark, then make it lighter using the same as B_CONTROL_TEXT_COLOR
+	if (base.red + base.green + base.blue <= 128 * 3) {
 		shadowColor = tint_color(ui_color(B_CONTROL_TEXT_COLOR), 1.55);
+	}
 
 	if ((flags & B_FOCUSED) != 0) {
 		// focused
@@ -1157,11 +1037,11 @@ FlatControlLook::DrawSliderThumb(BView* view, BRect& rect, const BRect& updateRe
 
 
 void
-FlatControlLook::DrawActiveTab(BView* view, BRect& rect,
+HaikuControlLook::DrawActiveTab(BView* view, BRect& rect,
 	const BRect& updateRect, const rgb_color& base, uint32 flags,
 	uint32 borders, uint32 side, int32, int32, int32, int32)
 {
-	if (!ShouldDraw(view, rect, updateRect))
+	if (!rect.IsValid() || !rect.Intersects(updateRect))
 		return;
 
 	// Snap the rectangle to pixels to avoid rounding errors.
@@ -1173,8 +1053,9 @@ FlatControlLook::DrawActiveTab(BView* view, BRect& rect,
 	// save the clipping constraints of the view
 	view->PushState();
 
-	// set clipping constraints to rect
-	view->ClipToRect(rect);
+	// set clipping constraints to updateRect
+	BRegion clipping(updateRect);
+	view->ConstrainClippingRegion(&clipping);
 
 	rgb_color edgeShadowColor;
 	rgb_color edgeLightColor;
@@ -1206,7 +1087,7 @@ FlatControlLook::DrawActiveTab(BView* view, BRect& rect,
 		fillGradient.AddColor(tint_color(base, 1.0), 255);
 	}
 
-	static const float kRoundCornerRadius = 2.0f;
+	static const float kRoundCornerRadius = kRadius;
 
 	// left top corner dimensions
 	BRect leftTopCorner(rect);
@@ -1229,12 +1110,10 @@ FlatControlLook::DrawActiveTab(BView* view, BRect& rect,
 		- kRoundCornerRadius);
 	rightBottomCorner.top = floorf(rect.bottom - kRoundCornerRadius);
 
-	BRect roundCorner[2];
-
 	switch (side) {
 		case B_TOP_BORDER:
-			roundCorner[0] = leftTopCorner;
-			roundCorner[1] = rightTopCorner;
+			clipping.Exclude(leftTopCorner);
+			clipping.Exclude(rightTopCorner);
 
 			// draw the left top corner
 			_DrawRoundCornerLeftTop(view, leftTopCorner, updateRect, base,
@@ -1247,8 +1126,8 @@ FlatControlLook::DrawActiveTab(BView* view, BRect& rect,
 				fillGradient);
 			break;
 		case B_BOTTOM_BORDER:
-			roundCorner[0] = leftBottomCorner;
-			roundCorner[1] = rightBottomCorner;
+			clipping.Exclude(leftBottomCorner);
+			clipping.Exclude(rightBottomCorner);
 
 			// draw the left bottom corner
 			_DrawRoundCornerLeftBottom(view, leftBottomCorner, updateRect, base,
@@ -1261,8 +1140,8 @@ FlatControlLook::DrawActiveTab(BView* view, BRect& rect,
 				fillGradient);
 			break;
 		case B_LEFT_BORDER:
-			roundCorner[0] = leftTopCorner;
-			roundCorner[1] = leftBottomCorner;
+			clipping.Exclude(leftTopCorner);
+			clipping.Exclude(leftBottomCorner);
 
 			// draw the left top corner
 			_DrawRoundCornerLeftTop(view, leftTopCorner, updateRect, base,
@@ -1275,8 +1154,8 @@ FlatControlLook::DrawActiveTab(BView* view, BRect& rect,
 				fillGradient);
 			break;
 		case B_RIGHT_BORDER:
-			roundCorner[0] = rightTopCorner;
-			roundCorner[1] = rightBottomCorner;
+			clipping.Exclude(rightTopCorner);
+			clipping.Exclude(rightBottomCorner);
 
 			// draw the right top corner
 			_DrawRoundCornerRightTop(view, rightTopCorner, updateRect, base,
@@ -1291,8 +1170,7 @@ FlatControlLook::DrawActiveTab(BView* view, BRect& rect,
 	}
 
 	// clip out the corners
-	view->ClipToInverseRect(roundCorner[0]);
-	view->ClipToInverseRect(roundCorner[1]);
+	view->ConstrainClippingRegion(&clipping);
 
 	uint32 bordersToDraw = 0;
 	switch (side) {
@@ -1343,7 +1221,7 @@ FlatControlLook::DrawSplitter(BView* view, BRect& rect, const BRect& updateRect,
 	const rgb_color& base, orientation orientation, uint32 flags,
 	uint32 borders)
 {
-	if (!ShouldDraw(view, rect, updateRect))
+	if (!rect.IsValid() || !rect.Intersects(updateRect))
 		return;
 
 	rgb_color background;
@@ -1473,16 +1351,17 @@ FlatControlLook::DrawRaisedBorder(BView* view, BRect& rect,
 	const BRect& updateRect, const rgb_color& base, uint32 flags,
 	uint32 borders)
 {
-	_DrawFrame(view, rect, base, base, base, base, borders);
+	_DrawFrame(view, rect, base, base, base, base,
+		borders);
 }
 
 
 void
-FlatControlLook::DrawTextControlBorder(BView* view, BRect& rect,
+HaikuControlLook::DrawTextControlBorder(BView* view, BRect& rect,
 	const BRect& updateRect, const rgb_color& base, uint32 flags,
 	uint32 borders)
 {
-	if (!ShouldDraw(view, rect, updateRect))
+	if (!rect.Intersects(updateRect))
 		return;
 
 	rgb_color dark1BorderColor;
@@ -1490,46 +1369,49 @@ FlatControlLook::DrawTextControlBorder(BView* view, BRect& rect,
 	rgb_color invalidColor = ui_color(B_FAILURE_COLOR);
 	rgb_color documentBackground = ui_color(B_DOCUMENT_BACKGROUND_COLOR);
 	rgb_color customColor2 = tint_color(documentBackground, 1.0);
-	dark1BorderColor = tint_color(customColor2, 0.5);
+	dark1BorderColor = tint_color(customColor2, 0.5);;
 
 	if ((flags & B_DISABLED) == 0 && (flags & B_FOCUSED) != 0) {
-		if (base.Brightness() < 127)
+		if (base.red + base.green + base.blue <= 128 * 3)
 			documentBackground = tint_color(documentBackground, 0.9);
 		else
 			documentBackground = tint_color(documentBackground, 1.5);
 	}
 
-	if ((flags & B_DISABLED) == 0 && (flags & B_INVALID) != 0)
-		documentBackground = tint_color(invalidColor, 0.5);
+	if ((flags & B_DISABLED) == 0 && (flags & B_INVALID) != 0) {
+		documentBackground = tint_color(invalidColor, 0.5);;
+	}
 
 	if ((flags & B_BLEND_FRAME) != 0) {
 		drawing_mode oldMode = view->DrawingMode();
 		view->SetDrawingMode(B_OP_ALPHA);
 
-		_DrawButtonFrame(view, rect, updateRect, kRadius, kRadius, kRadius, kRadius,
-			documentBackground, base, false, false, flags, borders);
+		_DrawButtonFrame(view, rect, updateRect,  kRadius, kRadius, kRadius, kRadius, documentBackground, base,
+		false, false, flags, borders);
 
 		view->SetDrawingMode(oldMode);
 	} else {
 
-		_DrawButtonFrame(view, rect, updateRect, kRadius, kRadius, kRadius, kRadius,
-			documentBackground, base, false, false, flags, borders);
+		_DrawButtonFrame(view, rect, updateRect,  kRadius, kRadius, kRadius, kRadius, documentBackground, base,
+		false, false, flags, borders);
 	}
 }
 
 
 void
-FlatControlLook::DrawGroupFrame(BView* view, BRect& rect, const BRect& updateRect,
+HaikuControlLook::DrawGroupFrame(BView* view, BRect& rect, const BRect& updateRect,
 	const rgb_color& base, uint32 borders)
 {
 	rgb_color frameColor = tint_color(base, 1.1);
 
 	// if the base color is too dark, then lets make it lighter
-	if (base.Brightness() < 127)
-		frameColor = tint_color(base, 0.95);
+	if (base.red + base.green + base.blue <= 128 * 3) {
+		frameColor = tint_color(base, 0.95);;
+	}
 
 	// Draws only one flat frame:
-	_DrawFrame(view, rect, frameColor, frameColor, frameColor, frameColor, borders);
+	_DrawFrame(view, rect, frameColor, frameColor, frameColor, frameColor,
+		borders);
 }
 
 
@@ -1569,13 +1451,13 @@ FlatControlLook::DrawButtonWithPopUpBackground(BView* view, BRect& rect,
 
 
 void
-FlatControlLook::_DrawButtonFrame(BView* view, BRect& rect,
+HaikuControlLook::_DrawButtonFrame(BView* view, BRect& rect,
 	const BRect& updateRect, float leftTopRadius, float rightTopRadius,
 	float leftBottomRadius, float rightBottomRadius, const rgb_color& base,
 	const rgb_color& background, float contrast, float brightness,
 	uint32 flags, uint32 borders)
 {
-	if (!ShouldDraw(view, rect, updateRect))
+	if (!rect.IsValid())
 		return;
 
 	rgb_color customColor = background; // custom color for borders
@@ -1583,23 +1465,28 @@ FlatControlLook::_DrawButtonFrame(BView* view, BRect& rect,
 
 	// if the color BACKGROUND used is too dark, then make it lighter using
 	// the same as B_CONTROL_TEXT_COLOR
-	if (base.Brightness() < 127)
+	if (base.red + base.green + base.blue <= 128 * 3) {
 		customColor2 = tint_color(ui_color(B_CONTROL_TEXT_COLOR), 1.5);
+	}
 
 
 	// save the clipping constraints of the view
 	view->PushState();
 
-	// set clipping constraints to rect
-	view->ClipToRect(rect);
+	// set clipping constraints to updateRect
+	BRegion clipping(updateRect);
+	view->ConstrainClippingRegion(&clipping);
 
 	// If the button is flat and neither activated nor otherwise highlighted
 	// (mouse hovering or focussed), draw it flat.
-	if ((flags & B_FLAT) != 0 && (flags & (B_ACTIVATED | B_PARTIALLY_ACTIVATED)) == 0
+	if ((flags & B_FLAT) != 0
+		&& (flags & (B_ACTIVATED | B_PARTIALLY_ACTIVATED)) == 0
 		&& ((flags & (B_HOVER | B_FOCUSED)) == 0
 			|| (flags & B_DISABLED) != 0)) {
-		_DrawFrame(view, rect, background, background, background, background, borders);
-		_DrawFrame(view, rect, background, background, background, background, borders);
+		_DrawFrame(view, rect, background, background, background,
+			background, borders);
+		_DrawFrame(view, rect, background, background, background,
+			background, borders);
 		view->PopState();
 		return;
 	}
@@ -1610,10 +1497,11 @@ FlatControlLook::_DrawButtonFrame(BView* view, BRect& rect,
 
 	// default button frame color
 	rgb_color defaultIndicatorColor = ui_color(B_WINDOW_TAB_COLOR);
-	rgb_color cornerBgColor = background;
+	rgb_color cornerBgColor = background;;
 
 	if ((flags & B_DISABLED) != 0) {
-		defaultIndicatorColor = disable_color(defaultIndicatorColor, background);
+		defaultIndicatorColor = disable_color(defaultIndicatorColor,
+			background);
 	}
 
 	drawing_mode oldMode = view->DrawingMode();
@@ -1623,8 +1511,8 @@ FlatControlLook::_DrawButtonFrame(BView* view, BRect& rect,
 		edgeLightColor = background;
 		edgeShadowColor = background;
 
-		// Draw default button indicator
-		// Allow a 1-pixel border of the background to come through.
+//		 draw default button indicator
+//		 Allow a 1-pixel border of the background to come through.
 		rect.InsetBy(1, 1);
 
 		view->SetHighColor(defaultIndicatorColor);
@@ -1644,10 +1532,10 @@ FlatControlLook::_DrawButtonFrame(BView* view, BRect& rect,
 	}
 
 	// frame colors
-	rgb_color frameLightColor = customColor2; // _FrameLightColor(base, flags);
-	rgb_color frameShadowColor = customColor2; // _FrameShadowColor(base, flags);
+	rgb_color frameLightColor  = customColor2; //_FrameLightColor(base, flags);
+	rgb_color frameShadowColor = customColor2; //_FrameShadowColor(base, flags);
 	edgeLightColor = background;
-	edgeShadowColor = background;
+	edgeShadowColor  = background;
 
 	// rounded corners
 
@@ -1657,10 +1545,9 @@ FlatControlLook::_DrawButtonFrame(BView* view, BRect& rect,
 		BRect leftTopCorner(floorf(rect.left), floorf(rect.top),
 			floorf(rect.left + leftTopRadius),
 			floorf(rect.top + leftTopRadius));
-		BRect cornerRect(leftTopCorner);
+		clipping.Exclude(leftTopCorner);
 		_DrawRoundCornerFrameLeftTop(view, leftTopCorner, updateRect,
 			cornerBgColor, edgeShadowColor, frameLightColor);
-		view->ClipToInverseRect(cornerRect);
 	}
 
 	if ((borders & B_TOP_BORDER) != 0 && (borders & B_RIGHT_BORDER) != 0
@@ -1669,11 +1556,10 @@ FlatControlLook::_DrawButtonFrame(BView* view, BRect& rect,
 		BRect rightTopCorner(floorf(rect.right - rightTopRadius),
 			floorf(rect.top), floorf(rect.right),
 			floorf(rect.top + rightTopRadius));
-		BRect cornerRect(rightTopCorner);
+		clipping.Exclude(rightTopCorner);
 		_DrawRoundCornerFrameRightTop(view, rightTopCorner, updateRect,
 			cornerBgColor, edgeShadowColor, edgeLightColor,
 			frameLightColor, frameShadowColor);
-		view->ClipToInverseRect(cornerRect);
 	}
 
 	if ((borders & B_LEFT_BORDER) != 0 && (borders & B_BOTTOM_BORDER) != 0
@@ -1682,11 +1568,10 @@ FlatControlLook::_DrawButtonFrame(BView* view, BRect& rect,
 		BRect leftBottomCorner(floorf(rect.left),
 			floorf(rect.bottom - leftBottomRadius),
 			floorf(rect.left + leftBottomRadius), floorf(rect.bottom));
-		BRect cornerRect(leftBottomCorner);
+		clipping.Exclude(leftBottomCorner);
 		_DrawRoundCornerFrameLeftBottom(view, leftBottomCorner, updateRect,
 			cornerBgColor, edgeShadowColor, edgeLightColor,
 			frameLightColor, frameShadowColor);
-		view->ClipToInverseRect(cornerRect);
 	}
 
 	if ((borders & B_RIGHT_BORDER) != 0 && (borders & B_BOTTOM_BORDER) != 0
@@ -1695,11 +1580,13 @@ FlatControlLook::_DrawButtonFrame(BView* view, BRect& rect,
 		BRect rightBottomCorner(floorf(rect.right - rightBottomRadius),
 			floorf(rect.bottom - rightBottomRadius), floorf(rect.right),
 			floorf(rect.bottom));
-		BRect cornerRect(rightBottomCorner);
+		clipping.Exclude(rightBottomCorner);
 		_DrawRoundCornerFrameRightBottom(view, rightBottomCorner,
 			updateRect, cornerBgColor, edgeLightColor, frameShadowColor);
-		view->ClipToInverseRect(cornerRect);
 	}
+
+	// clip out the corners
+	view->ConstrainClippingRegion(&clipping);
 
 	// draw outer edge
 	if ((flags & B_DEFAULT_BUTTON) != 0) {
@@ -1718,27 +1605,55 @@ FlatControlLook::_DrawButtonFrame(BView* view, BRect& rect,
 		drawing_mode oldDrawingMode = view->DrawingMode();
 		view->SetDrawingMode(B_OP_ALPHA);
 
-		_DrawFrame(view, rect, frameLightColor, frameLightColor, frameShadowColor, frameShadowColor, 
-			borders);
+		_DrawFrame(view, rect, frameLightColor, frameLightColor,
+			frameShadowColor, frameShadowColor, borders);
 
 		view->SetDrawingMode(oldDrawingMode);
 	} else {
-		_DrawFrame(view, rect, frameLightColor, frameLightColor, frameShadowColor, frameShadowColor, 
-			borders);
+		_DrawFrame(view, rect, frameLightColor, frameLightColor,
+			frameShadowColor, frameShadowColor, borders);
 	}
 
 	// restore the clipping constraints of the view
 	view->PopState();
 }
 
-// Draw textbox outer frame
+
 void
 FlatControlLook::_DrawOuterResessedFrame(BView* view, BRect& rect,
 	const rgb_color& base, float contrast, float brightness, uint32 flags,
 	uint32 borders)
 {
-	rgb_color edgeLightColor = tint_color(base, 1.04);
-	rgb_color edgeShadowColor = tint_color(base, 1.04);
+	rgb_color edgeLightColor = _EdgeShadowColor(base, contrast,
+		brightness, flags);
+	rgb_color edgeShadowColor = _EdgeShadowColor(base, contrast,
+		brightness, flags);
+
+	if ((flags & B_BLEND_FRAME) != 0) {
+		// assumes the background has already been painted
+		drawing_mode oldDrawingMode = view->DrawingMode();
+		view->SetDrawingMode(B_OP_ALPHA);
+
+		_DrawFrame(view, rect, edgeShadowColor, edgeShadowColor,
+			edgeLightColor, edgeLightColor, borders);
+
+		view->SetDrawingMode(oldDrawingMode);
+	} else {
+		_DrawFrame(view, rect, edgeShadowColor, edgeShadowColor,
+			edgeLightColor, edgeLightColor, borders);
+	}
+}
+
+// Draw textbox outer frame
+void
+HaikuControlLook::_DrawOuterResessedFrame(BView* view, BRect& rect,
+	const rgb_color& base, float contrast, float brightness, uint32 flags,
+	uint32 borders)
+{
+	rgb_color edgeLightColor = tint_color(base, 1.04); /* _EdgeShadowColor(base, contrast,
+		brightness, flags);*/
+	rgb_color edgeShadowColor = tint_color(base, 1.04);; /*_EdgeShadowColor(base, contrast,
+		brightness, flags);*/
 
 	if ((flags & B_BLEND_FRAME) != 0) {
 		// assumes the background has already been painted
@@ -1765,20 +1680,21 @@ FlatControlLook::_DrawButtonBackground(BView* view, BRect& rect,
 {
 	rgb_color customColor = base;
 
-	if (!ShouldDraw(view, rect, updateRect))
+	if (!rect.IsValid())
 		return;
 
 	// save the clipping constraints of the view
 	view->PushState();
 
 	// set clipping constraints to updateRect
-	view->ClipToRect(rect);
+	BRegion clipping(updateRect);
+	view->ConstrainClippingRegion(&clipping);
 
 	// If is a default button, set backcolor to the tab color.
 	if ((flags & B_DEFAULT_BUTTON) != 0)
 	{
 		rgb_color textcolor = ui_color(B_CONTROL_TEXT_COLOR);
-		// if the text color is too light, then make it using B_WINDOW_TAB_COLOR
+		//if the text color is too light, then make it using B_WINDOW_TAB_COLOR
 		if (textcolor.red + textcolor.green + textcolor.blue >= 128 * 3)
 			customColor = tint_color(ui_color(B_WINDOW_TAB_COLOR), 1.4);
 		else
@@ -1794,7 +1710,6 @@ FlatControlLook::_DrawButtonBackground(BView* view, BRect& rect,
 		_DrawFlatButtonBackground(view, rect, updateRect, customColor, popupIndicator,
 			flags, borders, orientation);
 	} else {
-		BRegion clipping(rect);
 		_DrawNonFlatButtonBackground(view, rect, updateRect, clipping,
 			leftTopRadius, rightTopRadius, leftBottomRadius, rightBottomRadius,
 			customColor, popupIndicator, flags, borders, orientation);
@@ -1813,7 +1728,7 @@ FlatControlLook::_DrawNonFlatButtonBackground(BView* view, BRect& rect,
 	orientation orientation)
 {
 	// inner bevel colors
-	rgb_color bevelLightColor = _BevelLightColor(base, flags);
+	rgb_color bevelLightColor  = _BevelLightColor(base, flags);
 	rgb_color bevelShadowColor = _BevelShadowColor(base, flags);
 
 	// button background color
@@ -1834,10 +1749,8 @@ FlatControlLook::_DrawNonFlatButtonBackground(BView* view, BRect& rect,
 			floorf(rect.left + leftTopRadius - 2.0),
 			floorf(rect.top + leftTopRadius - 2.0));
 		clipping.Exclude(leftTopCorner);
-		BRect cornerRect(leftTopCorner);
 		_DrawRoundCornerBackgroundLeftTop(view, leftTopCorner, updateRect,
 			bevelLightColor, fillGradient);
-		view->ClipToInverseRect(cornerRect);
 	}
 
 	if ((borders & B_TOP_BORDER) != 0 && (borders & B_RIGHT_BORDER) != 0
@@ -1847,10 +1760,8 @@ FlatControlLook::_DrawNonFlatButtonBackground(BView* view, BRect& rect,
 			floorf(rect.top), floorf(rect.right),
 			floorf(rect.top + rightTopRadius - 2.0));
 		clipping.Exclude(rightTopCorner);
-		BRect cornerRect(rightTopCorner);
 		_DrawRoundCornerBackgroundRightTop(view, rightTopCorner,
 			updateRect, bevelLightColor, bevelShadowColor, fillGradient);
-		view->ClipToInverseRect(cornerRect);
 	}
 
 	if ((borders & B_LEFT_BORDER) != 0 && (borders & B_BOTTOM_BORDER) != 0
@@ -1861,10 +1772,8 @@ FlatControlLook::_DrawNonFlatButtonBackground(BView* view, BRect& rect,
 			floorf(rect.left + leftBottomRadius - 2.0),
 			floorf(rect.bottom));
 		clipping.Exclude(leftBottomCorner);
-		BRect cornerRect(leftBottomCorner);
 		_DrawRoundCornerBackgroundLeftBottom(view, leftBottomCorner,
 			updateRect, bevelLightColor, bevelShadowColor, fillGradient);
-		view->ClipToInverseRect(cornerRect);
 	}
 
 	if ((borders & B_RIGHT_BORDER) != 0 && (borders & B_BOTTOM_BORDER) != 0
@@ -1874,11 +1783,12 @@ FlatControlLook::_DrawNonFlatButtonBackground(BView* view, BRect& rect,
 			floorf(rect.bottom - rightBottomRadius + 2.0), floorf(rect.right),
 			floorf(rect.bottom));
 		clipping.Exclude(rightBottomCorner);
-		BRect cornerRect(rightBottomCorner);
 		_DrawRoundCornerBackgroundRightBottom(view, rightBottomCorner,
 			updateRect, bevelShadowColor, fillGradient);
-		view->ClipToInverseRect(cornerRect);
 	}
+
+	// clip out the corners
+	view->ConstrainClippingRegion(&clipping);
 
 	// draw inner bevel
 
@@ -1933,7 +1843,7 @@ FlatControlLook::_DrawNonFlatButtonBackground(BView* view, BRect& rect,
 		if ((flags & B_ACTIVATED) != 0)
 			separatorBaseColor = tint_color(base, B_DARKEN_1_TINT);
 
-		// rgb_color separatorLightColor = tint_color(base, B_DARKEN_1_TINT);
+		//rgb_color separatorLightColor = tint_color(base, B_DARKEN_1_TINT);
 		rgb_color separatorShadowColor = tint_color(base, B_DARKEN_1_TINT);
 
 		view->BeginLineArray(2);
@@ -1948,8 +1858,8 @@ FlatControlLook::_DrawNonFlatButtonBackground(BView* view, BRect& rect,
 		view->EndLineArray();
 
 		// draw background and pop-up marker
-		_DrawMenuFieldBackgroundInside(view, indicatorRect, updateRect, kRadius, rightTopRadius, 
-			kRadius, rightBottomRadius, base, flags, 0);
+		_DrawMenuFieldBackgroundInside(view, indicatorRect, updateRect,
+			kRadius, rightTopRadius, kRadius, rightBottomRadius, base, flags, 0);
 
 		if ((flags & B_ACTIVATED) != 0)
 			indicatorRect.top++;
@@ -1963,7 +1873,7 @@ FlatControlLook::_DrawNonFlatButtonBackground(BView* view, BRect& rect,
 
 
 void
-FlatControlLook::_DrawPopUpMarker(BView* view, const BRect& rect,
+HaikuControlLook::_DrawPopUpMarker(BView* view, const BRect& rect,
 	const rgb_color& base, uint32 flags)
 {
 	BPoint center(roundf((rect.left + rect.right) / 2.0),
@@ -1995,12 +1905,12 @@ FlatControlLook::_DrawMenuFieldBackgroundOutside(BView* view, BRect& rect,
 	float leftBottomRadius, float rightBottomRadius, const rgb_color& base,
 	bool popupIndicator, uint32 flags)
 {
-	if (!ShouldDraw(view, rect, updateRect))
+	if (!rect.IsValid() || !rect.Intersects(updateRect))
 		return;
 
-	bool dark = (base.Brightness() < 127);
+	bool dark = (base.red + base.green + base.blue <= 128 * 3);
 	rgb_color indicatorColor = tint_color(base, 1.05);
-	if (dark)
+	if(dark)
 		indicatorColor = tint_color(base, 0.95);
 
 	if (popupIndicator) {
@@ -2013,23 +1923,24 @@ FlatControlLook::_DrawMenuFieldBackgroundOutside(BView* view, BRect& rect,
 		BRect rightRect(rect);
 		rightRect.left = rightRect.right - (indicatorWidth - spacing * 2);
 
-		_DrawMenuFieldBackgroundInside(view, leftRect, updateRect, leftTopRadius, 0.0f, 
-			leftBottomRadius, 0.0f, base, flags, B_LEFT_BORDER | B_TOP_BORDER | B_BOTTOM_BORDER);
+		_DrawMenuFieldBackgroundInside(view, leftRect, updateRect,
+			leftTopRadius, 0.0f, leftBottomRadius, 0.0f, base, flags,
+			B_LEFT_BORDER | B_TOP_BORDER | B_BOTTOM_BORDER);
 
-		_DrawMenuFieldBackgroundInside(view, rightRect, updateRect, 0.0f, rightTopRadius, 0.0f, 
-			rightBottomRadius, indicatorColor, flags, B_TOP_BORDER | B_RIGHT_BORDER | B_BOTTOM_BORDER);
+		_DrawMenuFieldBackgroundInside(view, rightRect, updateRect,
+			0.0f, rightTopRadius, 0.0f, rightBottomRadius, indicatorColor, flags,
+			B_TOP_BORDER | B_RIGHT_BORDER | B_BOTTOM_BORDER);
 
 		_DrawPopUpMarker(view, rightRect, ui_color(B_MENU_ITEM_TEXT_COLOR), flags);
 
 		// draw a line on the left of the popup frame
 		rgb_color bevelShadowColor = tint_color(indicatorColor, 1.1);
-		if (dark)
-			bevelShadowColor = tint_color(indicatorColor, 0.9);
+		if(dark) bevelShadowColor = tint_color(indicatorColor, 0.9);
 		view->SetHighColor(bevelShadowColor);
-		
-		BPoint leftTopCorner(floorf(rightRect.left - spacing), floorf(rightRect.top - spacing));
-		BPoint leftBottomCorner(floorf(rightRect.left - spacing), floorf(rightRect.bottom + spacing));
-		
+		BPoint leftTopCorner(floorf(rightRect.left - spacing),
+			floorf(rightRect.top - spacing));
+		BPoint leftBottomCorner(floorf(rightRect.left - spacing),
+			floorf(rightRect.bottom + spacing));
 		for (float i = 0; i < spacing; i++) {
 			view->StrokeLine(leftTopCorner + BPoint(i, 0),
 				leftBottomCorner + BPoint(i, 0));
@@ -2050,17 +1961,18 @@ FlatControlLook::_DrawMenuFieldBackgroundInside(BView* view, BRect& rect,
 	float leftBottomRadius, float rightBottomRadius, const rgb_color& base,
 	uint32 flags, uint32 borders)
 {
-	if (!ShouldDraw(view, rect, updateRect))
+	if (!rect.IsValid() || !rect.Intersects(updateRect))
 		return;
 
 	// save the clipping constraints of the view
 	view->PushState();
 
-	// set clipping constraints to rect
-	view->ClipToRect(rect);
+	// set clipping constraints to updateRect
+	BRegion clipping(updateRect);
+	view->ConstrainClippingRegion(&clipping);
 
 	// frame colors
-	rgb_color frameLightColor = _FrameLightColor(base, flags);
+	rgb_color frameLightColor  = _FrameLightColor(base, flags);
 	rgb_color frameShadowColor = _FrameShadowColor(base, flags);
 
 	// indicator background color
@@ -2104,13 +2016,13 @@ FlatControlLook::_DrawMenuFieldBackgroundInside(BView* view, BRect& rect,
 		BRect leftTopCorner(floorf(rect.left), floorf(rect.top),
 			floorf(rect.left + leftTopRadius - 2.0),
 			floorf(rect.top + leftTopRadius - 2.0));
-		BRect cornerRect(leftTopCorner);
+		clipping.Exclude(leftTopCorner);
 
-		view->PushState();
-		view->ClipToRect(cornerRect);
+		BRegion cornerClipping(leftTopCorner);
+		view->ConstrainClippingRegion(&cornerClipping);
 
 		BRect ellipseRect(leftTopCorner);
-		ellipseRect.InsetBy(-1.0, -1.0);
+		ellipseRect.InsetBy(-0.0, -0.0);
 		ellipseRect.right = ellipseRect.left + ellipseRect.Width() * 2;
 		ellipseRect.bottom = ellipseRect.top + ellipseRect.Height() * 2;
 
@@ -2121,9 +2033,6 @@ FlatControlLook::_DrawMenuFieldBackgroundInside(BView* view, BRect& rect,
 		// draw the bevel and background
 		_DrawRoundCornerBackgroundLeftTop(view, leftTopCorner, updateRect,
 			bevelColor1, fillGradient);
-
-		view->PopState();
-		view->ClipToInverseRect(cornerRect);
 	}
 
 	if ((borders & B_TOP_BORDER) != 0 && (borders & B_RIGHT_BORDER) != 0
@@ -2132,13 +2041,13 @@ FlatControlLook::_DrawMenuFieldBackgroundInside(BView* view, BRect& rect,
 		BRect rightTopCorner(floorf(rect.right - rightTopRadius + 2.0),
 			floorf(rect.top), floorf(rect.right),
 			floorf(rect.top + rightTopRadius - 2.0));
-		BRect cornerRect(rightTopCorner);
+		clipping.Exclude(rightTopCorner);
 
-		view->PushState();
-		view->ClipToRect(cornerRect);
+		BRegion cornerClipping(rightTopCorner);
+		view->ConstrainClippingRegion(&cornerClipping);
 
 		BRect ellipseRect(rightTopCorner);
-		ellipseRect.InsetBy(-1.0, -1.0);
+		ellipseRect.InsetBy(-0.0, -0.0);
 		ellipseRect.left = ellipseRect.right - ellipseRect.Width() * 2;
 		ellipseRect.bottom = ellipseRect.top + ellipseRect.Height() * 2;
 
@@ -2158,9 +2067,6 @@ FlatControlLook::_DrawMenuFieldBackgroundInside(BView* view, BRect& rect,
 		// draw the bevel and background
 		_DrawRoundCornerBackgroundRightTop(view, rightTopCorner, updateRect,
 			bevelColor1, bevelColor3, fillGradient);
-
-		view->PopState();
-		view->ClipToInverseRect(cornerRect);
 	}
 
 	if ((borders & B_LEFT_BORDER) != 0 && (borders & B_BOTTOM_BORDER) != 0
@@ -2170,13 +2076,13 @@ FlatControlLook::_DrawMenuFieldBackgroundInside(BView* view, BRect& rect,
 			floorf(rect.bottom - leftBottomRadius + 2.0),
 			floorf(rect.left + leftBottomRadius - 2.0),
 			floorf(rect.bottom));
-		BRect cornerRect(leftBottomCorner);
+		clipping.Exclude(leftBottomCorner);
 
-		view->PushState();
-		view->ClipToRect(cornerRect);
+		BRegion cornerClipping(leftBottomCorner);
+		view->ConstrainClippingRegion(&cornerClipping);
 
 		BRect ellipseRect(leftBottomCorner);
-		ellipseRect.InsetBy(-1.0, -1.0);
+		ellipseRect.InsetBy(-0.0, -0.0);
 		ellipseRect.right = ellipseRect.left + ellipseRect.Width() * 2;
 		ellipseRect.top = ellipseRect.bottom - ellipseRect.Height() * 2;
 
@@ -2196,9 +2102,6 @@ FlatControlLook::_DrawMenuFieldBackgroundInside(BView* view, BRect& rect,
 		// draw the bevel and background
 		_DrawRoundCornerBackgroundLeftBottom(view, leftBottomCorner,
 			updateRect, bevelColor2, bevelColor3, fillGradient);
-
-		view->PopState();
-		view->ClipToInverseRect(cornerRect);
 	}
 
 	if ((borders & B_RIGHT_BORDER) != 0 && (borders & B_BOTTOM_BORDER) != 0
@@ -2207,13 +2110,13 @@ FlatControlLook::_DrawMenuFieldBackgroundInside(BView* view, BRect& rect,
 		BRect rightBottomCorner(floorf(rect.right - rightBottomRadius + 2.0),
 			floorf(rect.bottom - rightBottomRadius + 2.0), floorf(rect.right),
 			floorf(rect.bottom));
-		BRect cornerRect(rightBottomCorner);
+		clipping.Exclude(rightBottomCorner);
 
-		view->PushState();
-		view->ClipToRect(cornerRect);
+		BRegion cornerClipping(rightBottomCorner);
+		view->ConstrainClippingRegion(&cornerClipping);
 
 		BRect ellipseRect(rightBottomCorner);
-		ellipseRect.InsetBy(-1.0, -1.0);
+		ellipseRect.InsetBy(-0.0, -0.0);
 		ellipseRect.left = ellipseRect.right - ellipseRect.Width() * 2;
 		ellipseRect.top = ellipseRect.bottom - ellipseRect.Height() * 2;
 
@@ -2224,10 +2127,17 @@ FlatControlLook::_DrawMenuFieldBackgroundInside(BView* view, BRect& rect,
 		// draw the bevel and background
 		_DrawRoundCornerBackgroundRightBottom(view, rightBottomCorner,
 			updateRect, bevelColor3, fillGradient);
-
-		view->PopState();
-		view->ClipToInverseRect(cornerRect);
 	}
+
+	// clip out the corners
+	view->ConstrainClippingRegion(&clipping);
+
+	// draw the bevel
+/*	_DrawFrame(view, rect,
+		bevelColor2, bevelColor1,
+		bevelColor3, bevelColor3,
+		cornerColor, cornerColor,
+		borders);*/
 
 	// fill in the background
 	view->FillRect(rect, fillGradient);
@@ -2235,6 +2145,7 @@ FlatControlLook::_DrawMenuFieldBackgroundInside(BView* view, BRect& rect,
 	// restore the clipping constraints of the view
 	view->PopState();
 }
+
 
 rgb_color
 FlatControlLook::_EdgeLightColor(const rgb_color& base, float contrast,
@@ -2255,7 +2166,7 @@ FlatControlLook::_EdgeShadowColor(const rgb_color& base, float contrast,
 
 
 rgb_color
-FlatControlLook::_BevelLightColor(const rgb_color& base, uint32 flags)
+HaikuControlLook::_BevelLightColor(const rgb_color& base, uint32 flags)
 {
 	rgb_color bevelLightColor = tint_color(base, 1.0);
 	return bevelLightColor;
@@ -2263,7 +2174,7 @@ FlatControlLook::_BevelLightColor(const rgb_color& base, uint32 flags)
 
 
 rgb_color
-FlatControlLook::_BevelShadowColor(const rgb_color& base, uint32 flags)
+HaikuControlLook::_BevelShadowColor(const rgb_color& base, uint32 flags)
 {
 	rgb_color bevelShadowColor = tint_color(base, 1.0);
 	return bevelShadowColor;
@@ -2271,7 +2182,7 @@ FlatControlLook::_BevelShadowColor(const rgb_color& base, uint32 flags)
 
 
 void
-FlatControlLook::_MakeGradient(BGradientLinear& gradient, const BRect& rect,
+HaikuControlLook::_MakeGradient(BGradientLinear& gradient, const BRect& rect,
 	const rgb_color& base, float topTint, float bottomTint,
 	orientation orientation) const
 {
@@ -2286,7 +2197,7 @@ FlatControlLook::_MakeGradient(BGradientLinear& gradient, const BRect& rect,
 
 
 void
-FlatControlLook::_MakeGlossyGradient(BGradientLinear& gradient, const BRect& rect,
+HaikuControlLook::_MakeGlossyGradient(BGradientLinear& gradient, const BRect& rect,
 	const rgb_color& base, float topTint, float middle1Tint,
 	float middle2Tint, float bottomTint,
 	orientation orientation) const
@@ -2302,7 +2213,7 @@ FlatControlLook::_MakeGlossyGradient(BGradientLinear& gradient, const BRect& rec
 
 
 void
-FlatControlLook::_MakeButtonGradient(BGradientLinear& gradient, BRect& rect,
+HaikuControlLook::_MakeButtonGradient(BGradientLinear& gradient, BRect& rect,
 	const rgb_color& base, uint32 flags, orientation orientation) const
 {
 	float topTint = 0.99;

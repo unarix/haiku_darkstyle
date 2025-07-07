@@ -55,7 +55,7 @@ FlatControlLook::DrawButtonFrame(BView* view, BRect& rect, const BRect& updateRe
 	const rgb_color& base, const rgb_color& background, uint32 flags,
 	uint32 borders)
 {
-	_DrawButtonFrame(view, rect, updateRect, kRadius, kRadius, kRadius, kRadius, base, background, 
+	_DrawButtonFrame(view, rect, updateRect, kRadius, kRadius, kRadius, kRadius, base, background,
 		1.0, 1.0, flags, borders);
 }
 
@@ -65,7 +65,7 @@ FlatControlLook::DrawButtonFrame(BView* view, BRect& rect, const BRect& updateRe
 	float radius, const rgb_color& base, const rgb_color& background, uint32 flags,
 	uint32 borders)
 {
-	_DrawButtonFrame(view, rect, updateRect, kRadius, kRadius, kRadius, kRadius, base, background, 
+	_DrawButtonFrame(view, rect, updateRect, kRadius, kRadius, kRadius, kRadius, base, background,
 		1.0, 1.0, flags, borders);
 }
 
@@ -77,7 +77,7 @@ FlatControlLook::DrawButtonFrame(BView* view, BRect& rect,
 	const rgb_color& background, uint32 flags,
 	uint32 borders)
 {
-	_DrawButtonFrame(view, rect, updateRect, kRadius, kRadius, kRadius, kRadius, base, background, 
+	_DrawButtonFrame(view, rect, updateRect, kRadius, kRadius, kRadius, kRadius, base, background,
 		1.0, 1.0, flags, borders);
 }
 
@@ -87,7 +87,7 @@ FlatControlLook::DrawButtonBackground(BView* view, BRect& rect,
 	const BRect& updateRect, const rgb_color& base, uint32 flags,
 	uint32 borders, orientation orientation)
 {
-	_DrawButtonBackground(view, rect, updateRect, kRadius, kRadius, kRadius, kRadius, base, false, 
+	_DrawButtonBackground(view, rect, updateRect, kRadius, kRadius, kRadius, kRadius, base, false,
 		flags, borders, orientation);
 }
 
@@ -97,8 +97,8 @@ FlatControlLook::DrawButtonBackground(BView* view, BRect& rect,
 	const BRect& updateRect, float radius, const rgb_color& base, uint32 flags,
 	uint32 borders, orientation orientation)
 {
-	_DrawButtonBackground(view, rect, updateRect, kRadius, kRadius, kRadius, kRadius,
-		base, false, flags, borders, orientation);
+	_DrawButtonBackground(view, rect, updateRect, kRadius, kRadius, kRadius, kRadius, base, false,
+		flags, borders, orientation);
 }
 
 
@@ -108,13 +108,13 @@ FlatControlLook::DrawButtonBackground(BView* view, BRect& rect,
 	float leftBottomRadius, float rightBottomRadius, const rgb_color& base,
 	uint32 flags, uint32 borders, orientation orientation)
 {
-	_DrawButtonBackground(view, rect, updateRect, kRadius, kRadius, kRadius, kRadius, base, false, 
+	_DrawButtonBackground(view, rect, updateRect, kRadius, kRadius, kRadius, kRadius, base, false,
 		flags, borders, orientation);
 }
 
 
 void
-FlatControlLook::DrawMenuBarBackground(BView* view, BRect& rect, const BRect& updateRect, 
+FlatControlLook::DrawMenuBarBackground(BView* view, BRect& rect, const BRect& updateRect,
 	const rgb_color& base, uint32 flags, uint32 borders)
 {
 	if (!ShouldDraw(view, rect, updateRect))
@@ -122,7 +122,7 @@ FlatControlLook::DrawMenuBarBackground(BView* view, BRect& rect, const BRect& up
 
 	// the surface edges
 
-	// colors and tint
+	// colors
 	float topTint = 1.0;
 	float bottomTint = 1.0;
 
@@ -162,13 +162,13 @@ FlatControlLook::DrawMenuBarBackground(BView* view, BRect& rect, const BRect& up
 	_FillGradient(view, rect, customColor, topTint, bottomTint);
 }
 
-// combobox button frame
+
 void
 FlatControlLook::DrawMenuFieldFrame(BView* view, BRect& rect,
 	const BRect& updateRect, const rgb_color& base,
 	const rgb_color& background, uint32 flags, uint32 borders)
 {
-	_DrawButtonFrame(view, rect, updateRect, kRadius, kRadius, kRadius, kRadius, base, background, 
+	_DrawButtonFrame(view, rect, updateRect, kRadius, kRadius, kRadius, kRadius, base, background,
 		1.0, 1.0, flags, borders);
 }
 
@@ -178,7 +178,7 @@ FlatControlLook::DrawMenuFieldFrame(BView* view, BRect& rect,
 	const BRect& updateRect, float radius, const rgb_color& base,
 	const rgb_color& background, uint32 flags, uint32 borders)
 {
-	_DrawButtonFrame(view, rect, updateRect, radius, radius, radius, radius, base, background, 1.0, 
+	_DrawButtonFrame(view, rect, updateRect, radius, radius, radius, radius, base, background, 1.0,
 		1.0, flags, borders);
 }
 
@@ -190,7 +190,7 @@ FlatControlLook::DrawMenuFieldFrame(BView* view, BRect& rect,
 	float rightBottomRadius, const rgb_color& base,
 	const rgb_color& background, uint32 flags, uint32 borders)
 {
-	_DrawButtonFrame(view, rect, updateRect, leftTopRadius, rightTopRadius, leftBottomRadius, 
+	_DrawButtonFrame(view, rect, updateRect, leftTopRadius, rightTopRadius, leftBottomRadius,
 		rightBottomRadius, base, background, 1.0, 1.0, flags, borders);
 }
 
@@ -200,7 +200,7 @@ FlatControlLook::DrawMenuFieldBackground(BView* view, BRect& rect,
 	const BRect& updateRect, const rgb_color& base, bool popupIndicator,
 	uint32 flags)
 {
-	_DrawMenuFieldBackgroundOutside(view, rect, updateRect, kRadius, kRadius, kRadius, kRadius, 
+	_DrawMenuFieldBackgroundOutside(view, rect, updateRect, kRadius, kRadius, kRadius, kRadius,
 		base, popupIndicator, flags);
 }
 
@@ -210,8 +210,8 @@ FlatControlLook::DrawMenuFieldBackground(BView* view, BRect& rect,
 	const BRect& updateRect, const rgb_color& base, uint32 flags,
 	uint32 borders)
 {
-	_DrawMenuFieldBackgroundInside(view, rect, updateRect,
-		kRadius, kRadius, kRadius, kRadius, base, flags, borders);
+	_DrawMenuFieldBackgroundInside(view, rect, updateRect, kRadius, kRadius, kRadius, kRadius, base,
+		flags, borders);
 }
 
 
@@ -312,7 +312,7 @@ FlatControlLook::DrawCheckBox(BView* view, BRect& rect, const BRect& updateRect,
 	rgb_color customBaseColor = ui_color(B_DOCUMENT_BACKGROUND_COLOR);
 	rgb_color customMarkColor = ui_color(B_WINDOW_TAB_COLOR);
 	rgb_color customFrameColor = base;
-		
+
 	if (base.Brightness() < 127)
 		customFrameColor = tint_color(base, 0.7);
 
@@ -390,7 +390,7 @@ FlatControlLook::DrawRadioButton(BView* view, BRect& rect, const BRect& updateRe
 	rgb_color customBaseColor = ui_color(B_DOCUMENT_BACKGROUND_COLOR);
 	rgb_color customMarkColor = ui_color(B_WINDOW_TAB_COLOR);
 	rgb_color customFrameColor = base;
-		
+
 	if (base.Brightness() < 127)
 		customFrameColor = tint_color(base, 0.6);
 
@@ -514,28 +514,27 @@ FlatControlLook::DrawScrollBarBorder(BView* view, BRect rect,
 
 void
 FlatControlLook::DrawScrollBarButton(BView* view, BRect rect,
-	const BRect& updateRect, const rgb_color& base, uint32 flags,
-	int32 direction, orientation orientation, bool down)
+	const BRect& updateRect, const rgb_color& base, const rgb_color& text,
+	uint32 flags, int32 direction, orientation orientation, bool down)
 {
 	if (!ShouldDraw(view, rect, updateRect))
 		return;
 
-	bool dark = (base.Brightness() < 127);
 	rgb_color arrowColor;
 
 	bool isEnabled = (flags & B_DISABLED) == 0;
 
 	if (isEnabled) {
-		arrowColor = tint_color(ui_color(B_CONTROL_TEXT_COLOR), 0.6);
+		arrowColor = tint_color(text, 0.6);
 		// if the base color is too dark, then lets make it lighter
-		if (dark) {
-			arrowColor = tint_color(ui_color(B_CONTROL_TEXT_COLOR), 1.3);;
+		if (base.IsDark()) {
+			arrowColor = tint_color(text, 1.3);
 		}
 	} else {
-		arrowColor = tint_color(ui_color(B_CONTROL_TEXT_COLOR), 0.4);
+		arrowColor = tint_color(text, 0.4);
 		// if the base color is too dark, then lets make it lighter
-		if (dark) {
-			arrowColor = tint_color(ui_color(B_CONTROL_TEXT_COLOR), 1.5);;
+		if (base.IsDark()) {
+			arrowColor = tint_color(text, 1.5);
 		}
 	}
 
@@ -872,13 +871,8 @@ FlatControlLook::DrawScrollViewFrame(BView* view, BRect& rect,
 rgb_color
 FlatControlLook::SliderBarColor(const rgb_color& base)
 {
-	rgb_color customColor = tint_color(ui_color(B_PANEL_BACKGROUND_COLOR), 1.05);
-	// if the color BACKGROUND used is too dark, then make it lighter using the
-	// same as B_CONTROL_TEXT_COLOR
-	if (base.Brightness() < 127)
-		customColor = tint_color(ui_color(B_PANEL_BACKGROUND_COLOR), 0.95);
-
-	return customColor;
+	return base.IsLight() ? tint_color(ui_color(B_PANEL_BACKGROUND_COLOR), 1.05) :
+		tint_color(ui_color(B_PANEL_BACKGROUND_COLOR), 0.95);
 }
 
 
@@ -910,14 +904,14 @@ FlatControlLook::DrawSliderBar(BView* view, BRect rect, const BRect& updateRect,
 
 	// fill the background for the corners, exclude the middle bar for now
 	view->PushState();
-	view->ClipToRect(leftBarSide);
+	view->ClipToRect(rightBarSide);
 
 	DrawSliderBar(view, rect, updateRect, base, leftFillColor, flags, orientation);
 
 	view->PopState();
 
 	view->PushState();
-	view->ClipToRect(rightBarSide);
+	view->ClipToRect(leftBarSide);
 
 	DrawSliderBar(view, rect, updateRect, base, rightFillColor, flags,
 		orientation);
@@ -1090,11 +1084,11 @@ FlatControlLook::DrawSliderThumb(BView* view, BRect& rect, const BRect& updateRe
 	// figure out frame color
 	rgb_color frameLightColor;
 	rgb_color frameShadowColor;
-	rgb_color shadowColor = tint_color(ui_color(B_CONTROL_TEXT_COLOR), 0.5);
+	rgb_color shadowColor;
 
-	// If the color BACKGROUND used is too dark, then make it lighter using the same as
-	// B_CONTROL_TEXT_COLOR
-	if (base.Brightness() < 127)
+	if (base.IsLight())
+		shadowColor = tint_color(ui_color(B_CONTROL_TEXT_COLOR), 0.5);
+	else
 		shadowColor = tint_color(ui_color(B_CONTROL_TEXT_COLOR), 1.55);
 
 	if ((flags & B_FOCUSED) != 0) {
@@ -1493,7 +1487,7 @@ FlatControlLook::DrawTextControlBorder(BView* view, BRect& rect,
 	dark1BorderColor = tint_color(customColor2, 0.5);
 
 	if ((flags & B_DISABLED) == 0 && (flags & B_FOCUSED) != 0) {
-		if (base.Brightness() < 127)
+		if (base.IsDark())
 			documentBackground = tint_color(documentBackground, 0.9);
 		else
 			documentBackground = tint_color(documentBackground, 1.5);
@@ -1524,8 +1518,7 @@ FlatControlLook::DrawGroupFrame(BView* view, BRect& rect, const BRect& updateRec
 {
 	rgb_color frameColor = tint_color(base, 1.1);
 
-	// if the base color is too dark, then lets make it lighter
-	if (base.Brightness() < 127)
+	if (base.IsDark())
 		frameColor = tint_color(base, 0.95);
 
 	// Draws only one flat frame:
@@ -1538,8 +1531,8 @@ FlatControlLook::DrawButtonWithPopUpBackground(BView* view, BRect& rect,
 	const BRect& updateRect, const rgb_color& base, uint32 flags,
 	uint32 borders, orientation orientation)
 {
-	_DrawButtonBackground(view, rect, updateRect, kRadius, kRadius, kRadius, kRadius,
-		base, true, flags, borders, orientation);
+	_DrawButtonBackground(view, rect, updateRect, kRadius, kRadius, kRadius, kRadius, base, true,
+		flags, borders, orientation);
 }
 
 
@@ -1579,11 +1572,9 @@ FlatControlLook::_DrawButtonFrame(BView* view, BRect& rect,
 		return;
 
 	rgb_color customColor = background; // custom color for borders
-	rgb_color customColor2 = tint_color(background, 1.3);
+	rgb_color customColor2 = tint_color(ui_color(B_CONTROL_TEXT_COLOR), 0.3);
 
-	// if the color BACKGROUND used is too dark, then make it lighter using
-	// the same as B_CONTROL_TEXT_COLOR
-	if (base.Brightness() < 127)
+	if (base.IsDark())
 		customColor2 = tint_color(ui_color(B_CONTROL_TEXT_COLOR), 1.5);
 
 
@@ -1596,8 +1587,7 @@ FlatControlLook::_DrawButtonFrame(BView* view, BRect& rect,
 	// If the button is flat and neither activated nor otherwise highlighted
 	// (mouse hovering or focussed), draw it flat.
 	if ((flags & B_FLAT) != 0 && (flags & (B_ACTIVATED | B_PARTIALLY_ACTIVATED)) == 0
-		&& ((flags & (B_HOVER | B_FOCUSED)) == 0
-			|| (flags & B_DISABLED) != 0)) {
+		&& ((flags & (B_HOVER | B_FOCUSED)) == 0 || (flags & B_DISABLED) != 0)) {
 		_DrawFrame(view, rect, background, background, background, background, borders);
 		_DrawFrame(view, rect, background, background, background, background, borders);
 		view->PopState();
@@ -1718,12 +1708,12 @@ FlatControlLook::_DrawButtonFrame(BView* view, BRect& rect,
 		drawing_mode oldDrawingMode = view->DrawingMode();
 		view->SetDrawingMode(B_OP_ALPHA);
 
-		_DrawFrame(view, rect, frameLightColor, frameLightColor, frameShadowColor, frameShadowColor, 
+		_DrawFrame(view, rect, frameLightColor, frameLightColor, frameShadowColor, frameShadowColor,
 			borders);
 
 		view->SetDrawingMode(oldDrawingMode);
 	} else {
-		_DrawFrame(view, rect, frameLightColor, frameLightColor, frameShadowColor, frameShadowColor, 
+		_DrawFrame(view, rect, frameLightColor, frameLightColor, frameShadowColor, frameShadowColor,
 			borders);
 	}
 
@@ -1731,7 +1721,7 @@ FlatControlLook::_DrawButtonFrame(BView* view, BRect& rect,
 	view->PopState();
 }
 
-// Draw textbox outer frame
+
 void
 FlatControlLook::_DrawOuterResessedFrame(BView* view, BRect& rect,
 	const rgb_color& base, float contrast, float brightness, uint32 flags,
@@ -1745,16 +1735,15 @@ FlatControlLook::_DrawOuterResessedFrame(BView* view, BRect& rect,
 		drawing_mode oldDrawingMode = view->DrawingMode();
 		view->SetDrawingMode(B_OP_ALPHA);
 
-		_DrawFrame(view, rect, edgeShadowColor, edgeShadowColor,
-			edgeLightColor, edgeLightColor, borders);
+		_DrawFrame(view, rect, edgeShadowColor, edgeShadowColor, edgeLightColor, edgeLightColor,
+			borders);
 
 		view->SetDrawingMode(oldDrawingMode);
 	} else {
-		_DrawFrame(view, rect, edgeShadowColor, edgeShadowColor,
-			edgeLightColor, edgeLightColor, borders);
+		_DrawFrame(view, rect, edgeShadowColor, edgeShadowColor, edgeLightColor, edgeLightColor,
+			borders);
 	}
 }
-
 
 
 void
@@ -1948,7 +1937,7 @@ FlatControlLook::_DrawNonFlatButtonBackground(BView* view, BRect& rect,
 		view->EndLineArray();
 
 		// draw background and pop-up marker
-		_DrawMenuFieldBackgroundInside(view, indicatorRect, updateRect, kRadius, rightTopRadius, 
+		_DrawMenuFieldBackgroundInside(view, indicatorRect, updateRect, kRadius, rightTopRadius,
 			kRadius, rightBottomRadius, base, flags, 0);
 
 		if ((flags & B_ACTIVATED) != 0)
@@ -1998,10 +1987,12 @@ FlatControlLook::_DrawMenuFieldBackgroundOutside(BView* view, BRect& rect,
 	if (!ShouldDraw(view, rect, updateRect))
 		return;
 
-	bool dark = (base.Brightness() < 127);
-	rgb_color indicatorColor = tint_color(base, 1.05);
-	if (dark)
+	rgb_color indicatorColor;
+
+	if (base.IsDark())
 		indicatorColor = tint_color(base, 0.95);
+	else
+		indicatorColor = tint_color(base, 1.05);
 
 	if (popupIndicator) {
 		const float indicatorWidth = ComposeSpacing(kButtonPopUpIndicatorWidth);
@@ -2013,27 +2004,27 @@ FlatControlLook::_DrawMenuFieldBackgroundOutside(BView* view, BRect& rect,
 		BRect rightRect(rect);
 		rightRect.left = rightRect.right - (indicatorWidth - spacing * 2);
 
-		_DrawMenuFieldBackgroundInside(view, leftRect, updateRect, leftTopRadius, 0.0f, 
+		_DrawMenuFieldBackgroundInside(view, leftRect, updateRect, leftTopRadius, 0.0f,
 			leftBottomRadius, 0.0f, base, flags, B_LEFT_BORDER | B_TOP_BORDER | B_BOTTOM_BORDER);
 
-		_DrawMenuFieldBackgroundInside(view, rightRect, updateRect, 0.0f, rightTopRadius, 0.0f, 
-			rightBottomRadius, indicatorColor, flags, B_TOP_BORDER | B_RIGHT_BORDER | B_BOTTOM_BORDER);
+		_DrawMenuFieldBackgroundInside(view, rightRect, updateRect, 0.0f, rightTopRadius, 0.0f,
+			rightBottomRadius, indicatorColor, flags,
+			B_TOP_BORDER | B_RIGHT_BORDER | B_BOTTOM_BORDER);
 
 		_DrawPopUpMarker(view, rightRect, ui_color(B_MENU_ITEM_TEXT_COLOR), flags);
 
 		// draw a line on the left of the popup frame
 		rgb_color bevelShadowColor = tint_color(indicatorColor, 1.1);
-		if (dark)
+		if (base.IsDark())
 			bevelShadowColor = tint_color(indicatorColor, 0.9);
 		view->SetHighColor(bevelShadowColor);
-		
+
 		BPoint leftTopCorner(floorf(rightRect.left - spacing), floorf(rightRect.top - spacing));
-		BPoint leftBottomCorner(floorf(rightRect.left - spacing), floorf(rightRect.bottom + spacing));
-		
-		for (float i = 0; i < spacing; i++) {
-			view->StrokeLine(leftTopCorner + BPoint(i, 0),
-				leftBottomCorner + BPoint(i, 0));
-		}
+		BPoint leftBottomCorner(floorf(rightRect.left - spacing),
+			floorf(rightRect.bottom + spacing));
+
+		for (float i = 0; i < spacing; i++)
+			view->StrokeLine(leftTopCorner + BPoint(i, 0), leftBottomCorner + BPoint(i, 0));
 
 		rect = leftRect;
 	} else {
