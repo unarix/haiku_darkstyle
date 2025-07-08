@@ -18,6 +18,10 @@ In the Appearance preferences dialog, select "Flat" from the combos "Decorator" 
 ### Restart
 You need to restart the computer or quit "Deskbar" and "Tracker" services from "ProcessControler" (they will restart auto).
 
+![alt text](https://raw.githubusercontent.com/unarix/haiku_darkstyle/master/Backup/appearence.png?raw=true)
+![alt text](https://raw.githubusercontent.com/unarix/haiku_darkstyle/master/Backup/checkboxes.png?raw=true)
+![alt text](https://raw.githubusercontent.com/unarix/haiku_darkstyle/master/Backup/defbutton.png?raw=true)
+
 ## Themes
 Are three flat themes to use with the decorators and controllok:
 
