@@ -1170,6 +1170,7 @@ FlatControlLook::DrawActiveTab(BView* view, BRect& rect,
 	rgb_color frameLightColor;
 	rgb_color bevelShadowColor;
 	rgb_color bevelLightColor;
+	float tint = (base.IsDark()) ? 0.8 : 1.3;
 	BGradientLinear fillGradient;
 	fillGradient.SetStart(rect.LeftTop() + BPoint(3, 3));
 	fillGradient.SetEnd(rect.LeftBottom() + BPoint(3, -3));
@@ -1186,12 +1187,12 @@ FlatControlLook::DrawActiveTab(BView* view, BRect& rect,
 	} else {
 		edgeLightColor = tint_color(base, 0.95);
 		edgeShadowColor = tint_color(base, 1.03);
-		frameLightColor = tint_color(base, 1.30);
-		frameShadowColor = tint_color(base, 1.30);
-		bevelLightColor = tint_color(base, 0.9);
-		bevelShadowColor = tint_color(base, 1.07);
+		frameLightColor = tint_color(base, tint);
+		frameShadowColor = tint_color(base, tint);
+		bevelLightColor = tint_color(base, 1.0);
+		bevelShadowColor = tint_color(base, 1.0);
 		fillGradient.AddColor(tint_color(base, 0.95), 0);
-		fillGradient.AddColor(tint_color(base, 1.0), 255);
+		fillGradient.AddColor(tint_color(base, 1.0), 155);
 	}
 
 	static const float kRoundCornerRadius = kRadius;
@@ -1676,8 +1677,7 @@ FlatControlLook::_DrawButtonFrame(BView* view, BRect& rect,
 		_DrawOuterResessedFrame(view, rect, customColor, 0, 0, flags, borders);
 	} else {
 		if ((flags & B_FOCUSED) != 0){
-			float tint = (base.IsDark()) ? 1.1 : 0.6;
-			_DrawOuterResessedFrame(view, rect, tint_color(customColor2,tint), 0, 0, flags, borders);
+			_DrawOuterResessedFrame(view, rect, customColor, 0, 0, flags, borders);
 			}
 		else
 			_DrawOuterResessedFrame(view, rect, customColor, 0, 0, flags, borders);
@@ -2283,7 +2283,7 @@ void
 FlatControlLook::_MakeButtonGradient(BGradientLinear& gradient, BRect& rect,
 	const rgb_color& base, uint32 flags, orientation orientation) const
 {
-	float topTint = 1.0;
+	float topTint = 0.99;
 	float middleTint1 = 1.0;
 	float middleTint2 = 1.0;
 	float bottomTint = 1.1;
