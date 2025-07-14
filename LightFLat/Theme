@@ -9,15 +9,17 @@ BMessage('ZThm') {
 		// If true, use desktop color as icon text background
 		be:bgndimginfoerasetext = bool(true)
 		// Actual backdrop image file
+		be:bgndimginfopath = string("", 0 bytes)
 		// Workspaces each backdrop apply to
 		be:bgndimginfoworkspaces = int32(1 or 0x1)
 		// Origin point for mode 0
 		be:bgndimginfooffset = BPoint(0.0, 0.0)
 		// image mode: 0=use_origin, 1=centered, 2=scaled, 3=tiled
-		be:bgndimginfomode = int32(2 or 0x2)
+		be:bgndimginfomode = int32(0 or (nil))
 		be:bgndimginfoset = int32(0 or (nil))
 		// one per workspace, up to the last changing one
-		be:desktop_color = rgb_color(14,14,14,255)
+		be:desktop_color[0] = rgb_color(255,246,174,255)
+		be:desktop_color[1] = rgb_color(14,14,14,255)
 	}
 	// Deskbar position
 	deskbar_settings = BMessage(0x00000000) {
@@ -41,7 +43,7 @@ BMessage('ZThm') {
 		// Control Text
 		be:c:CtlTx = rgb_color(20,20,20,255)
 		// Control Border
-		be:c:CtlBr = rgb_color(224,215,218,255)
+		be:c:CtlBr = rgb_color(178,178,178,255)
 		// Control Highlight
 		be:c:CtlHg = rgb_color(224,215,218,255)
 		// Control Mark
@@ -93,7 +95,7 @@ BMessage('ZThm') {
 		// List Selected Item Text
 		h:c:LstSTx = rgb_color(0,0,0,255)
 		// Scrollbar Thumb
-		h:c:SbThb = rgb_color(161,154,161,255)
+		h:c:SbThb = rgb_color(237,199,70,255)
 		// System Plain
 		be:f:be_plain_font = BFont(Noto Sans Display/Regular/12.00, shear=90.00, rot=0.00, height=12.83+3.52+0.00)
 		// System Bold
@@ -118,19 +120,6 @@ BMessage('ZThm') {
 				f:Inactive Title = rgb_color(100,100,100,255)
 				f:Active Title = rgb_color(100,100,100,255)
 			}
-		}
-	}
-	// Screensaver settings
-	screensaver_settings = BMessage(0x00000000) {
-		// Screensaver active module
-		screensaver:modulename = string("Substrate", 9 bytes)
-		// Screensaver active module settings
-		screensaver:modulesettings = BMessage(0x00000000) {
-			fNumCracks = int32(5 or 0x5)
-			fDuration = int32(2000 or 0x7d0)
-			fGrains = int32(50 or 0x32)
-			fCirclePerc = int32(30 or 0x1e)
-			fDark = bool(true)
 		}
 	}
 	// Sounds Settings
@@ -173,7 +162,13 @@ BMessage('ZThm') {
 		}
 		Mouse up = BMessage('SndI') {
 		}
-		New E-mail = BMessage('SndI') {
+		Notification error = BMessage('SndI') {
+		}
+		Notification important = BMessage('SndI') {
+		}
+		Notification information = BMessage('SndI') {
+		}
+		Notification progress = BMessage('SndI') {
 		}
 		Progress notification = BMessage('SndI') {
 		}

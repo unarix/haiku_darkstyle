@@ -1,7 +1,7 @@
 // new BMessage
 BMessage('ZThm') {
 	z:theme:infos = BMessage(0x00000000) {
-		z:theme:name = string("MoonFLat", 8 bytes)
+		z:theme:name = string("OrangeFlat", 10 bytes)
 		z:theme:screenshot = string("screenshot.png", 14 bytes)
 	}
 	// Desktop backgrounds and color; please respect count and ordering of all fields!
@@ -18,7 +18,7 @@ BMessage('ZThm') {
 		be:bgndimginfomode = int32(0 or (nil))
 		be:bgndimginfoset = int32(0 or (nil))
 		// one per workspace, up to the last changing one
-		be:desktop_color[0] = rgb_color(15,19,22,255)
+		be:desktop_color[0] = rgb_color(238,143,10,255)
 		be:desktop_color[1] = rgb_color(14,14,14,255)
 	}
 	// Deskbar position
@@ -31,71 +31,71 @@ BMessage('ZThm') {
 	// UI Settings
 	ui_settings = BMessage(0x00000000) {
 		// Panel Background
-		be:c:PanBg = rgb_color(40,46,51,255)
+		be:c:PanBg = rgb_color(224,215,218,255)
 		// Panel Text
-		be:c:PanTx = rgb_color(166,175,184,255)
+		be:c:PanTx = rgb_color(20,20,20,255)
 		// Document Background
-		be:c:DocBg = rgb_color(61,68,70,255)
+		be:c:DocBg = rgb_color(255,255,255,255)
 		// Document Text
-		be:c:DocTx = rgb_color(166,175,184,255)
+		be:c:DocTx = rgb_color(20,20,20,255)
 		// Control Background
-		be:c:CtlBg = rgb_color(61,68,75,255)
+		be:c:CtlBg = rgb_color(237,216,188,255)
 		// Control Text
-		be:c:CtlTx = rgb_color(166,175,184,255)
+		be:c:CtlTx = rgb_color(20,20,20,255)
 		// Control Border
-		be:c:CtlBr = rgb_color(40,46,51,255)
+		be:c:CtlBr = rgb_color(178,178,178,255)
 		// Control Highlight
-		be:c:CtlHg = rgb_color(40,46,51,255)
+		be:c:CtlHg = rgb_color(224,215,218,255)
 		// Control Mark
-		h:c:CtlMk = rgb_color(60,66,71,255)
+		h:c:CtlMk = rgb_color(178,178,178,255)
 		// Navigation Base
-		be:c:NavBs = rgb_color(40,46,51,255)
+		be:c:NavBs = rgb_color(178,178,178,255)
 		// Navigation Pulse
-		be:c:NavPl = rgb_color(40,46,51,255)
+		be:c:NavPl = rgb_color(20,20,20,255)
 		// Shine
-		be:c:Shine = rgb_color(40,46,51,255)
+		be:c:Shine = rgb_color(255,255,255,255)
 		// Shadow
-		be:c:Shadow = rgb_color(40,46,51,255)
+		be:c:Shadow = rgb_color(20,20,20,255)
 		// ToolTip Background
-		be:c:TipBg = rgb_color(50,56,61,255)
+		be:c:TipBg = rgb_color(224,215,218,255)
 		// ToolTip Text
-		be:c:TipTx = rgb_color(170,170,170,255)
+		be:c:TipTx = rgb_color(20,20,20,255)
 		// Menu Background
-		be:c:MenBg = rgb_color(40,46,51,255)
+		be:c:MenBg = rgb_color(224,215,218,255)
 		// Menu Selected Background
-		be:c:MenSBg = rgb_color(40,46,51,255)
+		be:c:MenSBg = rgb_color(237,138,0,255)
 		// Menu Item Text
-		be:c:MenTx = rgb_color(166,175,184,255)
+		be:c:MenTx = rgb_color(20,20,20,255)
 		// Menu Selected Item Text
-		be:c:MenSTx = rgb_color(198,210,220,255)
+		be:c:MenSTx = rgb_color(20,20,20,255)
 		// Menu Selected Border
-		be:c:MenSBr = rgb_color(40,46,51,255)
+		be:c:MenSBr = rgb_color(20,20,20,255)
 		// Success
-		be:c:Success = rgb_color(53,177,53,255)
+		be:c:Success = rgb_color(46,204,64,255)
 		// Failure
-		be:c:Failure = rgb_color(186,53,53,255)
+		be:c:Failure = rgb_color(255,65,54,255)
 		// Window Tab Background
-		h:c:WinTabBg = rgb_color(255,185,0,255)
+		h:c:WinTabBg = rgb_color(237,138,0,255)
 		// Window Tab Text
-		h:c:WinTabTx = rgb_color(8,8,8,255)
+		h:c:WinTabTx = rgb_color(20,20,20,255)
 		// Inactive Window Tab Background
-		h:c:InWinTabBg = rgb_color(50,56,61,255)
+		h:c:InWinTabBg = rgb_color(238,187,115,255)
 		// Inactive Window Tab Text
-		h:c:InWinTabTx = rgb_color(150,150,150,255)
+		h:c:InWinTabTx = rgb_color(100,100,100,255)
 		// Window Border
-		h:c:WinBr = rgb_color(40,46,51,255)
+		h:c:WinBr = rgb_color(224,215,218,255)
 		// Inactive Window Border
-		h:c:InWinBr = rgb_color(40,46,51,255)
+		h:c:InWinBr = rgb_color(224,215,218,255)
 		// List Background
-		h:c:LstBg = rgb_color(24,25,29,255)
+		h:c:LstBg = rgb_color(255,255,255,255)
 		// List Selected Background
-		h:c:LstSBg = rgb_color(45,48,51,255)
+		h:c:LstSBg = rgb_color(224,215,218,255)
 		// List Item Text
-		h:c:LstTx = rgb_color(170,170,170,255)
+		h:c:LstTx = rgb_color(20,20,20,255)
 		// List Selected Item Text
-		h:c:LstSTx = rgb_color(170,170,170,255)
+		h:c:LstSTx = rgb_color(0,0,0,255)
 		// Scrollbar Thumb
-		h:c:SbThb = rgb_color(255,187,46,255)
+		h:c:SbThb = rgb_color(237,171,79,255)
 		// System Plain
 		be:f:be_plain_font = BFont(Noto Sans Display/Regular/12.00, shear=90.00, rot=0.00, height=12.83+3.52+0.00)
 		// System Bold
@@ -117,8 +117,8 @@ BMessage('ZThm') {
 		window:decor_globals = BMessage(0x00000000) {
 			// Window decor parameters
 			window:decor_globals = BMessage(0x00000000) {
-				f:Inactive Title = rgb_color(150,150,150,255)
-				f:Active Title = rgb_color(150,150,150,255)
+				f:Inactive Title = rgb_color(100,100,100,255)
+				f:Active Title = rgb_color(100,100,100,255)
 			}
 		}
 	}
