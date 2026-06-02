@@ -275,6 +275,8 @@ FlatDecorator::_DrawFrame(BRect rect)
 		case B_TITLED_WINDOW_LOOK:
 		case B_DOCUMENT_WINDOW_LOOK:
 		{
+			// Radius for rounded top corners (must match _DrawTab)
+			const float kRoundRadius = 4.0f;
 
 			// left
 			if (rect.Intersects(fLeftBorder.InsetByCopy(0, -fBorderWidth))) {
@@ -290,7 +292,7 @@ FlatDecorator::_DrawFrame(BRect rect)
 				}
 				// redraw line to be part of tab title
 				fDrawingEngine->StrokeLine(BPoint(r.left, r.top),
-					BPoint(r.left, r.top + 4), colors[6]);
+					BPoint(r.left, r.top + kRoundRadius), colors[6]);
 			}
 			// bottom
 			if (rect.Intersects(fBottomBorder)) {
@@ -319,7 +321,7 @@ FlatDecorator::_DrawFrame(BRect rect)
 				}
 				// redraw line to be part of tab title
 				fDrawingEngine->StrokeLine(BPoint(r.right, r.top),
-					BPoint(r.right, r.top + 4),
+					BPoint(r.right, r.top + kRoundRadius),
 					colors[6]);
 			}
 			// top
@@ -569,76 +571,104 @@ FlatDecorator::_DrawTab(Decorator::Tab* tab, BRect invalid)
 	ComponentColors colors;
 	_GetComponentColors(COMPONENT_TAB, colors, tab);
 
-	if (tab && tab->buttonFocus) {
-		// outer frame
+	// Radius for rounded top corners
+	const float kRoundRadius = 4.0f;
+
+	float tabBottom = tabRect.bottom;
+	if (fTopTab != tab)
+		tabBottom -= 1;
+
+	if (tab->look != kLeftTitledWindowLook) {
+		// === Draw tab with rounded top corners ===
+
+		// 1) Fill the tab interior
+		BGradientLinear gradient;
+		gradient.SetStart(tabRect.LeftTop());
+		gradient.SetEnd(tabRect.LeftBottom());
+		if (tab && tab->buttonFocus) {
+			gradient.AddColor(tint_color(colors[COLOR_TAB], 0.6), 0);
+			gradient.AddColor(tint_color(colors[COLOR_TAB], 1.0), 200);
+		} else {
+			gradient.AddColor(tint_color(colors[COLOR_TAB], 0.9), 0);
+			gradient.AddColor(tint_color(colors[COLOR_TAB], 1.0), 150);
+		}
+
+		// Fill with rounded rect (rounds all 4 corners)
+		BRect topFill(tabRect.left + 1, tabRect.top + 1,
+			tabRect.right - 1, tabBottom);
+		fDrawingEngine->FillRoundRect(topFill, kRoundRadius, kRoundRadius,
+			gradient);
+
+		// Overwrite the bottom rounded corners with a regular rect fill
+		BRect bottomFill(tabRect.left + 1,
+			tabBottom - kRoundRadius, tabRect.right - 1, tabBottom);
+		fDrawingEngine->FillRect(bottomFill, gradient);
+
+		// 2) Draw the outer frame (rounded at top, straight at bottom)
+		rgb_color frameColor = colors[COLOR_TAB_FRAME_DARK];
+
+		// Top-left rounded corner arc (from 90° spanning 90°)
+		fDrawingEngine->SetHighColor(frameColor);
+		BRect topLeftArc(tabRect.left, tabRect.top,
+			tabRect.left + kRoundRadius * 2.0f,
+			tabRect.top + kRoundRadius * 2.0f);
+		fDrawingEngine->DrawArc(topLeftArc, 90.0f, 90.0f, false);
+
+		// Top-right rounded corner arc (from 0° spanning 90°)
+		BRect topRightArc(tabRect.right - kRoundRadius * 2.0f, tabRect.top,
+			tabRect.right, tabRect.top + kRoundRadius * 2.0f);
+		fDrawingEngine->DrawArc(topRightArc, 0.0f, 90.0f, false);
+
+		// Top line (between the two arcs)
+		fDrawingEngine->StrokeLine(
+			BPoint(tabRect.left + kRoundRadius, tabRect.top),
+			BPoint(tabRect.right - kRoundRadius, tabRect.top),
+			frameColor);
+
+		// Left side line (below the arc to bottom)
+		fDrawingEngine->StrokeLine(
+			BPoint(tabRect.left, tabRect.top + kRoundRadius),
+			BPoint(tabRect.left, tabBottom),
+			frameColor);
+
+		// Right side line (below the arc to bottom)
+		fDrawingEngine->StrokeLine(
+			BPoint(tabRect.right, tabRect.top + kRoundRadius),
+			BPoint(tabRect.right, tabBottom),
+			frameColor);
+
+	} else {
+		// === Left-titled window look - original behavior (no rounding) ===
 		fDrawingEngine->StrokeLine(tabRect.LeftTop(), tabRect.LeftBottom(),
 			colors[COLOR_TAB_FRAME_DARK]);
 		fDrawingEngine->StrokeLine(tabRect.LeftTop(), tabRect.RightTop(),
 			colors[COLOR_TAB_FRAME_DARK]);
-		if (tab->look != kLeftTitledWindowLook) {
-			fDrawingEngine->StrokeLine(tabRect.RightTop(), tabRect.RightBottom(),
-				colors[COLOR_TAB_FRAME_DARK]);
-		} else {
-			fDrawingEngine->StrokeLine(tabRect.LeftBottom(),
-				tabRect.RightBottom(), fFocusFrameColor);
-		}
-	} else {
-		// outer frame
-		fDrawingEngine->StrokeLine(tabRect.LeftTop(), BPoint(tabRect.left, tabRect.bottom - 1),
-			colors[COLOR_TAB_FRAME_DARK]);
-		fDrawingEngine->StrokeLine(tabRect.LeftTop(), tabRect.RightTop(),
-			colors[COLOR_TAB_FRAME_DARK]);
-		if (tab->look != kLeftTitledWindowLook) {
-			fDrawingEngine->StrokeLine(tabRect.RightTop(), BPoint(tabRect.right, tabRect.bottom - 1),
-				colors[COLOR_TAB_FRAME_DARK]);
-		} else {
-			fDrawingEngine->StrokeLine(tabRect.LeftBottom(),
-				tabRect.RightBottom(), fFocusFrameColor);
-		}
-	}
+		fDrawingEngine->StrokeLine(tabRect.LeftBottom(),
+			tabRect.RightBottom(), fFocusFrameColor);
 
-	float tabBotton = tabRect.bottom;
-	if (fTopTab != tab)
-		tabBotton -= 1;
-
-	// bevel
-	fDrawingEngine->StrokeLine(BPoint(tabRect.left + 1, tabRect.top + 1),
-		BPoint(tabRect.left + 1,
-			tabBotton - (tab->look == kLeftTitledWindowLook ? 1 : 0)),
-		colors[COLOR_TAB]);
-	fDrawingEngine->StrokeLine(BPoint(tabRect.left + 1, tabRect.top + 1),
-		BPoint(tabRect.right - (tab->look == kLeftTitledWindowLook ? 0 : 1),
-			tabRect.top + 1),
-		tint_color(colors[COLOR_TAB], 0.9));
-
-	if (tab->look != kLeftTitledWindowLook) {
-		fDrawingEngine->StrokeLine(BPoint(tabRect.right - 1, tabRect.top + 2),
-			BPoint(tabRect.right - 1, tabBotton),
+		// bevel
+		fDrawingEngine->StrokeLine(BPoint(tabRect.left + 1, tabRect.top + 1),
+			BPoint(tabRect.left + 1, tabBottom),
 			colors[COLOR_TAB]);
-	} else {
+		fDrawingEngine->StrokeLine(BPoint(tabRect.left + 1, tabRect.top + 1),
+			BPoint(tabRect.right, tabRect.top + 1),
+			tint_color(colors[COLOR_TAB], 0.9));
 		fDrawingEngine->StrokeLine(
 			BPoint(tabRect.left + 2, tabRect.bottom - 1),
 			BPoint(tabRect.right, tabRect.bottom - 1),
 			colors[COLOR_TAB]);
-	}
 
-	// fill
-	BGradientLinear gradient;
-	gradient.SetStart(tabRect.LeftTop());
-	if (tab && tab->buttonFocus) {
-		gradient.AddColor(tint_color(colors[COLOR_TAB], 0.6), 0);
-		gradient.AddColor(tint_color(colors[COLOR_TAB], 1.0), 200);
-	} else {
-		gradient.AddColor(tint_color(colors[COLOR_TAB], 0.9), 0);
-		gradient.AddColor(tint_color(colors[COLOR_TAB], 1.0), 150);
-	}
-
-	if (tab->look != kLeftTitledWindowLook) {
-		gradient.SetEnd(tabRect.LeftBottom());
-		fDrawingEngine->FillRect(BRect(tabRect.left + 2, tabRect.top + 2,
-			tabRect.right - 2, tabBotton), gradient);
-	} else {
+		// fill
+		BGradientLinear gradient;
+		gradient.SetStart(tabRect.LeftTop());
 		gradient.SetEnd(tabRect.RightTop());
+		if (tab && tab->buttonFocus) {
+			gradient.AddColor(tint_color(colors[COLOR_TAB], 0.6), 0);
+			gradient.AddColor(tint_color(colors[COLOR_TAB], 1.0), 200);
+		} else {
+			gradient.AddColor(tint_color(colors[COLOR_TAB], 0.9), 0);
+			gradient.AddColor(tint_color(colors[COLOR_TAB], 1.0), 150);
+		}
 		fDrawingEngine->FillRect(BRect(tabRect.left + 2, tabRect.top + 2,
 			tabRect.right, tabRect.bottom - 2), gradient);
 	}
